@@ -3,6 +3,8 @@ import { Gamepad2, Gem, Pickaxe, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
 const PLAY_GAME_HREF = "https://youngstunners88.itch.io/lil-blunt-adventure";
+const GAMEPLAY_SCREENSHOT_SRC =
+  "/assets/generated/lil-blunt-gameplay.dim_1200x675.png";
 
 /** Gameplay facts — confident frontier copy, no invented token mechanics. */
 const GAMEPLAY_FACTS = [
@@ -105,8 +107,30 @@ export function PlayGame() {
           are signed on the Internet Computer.
         </motion.p>
 
+        {/* Gameplay screenshot — Dustrock Mines run, night scene */}
+        <motion.div
+          {...(reduce
+            ? {
+                initial: { opacity: 0 },
+                whileInView: { opacity: 1 },
+                viewport: { once: true },
+              }
+            : fadeUp(0.28))}
+          className="glass-panel glow-cyan relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl p-1.5 sm:p-2"
+          data-ocid="showcase.gameplay_screenshot_frame"
+        >
+          <img
+            src={GAMEPLAY_SCREENSHOT_SRC}
+            alt="Lil Blunt gameplay screenshot — the green outlaw jetpacking through Dustrock Mines under a night sky, dodging mine carts above a glowing green haze"
+            className="aspect-video w-full rounded-xl object-cover"
+            loading="lazy"
+            decoding="async"
+            data-ocid="showcase.gameplay_screenshot"
+          />
+        </motion.div>
+
         {/* Gameplay facts */}
-        <div className="mt-16 grid gap-4 sm:grid-cols-3 sm:gap-5">
+        <div className="mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
           {GAMEPLAY_FACTS.map((fact, i) => (
             <motion.div
               key={fact.label}
