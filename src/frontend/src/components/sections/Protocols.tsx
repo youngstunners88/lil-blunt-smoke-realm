@@ -4,20 +4,24 @@ import {
   LIL_BLUNT_LOGO_SRC,
   PROTOCOL_LINKS,
 } from "@/lib/brand";
+import { Gem, Leaf, Pickaxe } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import type { ComponentType, SVGProps } from "react";
 
 /**
  * THREE PROTOCOLS section — the three pillars of the Smoke Realm.
  *
- * SMOKE (Lil Blunt), DIAMONDS, and GOLD each get an equal glass-panel
- * card in a responsive grid. Every card opens its protocol's site in a
- * new tab and lifts into a themed glow on hover matching its palette:
- * emerald + neon-cyan for SMOKE, sapphire-blue for DIAMONDS, warm-gold
- * for GOLD. Each card carries a one-line descriptor beneath its logo.
+ * Each protocol gets its own period-appropriate material surface instead
+ * of a shared neon-glass treatment: SMOKE sits in a hazy green smoke-den
+ * (cannabis lounge), DIAMONDS sits on cold iron in a lantern-lit mine
+ * shaft, and GOLD sits on warm saloon wood with a brass trim — the same
+ * .wood / .iron / .smoke-den materials used across the rest of the site.
+ * A large, faint watermark icon (leaf / pickaxe+gem / pickaxe+coins)
+ * grounds each card in its world without touching the supplied logos.
  *
  * Honors prefers-reduced-motion: entrance transforms are dropped when
  * the user prefers reduced motion (opacity-only fade), and the global
- * reduced-motion CSS disables the decorative glow animations.
+ * reduced-motion CSS disables the decorative animations.
  */
 
 type ProtocolCard = {
@@ -33,16 +37,18 @@ type ProtocolCard = {
   href: string;
   /** One-line protocol descriptor shown beneath the logo. */
   descriptor: string;
-  /** Tailwind classes applied to the card surface (glass + base glow). */
+  /** Tailwind classes applied to the card surface (material + base edge). */
   surfaceClass: string;
-  /** Tailwind classes applied on hover (lift + themed glow). */
+  /** Tailwind classes applied on hover (lift + themed edge). */
   hoverClass: string;
   /** Tailwind text color class for the protocol name. */
   nameTextClass: string;
-  /** Tailwind classes for the circular logo frame's themed ring. */
+  /** Tailwind classes for the circular logo frame's themed bezel. */
   ringClass: string;
   /** Decorative ambient glow class layered behind the logo. */
   ambientClass: string;
+  /** Large, low-opacity watermark icon(s) grounding the card's world. */
+  watermark: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
 const PROTOCOLS: readonly ProtocolCard[] = [
@@ -51,35 +57,35 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     name: "SMOKE",
     logoSrc: LIL_BLUNT_LOGO_SRC,
     logoAlt:
-      "Lil Blunt logo — muscular green creature smoking a cigar while riding a rocket, framed by a neon cyan ring",
+      "Lil Blunt logo — muscular green creature smoking a cigar while riding a rocket, framed by a cyan ring",
     href: PROTOCOL_LINKS.smoke,
-    descriptor: "Deep greens, cannabis energy, neon-cyan lounge feel.",
-    surfaceClass: "glass-panel glow-emerald",
+    descriptor: "Cannabis-green haze, blunt smoke curling through the lounge.",
+    surfaceClass: "smoke-den",
     hoverClass:
-      "hover:-translate-y-1.5 hover:neon-edge-emerald focus-visible:-translate-y-1.5 focus-visible:neon-edge-emerald",
+      "hover:-translate-y-1.5 hover:edge-smoke focus-visible:-translate-y-1.5 focus-visible:edge-smoke",
     nameTextClass: "text-[oklch(var(--realm-smoke))]",
-    ringClass:
-      "ring-1 ring-[oklch(var(--realm-smoke)/0.45)] shadow-[0_0_28px_-6px_oklch(var(--realm-smoke)/0.55)]",
+    ringClass: "ring-2 ring-[oklch(var(--realm-smoke)/0.55)]",
     ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-smoke)/0.22),transparent_70%)]",
+      "bg-[radial-gradient(circle,oklch(var(--realm-smoke)/0.18),transparent_70%)]",
+    watermark: Leaf,
   },
   {
     id: "diamonds",
     name: "DIAMONDS",
     logoSrc: DIAMONDS_LOGO_SRC,
     logoAlt:
-      "DIAMONDS logo — faceted blue diamond with a silver DIAMONDS wordmark, enclosed by a neon green ring",
+      "DIAMONDS logo — faceted blue diamond with a silver DIAMONDS wordmark, enclosed by a green ring",
     href: PROTOCOL_LINKS.diamonds,
     descriptor:
-      "1800s mining town, crystal-blue diamond piles, blue crystal glow.",
-    surfaceClass: "glass-panel glow-sapphire",
+      "1800s mining town, lantern-lit shaft, crystal-blue veins in the rock.",
+    surfaceClass: "iron",
     hoverClass:
-      "hover:-translate-y-1.5 hover:neon-edge-sapphire focus-visible:-translate-y-1.5 focus-visible:neon-edge-sapphire",
+      "hover:-translate-y-1.5 hover:edge-blue focus-visible:-translate-y-1.5 focus-visible:edge-blue",
     nameTextClass: "text-[oklch(var(--realm-blue))]",
-    ringClass:
-      "ring-1 ring-[oklch(var(--realm-blue)/0.45)] shadow-[0_0_28px_-6px_oklch(var(--realm-blue)/0.55)]",
+    ringClass: "ring-2 ring-[oklch(var(--realm-blue)/0.55)]",
     ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-blue)/0.22),transparent_70%)]",
+      "bg-[radial-gradient(circle,oklch(var(--realm-blue)/0.18),transparent_70%)]",
+    watermark: Gem,
   },
   {
     id: "gold",
@@ -89,15 +95,15 @@ const PROTOCOLS: readonly ProtocolCard[] = [
       "Gold Mine 'GM' logo — golden chain circle framing a 3D gold GM wordmark with a pickaxe and Bitcoin symbol over mountain peaks",
     href: PROTOCOL_LINKS.gold,
     descriptor:
-      "Warm sepia + golden tones, Wild West town, gold ore, Fort Knox energy.",
-    surfaceClass: "glass-panel glow-gold",
+      "Wild West gold rush, dusty saloon boards, Fort Knox weight in ore.",
+    surfaceClass: "wood",
     hoverClass:
-      "hover:-translate-y-1.5 hover:neon-edge-gold focus-visible:-translate-y-1.5 focus-visible:neon-edge-gold",
+      "hover:-translate-y-1.5 hover:edge-gold focus-visible:-translate-y-1.5 focus-visible:edge-gold",
     nameTextClass: "text-[oklch(var(--realm-gold))]",
-    ringClass:
-      "ring-1 ring-[oklch(var(--realm-gold)/0.5)] shadow-[0_0_28px_-6px_oklch(var(--realm-gold)/0.6)]",
+    ringClass: "ring-2 ring-[oklch(var(--realm-gold)/0.55)]",
     ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-gold)/0.22),transparent_70%)]",
+      "bg-[radial-gradient(circle,oklch(var(--realm-gold)/0.2),transparent_70%)]",
+    watermark: Pickaxe,
   },
 ] as const;
 
@@ -163,31 +169,38 @@ export function Protocols() {
               ease: [0.22, 1, 0.36, 1],
               delay: shouldReveal ? index * 0.12 : 0,
             }}
-            className={`group relative flex flex-col items-center rounded-2xl p-7 text-center transition-all duration-300 will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-8 ${protocol.surfaceClass} ${protocol.hoverClass}`}
+            className={`group relative flex flex-col items-center overflow-hidden rounded-2xl p-7 text-center transition-all duration-300 will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-8 ${protocol.surfaceClass} ${protocol.hoverClass}`}
           >
+            {/* World watermark — large, faint icon grounding the card's setting */}
+            <protocol.watermark
+              aria-hidden="true"
+              strokeWidth={1}
+              className="pointer-events-none absolute -bottom-6 -right-6 size-36 text-foreground/[0.05] transition-transform duration-500 group-hover:scale-105"
+            />
+
             {/* Protocol name eyebrow */}
             <span
-              className={`font-mono text-xs font-semibold uppercase tracking-[0.35em] ${protocol.nameTextClass}`}
+              className={`relative font-mono text-xs font-semibold uppercase tracking-[0.35em] ${protocol.nameTextClass}`}
               data-ocid={`protocols.card.${protocol.id}.name`}
             >
               {protocol.name}
             </span>
 
             {/* Circular logo frame with themed ambient glow */}
-            <div className="relative mt-6 flex items-center justify-center">
+            <div className="relative z-[1] mt-6 flex items-center justify-center">
               <div
                 aria-hidden="true"
                 className={`absolute inset-0 -z-10 size-32 rounded-full blur-2xl ${protocol.ambientClass}`}
               />
               <div
-                className={`flex size-32 items-center justify-center overflow-hidden rounded-full bg-black/60 ${protocol.ringClass} transition-shadow duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04]`}
+                className={`flex size-32 items-center justify-center overflow-hidden rounded-full bg-black/60 ${protocol.ringClass} transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04]`}
               >
                 <img
                   src={protocol.logoSrc}
                   alt={protocol.logoAlt}
                   loading="lazy"
                   decoding="async"
-                  className="size-full object-contain object-center p-3"
+                  className="size-full object-contain object-center p-1.5"
                   data-ocid={`protocols.card.${protocol.id}.logo`}
                 />
               </div>
@@ -195,7 +208,7 @@ export function Protocols() {
 
             {/* One-line descriptor */}
             <p
-              className="mt-6 max-w-[16rem] font-body text-sm font-light leading-relaxed text-muted-foreground"
+              className="relative mt-6 max-w-[16rem] font-body text-sm font-light leading-relaxed text-muted-foreground"
               data-ocid={`protocols.card.${protocol.id}.descriptor`}
             >
               {protocol.descriptor}
@@ -203,7 +216,7 @@ export function Protocols() {
 
             {/* External-link affordance */}
             <span
-              className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 group-hover:text-foreground"
+              className="relative mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 group-hover:text-foreground"
               data-ocid={`protocols.card.${protocol.id}.link`}
             >
               Enter {protocol.name}

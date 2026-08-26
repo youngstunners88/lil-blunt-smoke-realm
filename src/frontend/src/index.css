@@ -282,6 +282,22 @@
     box-shadow: 0 1px 0 0 oklch(0.95 0.02 80 / 0.4) inset, 0 20px 60px -20px
       oklch(0 0 0 / 0.5);
   }
+  /* Smoke-den surface — hazy cannabis-lounge green, warm not neon */
+  .smoke-den {
+    background: linear-gradient(
+        180deg,
+        oklch(0.19 0.03 155 / 0.92),
+        oklch(0.13 0.025 155 / 0.92)
+      ),
+      radial-gradient(
+        ellipse 80% 60% at 50% 110%,
+        oklch(0.72 0.16 150 / 0.16),
+        transparent 70%
+      );
+    border: 1px solid oklch(0.72 0.16 150 / 0.28);
+    box-shadow: 0 1px 0 0 oklch(0.94 0.015 60 / 0.06) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.7);
+  }
   /* Iron surface — dark metal for technical panels, cool-shifted for night */
   .iron {
     background: linear-gradient(
