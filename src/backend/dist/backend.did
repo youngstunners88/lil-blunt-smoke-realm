@@ -1,0 +1,155 @@
+type WorldId = text;
+type World = 
+ record {
+   description: text;
+   id: WorldId;
+   isDemo: bool;
+   name: text;
+   theme: text;
+ };
+type VaultStatus = 
+ variant {
+   COMING_SOON;
+   IN_DEVELOPMENT;
+   LIVE;
+   LORE;
+ };
+type VaultEntryId = text;
+type VaultEntry = 
+ record {
+   category: VaultCategory;
+   description: text;
+   id: VaultEntryId;
+   isDemo: bool;
+   status: VaultStatus;
+   title: text;
+ };
+type VaultCategory = 
+ variant {
+   ECONOMIC_MECHANIC;
+   GAME_MECHANIC;
+   LORE;
+ };
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TokenMetric = 
+ record {
+   burned: nat;
+   circulating: nat;
+   isDemo: bool;
+   lastUpdated: Timestamp;
+   locked: nat;
+   source: text;
+   staked: nat;
+   supply: nat;
+   tokenId: TokenId;
+   utility: text;
+ };
+type TokenId = text;
+type Timestamp = nat;
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Rarity = 
+ variant {
+   common;
+   epic;
+   legendary;
+   rare;
+   uncommon;
+ };
+type PlayerProfile = 
+ record {
+   achievements: vec Achievement;
+   alias: text;
+   bossesDefeated: nat;
+   isDemo: bool;
+   "principal": principal;
+   stageReached: nat;
+ };
+type LeaderboardEntry = 
+ record {
+   achievements: vec AchievementId;
+   bossesDefeated: nat;
+   isDemo: bool;
+   playerAlias: text;
+   "principal": principal;
+   rank: nat;
+   score: nat;
+   stage: nat;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type AchievementId = text;
+type Achievement = 
+ record {
+   description: text;
+   id: AchievementId;
+   isDemo: bool;
+   progress: nat;
+   rarity: Rarity;
+   requirement: text;
+   title: text;
+   unlocked: bool;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  execute: (qJson: text) -> (Result) query;
+  getAchievements: () -> (vec Achievement) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getLeaderboard: () -> (vec LeaderboardEntry) query;
+  getPlayerProfile: ("principal": principal) -> (opt PlayerProfile) query;
+  getTokenMetrics: () -> (vec TokenMetric) query;
+  getVaultData: () -> (vec VaultEntry) query;
+  getWorlds: () -> (vec World) query;
+  isCallerAdmin: () -> (bool) query;
+  schema: () -> (text) query;
+}

@@ -1,0 +1,558 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Fraunces";
+    --font-body: "DM Sans";
+    --font-mono: "Geist Mono";
+    --radius: 0.5rem;
+
+    /* Light mode — kept for accessibility, but dark is default */
+    --background: 0.96 0.01 55;
+    --foreground: 0.18 0.03 45;
+    --card: 0.99 0.005 55;
+    --card-foreground: 0.18 0.03 45;
+    --popover: 0.99 0.005 55;
+    --popover-foreground: 0.18 0.03 45;
+
+    --primary: 0.42 0.12 150;
+    --primary-foreground: 0.97 0.02 150;
+
+    --secondary: 0.92 0.02 55;
+    --secondary-foreground: 0.28 0.03 45;
+    --muted: 0.93 0.015 55;
+    --muted-foreground: 0.5 0.02 45;
+
+    --accent: 0.42 0.1 250;
+    --accent-foreground: 0.97 0.02 250;
+
+    --gold: 0.68 0.12 70;
+
+    --destructive: 0.55 0.2 30;
+    --destructive-foreground: 0.98 0.005 30;
+
+    --success: 0.6 0.16 150;
+    --warning: 0.72 0.14 70;
+
+    --border: 0.88 0.02 55;
+    --input: 0.88 0.02 55;
+    --ring: 0.42 0.12 150;
+
+    --chart-1: 0.6 0.16 150;
+    --chart-2: 0.42 0.1 250;
+    --chart-3: 0.68 0.12 70;
+    --chart-4: 0.55 0.2 30;
+    --chart-5: 0.5 0.12 45;
+
+    --sidebar: 0.96 0.01 55;
+    --sidebar-foreground: 0.18 0.03 45;
+    --sidebar-primary: 0.42 0.12 150;
+    --sidebar-primary-foreground: 0.97 0.02 150;
+    --sidebar-accent: 0.92 0.02 55;
+    --sidebar-accent-foreground: 0.28 0.03 45;
+    --sidebar-border: 0.88 0.02 55;
+    --sidebar-ring: 0.42 0.12 150;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.6 0.16 150),
+      oklch(0.42 0.1 250)
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      oklch(0.17 0.02 45 / 0.6),
+      oklch(0.13 0.02 45 / 0.3)
+    );
+    --gradient-gold: linear-gradient(
+      135deg,
+      oklch(0.78 0.13 75),
+      oklch(0.6 0.12 55)
+    );
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* REALM dark dusk base — cool-shifted charcoal with night-blue undertone so neon reads */
+    --background: 0.11 0.025 280;
+    --foreground: 0.94 0.015 60;
+    --card: 0.15 0.022 270;
+    --card-foreground: 0.94 0.015 60;
+    --popover: 0.17 0.025 270;
+    --popover-foreground: 0.94 0.015 60;
+
+    /* SMOKE GREEN primary anchor — cannabis energy */
+    --primary: 0.72 0.16 150;
+    --primary-foreground: 0.11 0.03 150;
+
+    --secondary: 0.19 0.022 270;
+    --secondary-foreground: 0.85 0.015 60;
+    --muted: 0.19 0.022 270;
+    --muted-foreground: 0.62 0.02 55;
+
+    /* SAPPHIRE BLUE accent — brightened crystal glow (DIAMONDS) */
+    --accent: 0.62 0.17 250;
+    --accent-foreground: 0.11 0.03 250;
+
+    /* NEON CYAN — Smoke site modern dark UI signature */
+    --cyan: 0.82 0.16 195;
+    --cyan-foreground: 0.11 0.03 195;
+
+    /* Warm metallic GOLD tertiary (GOLD) */
+    --gold: 0.78 0.13 75;
+    --gold-foreground: 0.13 0.02 75;
+
+    --destructive: 0.56 0.18 25;
+    --destructive-foreground: 0.95 0.01 25;
+
+    --success: 0.68 0.16 150;
+    --warning: 0.8 0.14 80;
+
+    --border: 0.25 0.022 270;
+    --input: 0.25 0.022 270;
+    --ring: 0.72 0.16 150;
+
+    --chart-1: 0.72 0.16 150;
+    --chart-2: 0.62 0.17 250;
+    --chart-3: 0.82 0.16 195;
+    --chart-4: 0.78 0.13 75;
+    --chart-5: 0.62 0.2 30;
+
+    --sidebar: 0.13 0.022 270;
+    --sidebar-foreground: 0.94 0.015 60;
+    --sidebar-primary: 0.72 0.16 150;
+    --sidebar-primary-foreground: 0.11 0.03 150;
+    --sidebar-accent: 0.19 0.022 270;
+    --sidebar-accent-foreground: 0.85 0.015 60;
+    --sidebar-border: 0.25 0.022 270;
+    --sidebar-ring: 0.72 0.16 150;
+
+    /* REALM tri-color gradient — emerald → sapphire → gold */
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.72 0.16 150),
+      oklch(0.62 0.17 250) 55%,
+      oklch(0.78 0.13 75)
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      oklch(0.15 0.022 270 / 0.6),
+      oklch(0.11 0.025 280 / 0.3)
+    );
+    --gradient-gold: linear-gradient(
+      135deg,
+      oklch(0.78 0.13 75),
+      oklch(0.6 0.12 55)
+    );
+    /* Neon cyan → emerald smoke gradient (Smoke site signature) */
+    --gradient-smoke: linear-gradient(
+      135deg,
+      oklch(0.82 0.16 195),
+      oklch(0.72 0.16 150)
+    );
+    /* Sapphire crystal gradient (Diamonds site signature) */
+    --gradient-crystal: linear-gradient(
+      135deg,
+      oklch(0.62 0.17 250),
+      oklch(0.78 0.13 75)
+    );
+
+    /* Realm card theming — one accent per game world */
+    --realm-smoke: 0.72 0.16 150;
+    --realm-cyan: 0.82 0.16 195;
+    --realm-blue: 0.62 0.17 250;
+    --realm-gold: 0.78 0.13 75;
+
+    /* Achievement rarity tiers — escalating intensity */
+    --rarity-common: 0.62 0.02 45;
+    --rarity-rare: 0.68 0.1 250;
+    --rarity-epic: 0.6 0.16 320;
+    --rarity-legendary: 0.78 0.13 75;
+    --rarity-vip: 0.72 0.16 150;
+
+    /* Vault status badges */
+    --status-live: 0.72 0.16 150;
+    --status-dev: 0.78 0.13 75;
+    --status-lore: 0.68 0.1 250;
+    --status-soon: 0.55 0.015 45;
+
+    /* DEMO data label — subtle but unmistakable */
+    --demo: 0.7 0.08 75;
+
+    /* Leaderboard rank tiers */
+    --rank-mythic: 0.72 0.16 150;
+    --rank-elite: 0.78 0.13 75;
+    --rank-adept: 0.68 0.1 250;
+    --rank-initiate: 0.62 0.015 45;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    background-color: oklch(0.11 0.025 280);
+    background-image: radial-gradient(
+        ellipse 80% 50% at 50% -10%,
+        oklch(0.82 0.16 195 / 0.08),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 80% 100%,
+        oklch(0.62 0.17 250 / 0.07),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 10% 80%,
+        oklch(0.78 0.13 75 / 0.06),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 40% 30% at 50% 50%,
+        oklch(0.72 0.16 150 / 0.05),
+        transparent
+      );
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  /* Wood plank surface — warm brown grain with a brass edge highlight */
+  .wood {
+    background: linear-gradient(
+        180deg,
+        oklch(0.2 0.03 45 / 0.92),
+        oklch(0.15 0.025 45 / 0.9)
+      ),
+      repeating-linear-gradient(
+        90deg,
+        oklch(0.24 0.03 45 / 0.4) 0px,
+        oklch(0.16 0.025 45 / 0.4) 3px,
+        oklch(0.24 0.03 45 / 0.4) 6px
+      );
+    border: 1px solid oklch(0.78 0.13 75 / 0.22);
+    box-shadow: 0 1px 0 0 oklch(0.94 0.015 60 / 0.06) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.7);
+  }
+  /* Brass trim — warm metallic edge used on headers and key surfaces */
+  .brass {
+    background: linear-gradient(
+      180deg,
+      oklch(0.3 0.05 60 / 0.9),
+      oklch(0.22 0.04 55 / 0.9)
+    );
+    border: 1px solid oklch(0.78 0.13 75 / 0.35);
+    box-shadow: 0 1px 0 0 oklch(0.85 0.1 75 / 0.25) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.7);
+  }
+  /* Parchment surface — warm paper tone for wanted posters and lore */
+  .parchment {
+    background: linear-gradient(
+      180deg,
+      oklch(0.86 0.04 75),
+      oklch(0.78 0.05 70)
+    );
+    color: oklch(0.22 0.04 45);
+    border: 1px solid oklch(0.55 0.06 60 / 0.5);
+    box-shadow: 0 1px 0 0 oklch(0.95 0.02 80 / 0.4) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.5);
+  }
+  /* Iron surface — dark metal for technical panels, cool-shifted for night */
+  .iron {
+    background: linear-gradient(
+      180deg,
+      oklch(0.2 0.02 250),
+      oklch(0.15 0.018 250)
+    );
+    border: 1px solid oklch(0.62 0.17 250 / 0.22);
+    box-shadow: 0 1px 0 0 oklch(0.94 0.015 60 / 0.05) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.7);
+  }
+  /* Glassmorphism panel — frosted dark glass with neon edge (Smoke site modern dark UI) */
+  .glass-panel {
+    background: oklch(0.15 0.022 270 / 0.55);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid oklch(0.82 0.16 195 / 0.18);
+    box-shadow: 0 1px 0 0 oklch(0.94 0.015 60 / 0.06) inset, 0 0 24px -8px
+      oklch(0.82 0.16 195 / 0.12), 0 20px 60px -20px oklch(0 0 0 / 0.7);
+  }
+  /* Neon glow layers — one per realm accent, layered over frontier materials */
+  .glow-cyan {
+    box-shadow: 0 0 0 1px oklch(0.82 0.16 195 / 0.35) inset, 0 0 20px -2px
+      oklch(0.82 0.16 195 / 0.3), 0 1px 0 0 oklch(0.94 0.015 60 / 0.08) inset;
+  }
+  .glow-emerald {
+    box-shadow: 0 0 0 1px oklch(0.72 0.16 150 / 0.35) inset, 0 0 20px -2px
+      oklch(0.72 0.16 150 / 0.3), 0 1px 0 0 oklch(0.94 0.015 60 / 0.08) inset;
+  }
+  .glow-sapphire {
+    box-shadow: 0 0 0 1px oklch(0.62 0.17 250 / 0.35) inset, 0 0 22px -2px
+      oklch(0.62 0.17 250 / 0.3), 0 1px 0 0 oklch(0.94 0.015 60 / 0.08) inset;
+  }
+  .glow-gold {
+    box-shadow: 0 0 0 1px oklch(0.78 0.13 75 / 0.4) inset, 0 0 20px -2px
+      oklch(0.78 0.13 75 / 0.28), 0 1px 0 0 oklch(0.94 0.015 60 / 0.08) inset;
+  }
+  /* Crystal-glow treatment — sapphire crystal deposits (Diamonds) */
+  .crystal-glow {
+    background: linear-gradient(
+      135deg,
+      oklch(0.62 0.17 250 / 0.18),
+      oklch(0.82 0.16 195 / 0.1) 50%,
+      oklch(0.62 0.17 250 / 0.18)
+    );
+    border: 1px solid oklch(0.62 0.17 250 / 0.4);
+    box-shadow: 0 0 0 1px oklch(0.82 0.16 195 / 0.2) inset, 0 0 28px -4px
+      oklch(0.62 0.17 250 / 0.35), 0 1px 0 0 oklch(0.94 0.015 60 / 0.1) inset;
+    animation: crystal-pulse 5s ease-in-out infinite;
+  }
+  /* Gold-ore treatment — warm metallic shimmer (Gold) */
+  .gold-ore {
+    background: linear-gradient(
+      135deg,
+      oklch(0.78 0.13 75 / 0.16),
+      oklch(0.6 0.12 55 / 0.1) 50%,
+      oklch(0.78 0.13 75 / 0.16)
+    );
+    border: 1px solid oklch(0.78 0.13 75 / 0.42);
+    box-shadow: 0 0 0 1px oklch(0.9 0.12 80 / 0.18) inset, 0 0 24px -6px
+      oklch(0.78 0.13 75 / 0.3), 0 1px 0 0 oklch(0.94 0.015 60 / 0.1) inset;
+  }
+  /* Warm edge highlight — kept for frontier material surfaces */
+  .edge-smoke {
+    box-shadow: 0 0 0 1px oklch(0.72 0.16 150 / 0.25) inset, 0 1px 0 0
+      oklch(0.94 0.015 60 / 0.08) inset, 0 14px 40px -18px oklch(0 0 0 / 0.7);
+  }
+  .edge-blue {
+    box-shadow: 0 0 0 1px oklch(0.62 0.17 250 / 0.25) inset, 0 1px 0 0
+      oklch(0.94 0.015 60 / 0.08) inset, 0 14px 40px -18px oklch(0 0 0 / 0.7);
+  }
+  .edge-gold {
+    box-shadow: 0 0 0 1px oklch(0.78 0.13 75 / 0.3) inset, 0 1px 0 0
+      oklch(0.94 0.015 60 / 0.08) inset, 0 14px 40px -18px oklch(0 0 0 / 0.7);
+  }
+  /* Neon edge — brighter, for glass panels and active states */
+  .neon-edge-cyan {
+    box-shadow: 0 0 0 1px oklch(0.82 0.16 195 / 0.5) inset, 0 0 18px -2px
+      oklch(0.82 0.16 195 / 0.4);
+  }
+  .neon-edge-emerald {
+    box-shadow: 0 0 0 1px oklch(0.72 0.16 150 / 0.5) inset, 0 0 18px -2px
+      oklch(0.72 0.16 150 / 0.4);
+  }
+  .neon-edge-sapphire {
+    box-shadow: 0 0 0 1px oklch(0.62 0.17 250 / 0.5) inset, 0 0 18px -2px
+      oklch(0.62 0.17 250 / 0.4);
+  }
+  .neon-edge-gold {
+    box-shadow: 0 0 0 1px oklch(0.78 0.13 75 / 0.55) inset, 0 0 18px -2px
+      oklch(0.78 0.13 75 / 0.42);
+  }
+  /* Warm text highlight — replaces neon text glow */
+  .text-edge-smoke {
+    text-shadow: 0 1px 0 oklch(0 0 0 / 0.3), 0 0 18px
+      oklch(0.72 0.16 150 / 0.35);
+  }
+  .text-edge-gold {
+    text-shadow: 0 1px 0 oklch(0 0 0 / 0.3), 0 0 18px oklch(0.78 0.13 75 / 0.4);
+  }
+  .text-edge-blue {
+    text-shadow: 0 1px 0 oklch(0 0 0 / 0.3), 0 0 18px oklch(0.62 0.17 250 / 0.4);
+  }
+  .text-edge-cyan {
+    text-shadow: 0 1px 0 oklch(0 0 0 / 0.3), 0 0 18px
+      oklch(0.82 0.16 195 / 0.45);
+  }
+  /* Gradient text */
+  .text-gradient-smoke {
+    background: var(--gradient-smoke);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* REALM tri-color gradient text — emerald → sapphire → gold */
+  .text-gradient-realm {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-crystal {
+    background: var(--gradient-crystal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Smoke drift background layer — emerald + cyan + sapphire + gold nebula */
+  .smoke-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+        circle at 20% 30%,
+        oklch(0.72 0.16 150 / 0.07) 0%,
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at 75% 60%,
+        oklch(0.82 0.16 195 / 0.06) 0%,
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at 50% 85%,
+        oklch(0.62 0.17 250 / 0.06) 0%,
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at 88% 18%,
+        oklch(0.78 0.13 75 / 0.05) 0%,
+        transparent 35%
+      );
+    animation: smoke-drift 26s ease-in-out infinite alternate;
+    filter: blur(40px);
+  }
+  /* DEMO data label — clearly identifiable, never mistaken for live data */
+  .demo-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: oklch(var(--demo));
+    background: oklch(var(--demo) / 0.12);
+    border: 1px solid oklch(var(--demo) / 0.35);
+    padding: 0.1rem 0.45rem;
+    border-radius: 0.25rem;
+  }
+  .demo-strip {
+    border: 1px dashed oklch(var(--demo) / 0.4);
+    background: oklch(var(--demo) / 0.04);
+  }
+  /* Achievement rarity borders — warm escalating edge */
+  .rarity-common {
+    border-color: oklch(var(--rarity-common) / 0.4);
+  }
+  .rarity-rare {
+    border-color: oklch(var(--rarity-rare) / 0.55);
+    box-shadow: 0 0 16px oklch(var(--rarity-rare) / 0.2);
+  }
+  .rarity-epic {
+    border-color: oklch(var(--rarity-epic) / 0.6);
+    box-shadow: 0 0 20px oklch(var(--rarity-epic) / 0.25);
+  }
+  .rarity-legendary {
+    border-color: oklch(var(--rarity-legendary) / 0.7);
+    box-shadow: 0 0 24px oklch(var(--rarity-legendary) / 0.3);
+  }
+  .rarity-vip {
+    border-color: oklch(var(--rarity-vip) / 0.8);
+    box-shadow: 0 0 28px oklch(var(--rarity-vip) / 0.35);
+  }
+  /* Vault status badge pills */
+  .status-live {
+    color: oklch(var(--status-live));
+    background: oklch(var(--status-live) / 0.14);
+    border: 1px solid oklch(var(--status-live) / 0.5);
+  }
+  .status-dev {
+    color: oklch(var(--status-dev));
+    background: oklch(var(--status-dev) / 0.14);
+    border: 1px solid oklch(var(--status-dev) / 0.5);
+  }
+  .status-lore {
+    color: oklch(var(--status-lore));
+    background: oklch(var(--status-lore) / 0.14);
+    border: 1px solid oklch(var(--status-lore) / 0.5);
+  }
+  .status-soon {
+    color: oklch(var(--status-soon));
+    background: oklch(var(--status-soon) / 0.12);
+    border: 1px solid oklch(var(--status-soon) / 0.4);
+  }
+  /* Environmental ember particle */
+  .ember {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      oklch(0.85 0.15 55 / 0.9),
+      oklch(0.78 0.13 75 / 0.2) 60%,
+      transparent 70%
+    );
+    filter: blur(1px);
+    animation: ember-rise linear infinite;
+  }
+  /* Lantern flicker — warm pulsing light */
+  .lantern-flicker {
+    animation: lantern-flicker 4s ease-in-out infinite;
+  }
+  /* Gold shimmer sweep */
+  .gold-shimmer {
+    background: linear-gradient(
+      100deg,
+      oklch(0.78 0.13 75 / 0) 20%,
+      oklch(0.9 0.12 80 / 0.5) 50%,
+      oklch(0.78 0.13 75 / 0) 80%
+    );
+    background-size: 200% 100%;
+    animation: gold-shimmer 5s linear infinite;
+  }
+  /* Crystal pulse — sapphire crystal breathing glow (Diamonds) */
+  .crystal-pulse {
+    animation: crystal-pulse 5s ease-in-out infinite;
+  }
+  /* Neon flicker — cyan/emerald sign flicker (Smoke) */
+  .neon-flicker {
+    animation: neon-flicker 3.5s ease-in-out infinite;
+  }
+}
+
+/* Reduced motion — disable all decorative animation, keep transitions */
+@media (prefers-reduced-motion: reduce) {
+  .smoke-layer,
+  .ember,
+  .lantern-flicker,
+  .gold-shimmer,
+  .crystal-glow,
+  .crystal-pulse,
+  .neon-flicker {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,227 @@
+// Version: 4.0.0
+type AccessControlState__227417908 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__386906547<Principal, UserRole__907982479>
+  };
+type AchievementId__184548550 = AchievementId__999946369;
+type AchievementId__711035500 = Text;
+type AchievementId__999946369 = Text;
+type Achievement__319398086 =
+  {
+    description : Text;
+    id : AchievementId__711035500;
+    isDemo : Bool;
+    progress : Nat;
+    rarity : Rarity__169952721;
+    requirement : Text;
+    title : Text;
+    unlocked : Bool
+  };
+type Achievement__488210618 =
+  {
+    description : Text;
+    id : AchievementId__184548550;
+    isDemo : Bool;
+    progress : Nat;
+    rarity : Rarity__630444627;
+    requirement : Text;
+    title : Text;
+    unlocked : Bool
+  };
+type Data__265875254<K, V> = {var count : Nat__58649523; kvs : [var ?(K, V)]};
+type Internal__161573640<K, V> =
+  {children : [var ?Node__430031793<K, V>]; data : Data__265875254<K, V>};
+type LeaderboardEntry__28917320 =
+  {
+    achievements : [AchievementId__711035500];
+    bossesDefeated : Nat;
+    isDemo : Bool;
+    playerAlias : Text;
+    principal : Principal;
+    rank : Nat;
+    score : Nat;
+    stage : Nat
+  };
+type LeaderboardEntry__484845859 =
+  {
+    achievements : [AchievementId__184548550];
+    bossesDefeated : Nat;
+    isDemo : Bool;
+    playerAlias : Text;
+    principal : Principal;
+    rank : Nat;
+    score : Nat;
+    stage : Nat
+  };
+type Leaf__1045638083<K, V> = {data : Data__265875254<K, V>};
+type List__1004628775<T> =
+  {
+    var blockIndex : Nat__58649523;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__58649523
+  };
+type List__89170296<T> = List__1004628775<T>;
+type Map__13625999<K, V> =
+  {var root : Node__430031793<K, V>; var size : Nat__58649523};
+type Map__386906547<K, V> = Map__670138087<K, V>;
+type Map__670138087<K, V> = Map__13625999<K, V>;
+type Nat__58649523 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__1008543967 =
+  {
+    accessControlState : AccessControlState__227417908;
+    achievements : List__89170296<Achievement__319398086>;
+    leaderboard : List__89170296<LeaderboardEntry__28917320>;
+    playerProfiles : List__89170296<PlayerProfile__6097815>;
+    tokenMetrics : List__89170296<TokenMetric__317070418>;
+    vaultEntries : List__89170296<VaultEntry__559728738>;
+    worlds : List__89170296<World__665839188>
+  };
+type Node__430031793<K, V> =
+  {#internal : Internal__161573640<K, V>; #leaf : Leaf__1045638083<K, V>};
+type OldActor__159945671 = {};
+type PlayerProfile__244392411 =
+  {
+    achievements : [Achievement__488210618];
+    alias : Text;
+    bossesDefeated : Nat;
+    isDemo : Bool;
+    principal : Principal;
+    stageReached : Nat
+  };
+type PlayerProfile__6097815 =
+  {
+    achievements : [Achievement__319398086];
+    alias : Text;
+    bossesDefeated : Nat;
+    isDemo : Bool;
+    principal : Principal;
+    stageReached : Nat
+  };
+type Rarity__169952721 = {#common; #epic; #legendary; #rare; #uncommon};
+type Rarity__630444627 = {#common; #epic; #legendary; #rare; #uncommon};
+type Timestamp__301639476 = Nat;
+type Timestamp__687417034 = Timestamp__301639476;
+type Timestamp__885476634 = Nat;
+type TokenId__131034538 = TokenId__281627578;
+type TokenId__281627578 = Text;
+type TokenId__646292621 = Text;
+type TokenMetric__317070418 =
+  {
+    burned : Nat;
+    circulating : Nat;
+    isDemo : Bool;
+    lastUpdated : Timestamp__885476634;
+    locked : Nat;
+    source : Text;
+    staked : Nat;
+    supply : Nat;
+    tokenId : TokenId__646292621;
+    utility : Text
+  };
+type TokenMetric__963660033 =
+  {
+    burned : Nat;
+    circulating : Nat;
+    isDemo : Bool;
+    lastUpdated : Timestamp__687417034;
+    locked : Nat;
+    source : Text;
+    staked : Nat;
+    supply : Nat;
+    tokenId : TokenId__131034538;
+    utility : Text
+  };
+type UserRole__907982479 = {#admin; #guest; #user};
+type UserRole__91647283 = {#admin; #guest; #user};
+type VaultCategory__1042334832 = {#ECONOMIC_MECHANIC; #GAME_MECHANIC; #LORE};
+type VaultCategory__721941222 = {#ECONOMIC_MECHANIC; #GAME_MECHANIC; #LORE};
+type VaultEntryId__192687386 = Text;
+type VaultEntryId__826175033 = Text;
+type VaultEntryId__840076625 = VaultEntryId__192687386;
+type VaultEntry__559728738 =
+  {
+    category : VaultCategory__1042334832;
+    description : Text;
+    id : VaultEntryId__826175033;
+    isDemo : Bool;
+    status : VaultStatus__400998894;
+    title : Text
+  };
+type VaultEntry__577924878 =
+  {
+    category : VaultCategory__721941222;
+    description : Text;
+    id : VaultEntryId__840076625;
+    isDemo : Bool;
+    status : VaultStatus__295221743;
+    title : Text
+  };
+type VaultStatus__295221743 = {#COMING_SOON; #IN_DEVELOPMENT; #LIVE; #LORE};
+type VaultStatus__400998894 = {#COMING_SOON; #IN_DEVELOPMENT; #LIVE; #LORE};
+type WorldId__1040042119 = Text;
+type WorldId__294456767 = Text;
+type WorldId__536221155 = WorldId__294456767;
+type World__665839188 =
+  {
+    description : Text;
+    id : WorldId__1040042119;
+    isDemo : Bool;
+    name : Text;
+    theme : Text
+  };
+type World__809402614 =
+  {
+    description : Text;
+    id : WorldId__536221155;
+    isDemo : Bool;
+    name : Text;
+    theme : Text
+  };
+{
+  "20260818_132506" : (_old : OldActor__159945671) -> NewActor__1008543967
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__386906547<Principal, UserRole__91647283>
+    };
+  stable achievements :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?Achievement__488210618]];
+      var elementIndex : Nat__58649523
+    };
+  stable leaderboard :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?LeaderboardEntry__484845859]];
+      var elementIndex : Nat__58649523
+    };
+  stable playerProfiles :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?PlayerProfile__244392411]];
+      var elementIndex : Nat__58649523
+    };
+  stable tokenMetrics :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?TokenMetric__963660033]];
+      var elementIndex : Nat__58649523
+    };
+  stable vaultEntries :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?VaultEntry__577924878]];
+      var elementIndex : Nat__58649523
+    };
+  stable worlds :
+    {
+      var blockIndex : Nat__58649523;
+      var blocks : [var [var ?World__809402614]];
+      var elementIndex : Nat__58649523
+    }
+};
