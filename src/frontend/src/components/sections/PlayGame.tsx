@@ -51,59 +51,41 @@ export function PlayGame() {
       data-ocid="section.showcase"
     >
       <div className="relative mx-auto max-w-5xl">
-        {/* Eyebrow */}
-        <motion.div
-          {...(reduce
-            ? {
-                initial: { opacity: 0 },
-                whileInView: { opacity: 1 },
-                viewport: { once: true },
-              }
-            : fadeUp(0))}
-          className="flex justify-center"
-        >
-          <span
-            className="glass-panel inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-cyan"
-            data-ocid="showcase.eyebrow"
+        <div className="section-scrim">
+          {/* Headline */}
+          <motion.h2
+            {...(reduce
+              ? {
+                  initial: { opacity: 0 },
+                  whileInView: { opacity: 1 },
+                  viewport: { once: true },
+                }
+              : fadeUp(0.1))}
+            className="text-center font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+            data-ocid="showcase.headline"
           >
-            <span className="size-1.5 rounded-full bg-cyan neon-flicker" />
-            Game Showcase
-          </span>
-        </motion.div>
+            The mine is open.{" "}
+            <span className="text-gradient-realm text-edge-cyan">
+              Play the game.
+            </span>
+          </motion.h2>
 
-        {/* Headline */}
-        <motion.h2
-          {...(reduce
-            ? {
-                initial: { opacity: 0 },
-                whileInView: { opacity: 1 },
-                viewport: { once: true },
-              }
-            : fadeUp(0.1))}
-          className="mt-6 text-center font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
-          data-ocid="showcase.headline"
-        >
-          The mine is open.{" "}
-          <span className="text-gradient-realm text-edge-cyan">
-            Play the game.
-          </span>
-        </motion.h2>
-
-        {/* Tagline */}
-        <motion.p
-          {...(reduce
-            ? {
-                initial: { opacity: 0 },
-                whileInView: { opacity: 1 },
-                viewport: { once: true },
-              }
-            : fadeUp(0.2))}
-          className="mx-auto mt-4 max-w-2xl text-center font-body text-base font-light leading-relaxed text-muted-foreground sm:text-lg"
-          data-ocid="showcase.tagline"
-        >
-          Dig deeper, stack your score, and ride the wanted board — your runs
-          are signed on the Internet Computer.
-        </motion.p>
+          {/* Tagline */}
+          <motion.p
+            {...(reduce
+              ? {
+                  initial: { opacity: 0 },
+                  whileInView: { opacity: 1 },
+                  viewport: { once: true },
+                }
+              : fadeUp(0.2))}
+            className="mx-auto mt-4 max-w-2xl text-center font-body text-base font-light leading-relaxed text-muted-foreground sm:text-lg"
+            data-ocid="showcase.tagline"
+          >
+            Dig deeper, stack your score, and ride the wanted board — your runs
+            are signed on the Internet Computer.
+          </motion.p>
+        </div>
 
         {/* Gameplay facts */}
         <div className="mt-16 grid gap-4 sm:grid-cols-3 sm:gap-5">
@@ -117,11 +99,11 @@ export function PlayGame() {
                     viewport: { once: true },
                   }
                 : fadeUp(0.35 + i * 0.1))}
-              className="glass-panel flex flex-col gap-3 rounded-xl p-5"
+              className="parchment flex flex-col gap-3 rounded-xl p-5"
               data-ocid={`showcase.fact.${i + 1}`}
             >
               <div className="flex items-center gap-3">
-                <span className="glass-panel glow-cyan flex size-10 items-center justify-center rounded-lg text-cyan">
+                <span className="brass flex size-10 items-center justify-center rounded-lg text-[oklch(var(--realm-gold))] [&_svg]:text-[oklch(var(--realm-gold))] text-cyan">
                   <fact.icon className="size-5" aria-hidden="true" />
                 </span>
                 <h3 className="font-display text-lg font-bold text-foreground">

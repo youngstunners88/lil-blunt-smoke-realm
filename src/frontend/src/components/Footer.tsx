@@ -63,7 +63,7 @@ export function Footer() {
       data-ocid="footer"
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="glass-panel rounded-2xl px-6 py-8 sm:px-8 sm:py-10">
+        <div className="iron rounded-2xl px-6 py-8 sm:px-8 sm:py-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             {/* Brand */}
             <div className="flex flex-col gap-4">

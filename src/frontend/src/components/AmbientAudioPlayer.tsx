@@ -132,7 +132,7 @@ export function AmbientAudioPlayer() {
       }
       aria-pressed={isPlaying}
       data-ocid="ambient_audio.toggle"
-      className="glass-panel fixed bottom-5 right-5 z-50 flex size-11 items-center justify-center rounded-full text-foreground shadow-lg transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="brass fixed bottom-5 right-5 z-50 flex size-11 items-center justify-center rounded-full text-foreground shadow-lg transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {isPlaying ? (
         <Pause className="size-4" aria-hidden="true" />

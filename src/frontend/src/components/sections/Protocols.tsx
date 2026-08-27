@@ -103,17 +103,10 @@ export function Protocols() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="mx-auto max-w-3xl text-center"
+        className="section-scrim mx-auto max-w-3xl text-center"
       >
-        <span
-          className="iron inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-[oklch(var(--cyan))]"
-          data-ocid="protocols.eyebrow"
-        >
-          <span className="size-1.5 rounded-full bg-[oklch(var(--cyan))] neon-flicker" />
-          Three Protocols
-        </span>
         <h2
-          className="mt-6 font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+          className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
           data-ocid="protocols.headline"
         >
           One realm.{" "}

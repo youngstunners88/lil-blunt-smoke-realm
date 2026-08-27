@@ -41,16 +41,9 @@ export function OnChainPoints() {
       className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
     >
       {/* Header */}
-      <div className="mx-auto max-w-3xl text-center">
-        <span
-          className="iron inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-accent"
-          data-ocid="on_chain_points.eyebrow"
-        >
-          <span className="size-1.5 rounded-full bg-accent crystal-pulse" />
-          On-Chain Points · ICP
-        </span>
+      <div className="section-scrim mx-auto max-w-3xl text-center">
         <h2
-          className="mt-6 font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+          className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
           data-ocid="on_chain_points.headline"
         >
           Proof of Play on the{" "}
@@ -60,9 +53,10 @@ export function OnChainPoints() {
           className="mx-auto mt-4 max-w-xl font-body text-base font-light leading-relaxed text-muted-foreground sm:text-lg"
           data-ocid="on_chain_points.tagline"
         >
-          Every run becomes a verifiable on-chain achievement — a Proof of Play
-          layer secured by ICP and Internet Identity. No NFT minting claims,
-          just frontier feats etched onto the chain.
+          Proof of Play is an achievement layer built on ICP and Internet
+          Identity — sign in with your device, no wallet and no seed phrase. No
+          token rewards and no NFT minting, just frontier feats. The figures
+          below are demo data while the live board is built.
         </p>
       </div>
 
@@ -72,7 +66,7 @@ export function OnChainPoints() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="glass-panel mx-auto mt-6 max-w-5xl rounded-2xl p-6 sm:p-8"
+        className="iron mx-auto mt-6 max-w-5xl rounded-2xl p-6 sm:p-8"
         data-ocid="on_chain_points.stat_panel"
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
@@ -106,7 +100,7 @@ export function OnChainPoints() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-        className="glass-panel mx-auto mt-8 max-w-5xl rounded-2xl p-6 sm:p-8"
+        className="iron mx-auto mt-8 max-w-5xl rounded-2xl p-6 sm:p-8"
         data-ocid="on_chain_points.identity_panel"
       >
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-between">

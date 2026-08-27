@@ -1,7 +1,25 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useMemo } from "react";
 
-const BACKGROUND_VIDEO_MP4 = "/assets/video/smoke-realm-background.mp4";
+/**
+ * The background loop is served from jsDelivr rather than from this app's
+ * own `public/` directory.
+ *
+ * Reason: the Caffeine project and the GitHub repo are separate codebases,
+ * and the Caffeine builder cannot pull binary files across from the repo.
+ * Requests for `/assets/video/*` on the deployed canister fall through to the
+ * SPA's index.html (HTTP 200, `text/html`), so the `<video>` had no decodable
+ * source and silently showed only the poster. jsDelivr serves the files
+ * straight from the public repo with correct MIME types.
+ *
+ * The URLs are pinned to a commit SHA, so they are immutable and cacheable.
+ * If these files are ever regenerated, bump the SHA — a branch-name URL would
+ * silently serve stale or missing content.
+ */
+const VIDEO_CDN_BASE =
+  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@238c4484ca17c8c38c0410e14ac580c1e44e3b92/src/frontend/public/assets/video";
+
+const BACKGROUND_VIDEO_MP4 = `${VIDEO_CDN_BASE}/smoke-realm-background.mp4`;
 
 /**
  * VP9 fallback. H.264 is proprietary and a few Chromium builds ship without
@@ -9,15 +27,18 @@ const BACKGROUND_VIDEO_MP4 = "/assets/video/smoke-realm-background.mp4";
  * fail the MP4 outright. The browser picks the first source it can decode,
  * so nearly everyone gets the smaller MP4 and only those builds pay for this.
  */
-const BACKGROUND_VIDEO_WEBM = "/assets/video/smoke-realm-background.webm";
+const BACKGROUND_VIDEO_WEBM = `${VIDEO_CDN_BASE}/smoke-realm-background.webm`;
 
 /**
- * Poster still, cut from the video's own first frame rather than the
- * original 3.4 MB source PNG. Two reasons: it is ~200 KB instead of 3.4 MB,
- * and it shares the video's exact aspect ratio, so there is no visible shift
- * in framing when the video takes over from the poster.
+/**
+ * Poster / base still. Served from THIS app, not the CDN, and deliberately
+ * so: it is the layer that guarantees the page never renders on black. The
+ * canister already hosts this file, whereas the CDN is a third party that
+ * can be slow, blocked, or down. The video is an enhancement on top; the
+ * background itself must not depend on anything outside the deploy.
  */
-const BACKGROUND_POSTER_SRC = "/assets/video/smoke-realm-background-poster.jpg";
+const BACKGROUND_POSTER_SRC =
+  "/assets/generated/lil-blunt-prospecting-co-background.png";
 
 /**
  * Fixed full-screen background for LIL BLUNT: THE SMOKE REALM — the

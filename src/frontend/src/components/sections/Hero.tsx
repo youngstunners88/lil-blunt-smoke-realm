@@ -262,7 +262,7 @@ export function Hero() {
             aria-hidden="true"
             className="glow-cyan absolute -inset-1.5 rounded-full"
           />
-          <div className="glass-panel relative rounded-full p-1.5 sm:p-2">
+          <div className="brass relative rounded-full p-1.5 sm:p-2">
             <img
               src={LIL_BLUNT_LOGO_SRC}
               alt="Lil Blunt — the bright green frontier outlaw riding his rocket through the Smoke Realm"
@@ -277,28 +277,12 @@ export function Hero() {
           />
         </motion.div>
 
-        {/* Eyebrow */}
-        <motion.div
-          {...(reduce
-            ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
-            : fadeUp(0.12))}
-          className="mt-10"
-        >
-          <span
-            className="glass-panel inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-accent sm:text-xs"
-            data-ocid="hero.eyebrow"
-          >
-            <span className="size-1.5 rounded-full bg-gold lantern-flicker" />
-            Web3 2D Platformer
-          </span>
-        </motion.div>
-
         {/* Headline — premium display typography with realm tri-color gradient */}
         <motion.h1
           {...(reduce
             ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
             : fadeUp(0.2))}
-          className="mt-6 font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
+          className="mt-12 font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
           data-ocid="hero.headline"
         >
           <span className="text-gradient-realm text-edge-cyan">
