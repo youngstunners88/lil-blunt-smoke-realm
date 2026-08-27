@@ -211,6 +211,20 @@ export function Hero() {
         }}
       />
 
+      {/* Localized scrim behind the hero copy only. The background canvas is
+          busy and high-contrast, which made the headline and CTAs hard to
+          read; a soft radial pool of shade fixes that without dimming the
+          whole scene the way a full-screen overlay would. Falls off to fully
+          transparent well before the edges, so the town stays visible. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 58% 56% at 50% 56%, oklch(0.08 0.02 270 / 0.8), oklch(0.08 0.02 270 / 0.55) 48%, transparent 76%)",
+        }}
+      />
+
       <DriftingSmoke />
       <EmberParticles />
       <CrystalParticles />

@@ -1,26 +1,54 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useMemo } from "react";
 
-const BACKGROUND_CANVAS_SRC =
-  "/assets/generated/lil-blunt-prospecting-co-background.png";
+const BACKGROUND_VIDEO_MP4 = "/assets/video/smoke-realm-background.mp4";
+
+/**
+ * VP9 fallback. H.264 is proprietary and a few Chromium builds ship without
+ * it — they report `canPlayType('video/mp4; codecs="avc1…"')` as empty and
+ * fail the MP4 outright. The browser picks the first source it can decode,
+ * so nearly everyone gets the smaller MP4 and only those builds pay for this.
+ */
+const BACKGROUND_VIDEO_WEBM = "/assets/video/smoke-realm-background.webm";
+
+/**
+ * Poster still, cut from the video's own first frame rather than the
+ * original 3.4 MB source PNG. Two reasons: it is ~200 KB instead of 3.4 MB,
+ * and it shares the video's exact aspect ratio, so there is no visible shift
+ * in framing when the video takes over from the poster.
+ */
+const BACKGROUND_POSTER_SRC = "/assets/video/smoke-realm-background-poster.jpg";
 
 /**
  * Fixed full-screen background for LIL BLUNT: THE SMOKE REALM — the
- * founder-supplied "Lil Blunt Prospecting Co." cinematic canvas: an 1800s
- * American mining town (wooden signs, steam train, lanterns, dusty main
- * street, mountains) infused with cannabis culture.
+ * founder-supplied "Lil Blunt Prospecting Co." canvas: an 1800s American
+ * mining town (wooden signs, steam train, lanterns, dusty main street,
+ * mountains) infused with cannabis culture.
+ *
+ * The canvas is rendered as a seamless 10-second video loop generated from
+ * that exact still, so the town is alive — smoke curls, lanterns flicker,
+ * vegetation sways — without any camera movement. The still itself is the
+ * poster and the fallback, so the composition is identical whether the video
+ * plays or not.
+ *
+ * The video is dropped entirely when the user prefers reduced motion. If it
+ * fails to decode it needs no error handling: the still is painted beneath
+ * it and simply shows through. (An earlier `onError` that unmounted the
+ * video was actively harmful — React's synthetic handler fires on the first
+ * <source> failing, so it tore the element down before the browser could
+ * try the WebM.) It is muted and carries no audio track — the site's own
+ * theme music (`AmbientAudioPlayer`) is the only sound and must not be
+ * disturbed.
  *
  * Layers, back to front:
- *   1. The cinematic background canvas image, cover-fit and fixed.
- *   2. A dark overlay + vignette so foreground content (cards, text,
- *      buttons) stays readable on top of the rich image.
- *   3. Three protocol particle families rising from the bottom:
- *        - Warm embers (SMOKE — cannabis energy)
- *        - Blue crystal-glow particles (DIAMONDS — sapphire crystal energy)
- *        - Gold-ore shimmer particles (GOLD — warm metallic ore)
+ *   1. The still canvas (poster / reduced-motion / fallback).
+ *   2. The looping video, when motion is allowed.
+ *   3. A light readability wash + vignette, kept subtle so the scene stays
+ *      visible beneath the UI.
+ *   4. Three protocol particle families rising from the bottom:
+ *        - Warm embers (SMOKE), blue crystals (DIAMONDS), gold ore (GOLD).
  *
- * All motion is environmental — rising particles only, no aggressive zoom
- * or floating cards. Honors `prefers-reduced-motion`.
+ * Honors `prefers-reduced-motion`.
  */
 export function SmokeBackground() {
   const reduce = useReducedMotion();
@@ -69,11 +97,29 @@ export function SmokeBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Founder-supplied cinematic canvas — 1800s mining town + cannabis culture */}
+      {/* Founder-supplied cinematic canvas — poster, reduced-motion state,
+          and fallback if the video cannot load. Always painted so there is
+          never a blank frame while the video buffers. */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${BACKGROUND_CANVAS_SRC})` }}
+        style={{ backgroundImage: `url(${BACKGROUND_POSTER_SRC})` }}
       />
+
+      {/* Seamless 10s loop of that same canvas. Silent by design. */}
+      {!reduce && (
+        <video
+          className="absolute inset-0 size-full object-cover object-center"
+          poster={BACKGROUND_POSTER_SRC}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        >
+          <source src={BACKGROUND_VIDEO_MP4} type="video/mp4" />
+          <source src={BACKGROUND_VIDEO_WEBM} type="video/webm" />
+        </video>
+      )}
 
       {/* Light readability wash — kept subtle so the canvas stays visible */}
       <div className="absolute inset-0 bg-[oklch(0.08_0.02_270/0.22)]" />
