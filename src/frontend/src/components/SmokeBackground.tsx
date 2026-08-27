@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 /**
  * The background loop is served from jsDelivr rather than from this app's
@@ -29,7 +29,6 @@ const BACKGROUND_VIDEO_MP4 = `${VIDEO_CDN_BASE}/smoke-realm-background.mp4`;
  */
 const BACKGROUND_VIDEO_WEBM = `${VIDEO_CDN_BASE}/smoke-realm-background.webm`;
 
-/**
 /**
  * Poster / base still. Served from THIS app, not the CDN, and deliberately
  * so: it is the layer that guarantees the page never renders on black. The
@@ -73,6 +72,63 @@ const BACKGROUND_POSTER_SRC =
  */
 export function SmokeBackground() {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  /**
+   * Keep the loop alive.
+   *
+   * `loop` alone is not reliable for a decorative background. Browsers stop
+   * a muted autoplay video for reasons that have nothing to do with the
+   * markup: Chrome's energy saver pauses it, returning from a background tab
+   * can leave it paused, and a dropped segment mid-playback can fire `ended`
+   * without the loop restarting. When that happens this video freezes on its
+   * final frame — which, because the clip was built to end where it began,
+   * is nearly identical to the still. It reads as "the video stopped and the
+   * old background came back."
+   *
+   * So rather than trusting `loop`, restart explicitly on `ended`, resume on
+   * an unexpected `pause`, and re-check when the tab becomes visible again.
+   * A low-frequency watchdog catches anything those three miss.
+   */
+  useEffect(() => {
+    if (reduce) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const resume = () => {
+      if (video.ended || video.currentTime >= video.duration - 0.05) {
+        video.currentTime = 0;
+      }
+      void video.play().catch(() => {});
+    };
+
+    const onEnded = () => {
+      video.currentTime = 0;
+      void video.play().catch(() => {});
+    };
+    const onPause = () => {
+      // Nothing in this UI ever pauses the background deliberately.
+      resume();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") resume();
+    };
+
+    video.addEventListener("ended", onEnded);
+    video.addEventListener("pause", onPause);
+    document.addEventListener("visibilitychange", onVisibility);
+
+    const watchdog = window.setInterval(() => {
+      if (document.visibilityState === "visible" && video.paused) resume();
+    }, 5000);
+
+    return () => {
+      video.removeEventListener("ended", onEnded);
+      video.removeEventListener("pause", onPause);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.clearInterval(watchdog);
+    };
+  }, [reduce]);
 
   // Deterministic particle positions so the DOM is stable across renders.
   const embers = useMemo(
@@ -129,6 +185,7 @@ export function SmokeBackground() {
       {/* Seamless 10s loop of that same canvas. Silent by design. */}
       {!reduce && (
         <video
+          ref={videoRef}
           className="absolute inset-0 size-full object-cover object-center"
           poster={BACKGROUND_POSTER_SRC}
           autoPlay
@@ -136,6 +193,7 @@ export function SmokeBackground() {
           muted
           playsInline
           preload="auto"
+          disablePictureInPicture
         >
           <source src={BACKGROUND_VIDEO_MP4} type="video/mp4" />
           <source src={BACKGROUND_VIDEO_WEBM} type="video/webm" />
