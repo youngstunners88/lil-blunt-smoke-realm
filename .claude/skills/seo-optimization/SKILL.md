@@ -88,11 +88,16 @@ This is a client-rendered React app. Google renders JavaScript, but anything
 critical for indexing — title, description, canonical, structured data — must be
 in the static `index.html`, not injected at runtime. Keep it that way.
 
+Most **AI** crawlers do not render JavaScript at all, which is a harder
+constraint than Google's. Static crawlable content lives in
+`public/about/index.html` and `public/how-to-play/index.html`; see the
+`aeo-ai-discoverability` skill for that whole surface.
+
 ## Checklist for any new page or section
 
 - [ ] Unique `<title>` and meta description
 - [ ] `canonical` pointing at its own URL
-- [ ] Added to `sitemap.xml`
+- [ ] Added to `sitemap.xml` **and** to the Pages list in `public/llms.txt`
 - [ ] One `<h1>`; sections use `<h2>`
 - [ ] All images have real `alt` text
 - [ ] Descriptive anchor text on every link

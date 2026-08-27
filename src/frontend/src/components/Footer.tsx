@@ -2,11 +2,18 @@ import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS, SOCIAL_LINKS } from "@/lib/brand";
 import { ExternalLink } from "lucide-react";
 import { SiTelegram, SiX } from "react-icons/si";
 
-/** Internal anchor nav — aligned with the Navbar's section targets. */
+/**
+ * Internal nav — the Navbar's section anchors plus the two static content
+ * pages. The static pages are real crawlable HTML (this app is
+ * client-rendered), so linking them here is what lets search and AI
+ * crawlers discover them.
+ */
 const SECTION_LINKS: { label: string; href: string }[] = [
   { label: "Game Showcase", href: "#showcase" },
   { label: "Three Protocols", href: "#protocols" },
   { label: "On-Chain Points", href: "#points" },
+  { label: "About the Game", href: "/about/" },
+  { label: "How to Play", href: "/how-to-play/" },
 ];
 
 /** Outbound protocol sites — the three pillars of the Smoke Realm. */

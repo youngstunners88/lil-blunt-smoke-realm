@@ -58,6 +58,10 @@
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock"
           },
+          "author": {
+            "@type": "Organization",
+            "name": "Young Stunners"
+          },
           "publisher": { "@id": "https://smokegame.win/#organization" }
         },
         {
@@ -90,6 +94,56 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Crawler / no-JS fallback. The app above is client-rendered, so a
+         crawler that does not execute JavaScript (which includes most AI
+         assistant crawlers) would otherwise see an empty page. This block
+         gives them the real content and points at the fully static pages. -->
+    <noscript>
+      <main>
+        <h1>Lil Blunt: The Smoke Realm</h1>
+        <p>
+          A free 2D side-scrolling platformer you play in your web browser. You
+          control Lil Blunt, a green outlaw prospector, running and jumping
+          through the Dustrock Mines of an 1800s Wild West mining town. Jump the
+          mine carts, dodge the hazards, and get as deep as you can before you
+          lose your lives. Your best runs post to a leaderboard styled as an
+          old-west wanted board, and the recurring antagonist is the Tax Man,
+          who turns up to take a cut of what you dig.
+        </p>
+        <p>
+          The game is free. There is nothing to buy, no crypto wallet to
+          install or fund, and no transaction fee. High scores are recorded on
+          the Internet Computer (ICP), a public blockchain that hosts complete
+          web applications — this website is itself served from it. Signing in
+          is optional and uses Internet Identity, which authenticates with your
+          device's fingerprint reader, face scan, or hardware key rather than a
+          password or seed phrase.
+        </p>
+        <h2>Read more</h2>
+        <ul>
+          <li>
+            <a href="/about/">About Lil Blunt: The Smoke Realm</a> — plain-English
+            explanation of the game, the character, and how the on-chain part works
+          </li>
+          <li>
+            <a href="/how-to-play/">How to play</a> — controls, scoring, the wanted
+            board, and frequently asked questions
+          </li>
+          <li>
+            <a href="https://youngstunners88.itch.io/lil-blunt-adventure">Play the game free on itch.io</a>
+          </li>
+        </ul>
+        <h2>The three protocols</h2>
+        <ul>
+          <li><a href="https://lilblunt.win/">SMOKE</a> — cannabis-green haze and lounge interiors</li>
+          <li><a href="https://diamonds1111.win/">DIAMONDS</a> — 1800s mining town, lantern-lit shafts, crystal-blue veins</li>
+          <li><a href="https://mine4gold.app/">GOLD</a> — Wild West gold rush, dusty saloon boards, ore by the ton</li>
+        </ul>
+        <p>For entertainment purposes only. 21+. Not financial advice.</p>
+      </main>
+    </noscript>
+
     <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>

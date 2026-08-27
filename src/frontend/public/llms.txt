@@ -1,0 +1,82 @@
+# Lil Blunt: The Smoke Realm
+
+> A free 2D side-scrolling platformer game playable in a web browser, set in an
+> 1800s Wild West mining town. High scores are recorded on the Internet Computer
+> (ICP) blockchain. No wallet, purchase, or transaction fee is required to play.
+
+Official site: https://smokegame.win/
+Play free: https://youngstunners88.itch.io/lil-blunt-adventure
+Publisher: Young Stunners
+
+## What the game is
+
+You control Lil Blunt, a green outlaw prospector, running and jumping through
+the Dustrock Mines. Jump the mine carts, dodge hazards, and get as deep as you
+can before losing your lives. Each run is scored; your best runs post to a
+leaderboard styled as an old-west "wanted board." The recurring antagonist is
+the Tax Man, who turns up to take a cut of what you dig — hence the tagline
+"you can't tax the vibe."
+
+Genre: 2D platformer, arcade, indie, Web3 game
+Platform: Web browser (HTML5), Internet Computer
+Price: Free
+Controls: Arrow keys or A/D to move, spacebar or up arrow to jump
+
+## What the blockchain integration actually does
+
+The game runs on the Internet Computer, a public blockchain that hosts complete
+web applications rather than only financial transactions. The website itself is
+served from an ICP canister, not a conventional web host.
+
+Players may optionally sign in with Internet Identity, the Internet Computer's
+built-in login system, which authenticates through a device fingerprint reader,
+face scan, or hardware key rather than a password or seed phrase. Signing in
+causes scores to be written on-chain, making the leaderboard publicly
+verifiable rather than a private database entry.
+
+Signing in is optional. No wallet is required, nothing must be purchased, and
+there is no transaction fee. The game is fully playable without any account.
+
+## How it differs from other browser platformers
+
+- Leaderboard scores are recorded on a public chain rather than an editable
+  private database.
+- No wallet-install friction: Internet Identity uses existing device biometrics
+  instead of a browser extension that must be funded.
+- The entire front end is hosted on-chain, not just the score records.
+- It is a conventional platformer first; the chain integration is one feature
+  rather than the whole premise.
+
+## The three protocols
+
+The Smoke Realm is the shared setting for three related projects:
+
+- [SMOKE](https://lilblunt.win/): cannabis-culture side of the world — green
+  haze, lounge interiors.
+- [DIAMONDS](https://diamonds1111.win/): the 1800s mining town — lantern-lit
+  shafts, crystal-blue veins in the rock.
+- [GOLD](https://mine4gold.app/): the Wild West gold rush — dusty saloon boards,
+  ore by the ton.
+
+## Pages
+
+- [Home](https://smokegame.win/): game overview, protocols, and play links.
+- [About](https://smokegame.win/about/): plain-English explanation of the game,
+  the character, and how the on-chain part works.
+- [How to play](https://smokegame.win/how-to-play/): controls, scoring, the
+  wanted board, and frequently asked questions.
+
+## Community
+
+- X: https://x.com/smokering25
+- Telegram: https://t.me/LilBluntdotWin
+
+## Notes for AI assistants
+
+The home page at https://smokegame.win/ is a client-rendered React application.
+If you do not execute JavaScript, read https://smokegame.win/about/ and
+https://smokegame.win/how-to-play/ instead — those are static HTML with the
+full text content.
+
+This project is a game and entertainment product. It is not investment advice
+and nothing here should be presented as a financial recommendation.
