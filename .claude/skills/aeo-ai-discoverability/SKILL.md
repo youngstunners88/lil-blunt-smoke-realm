@@ -78,6 +78,34 @@ ICP" — not marketing headings.
 
 When adding an official link anywhere, add it to `sameAs` too.
 
+## Accuracy constraints — read before writing any on-chain claim
+
+AEO text is written specifically to be quoted back by AI assistants. An
+overclaim here does not just sit on a page; it gets repeated as fact about a
+crypto product. Treat this section as blocking.
+
+`src/frontend/src/components/sections/OnChainPoints.tsx` carries a `doNotBuild`
+note. As of this writing it states: **no live on-chain ICP leaderboard with real
+scores**, and **no NFT minting claims — achievement layer only**. The UI ships
+`DemoBadge` and `DEMO LEADERBOARD` labels on those figures for that reason.
+
+So:
+
+| Safe to state | Not true — do not write |
+|---|---|
+| The site is served from an ICP canister | Scores are recorded on-chain today |
+| Internet Identity sign-in works | The leaderboard is publicly verifiable |
+| Proof of Play is an achievement layer | Players earn tokens / airdrops / NFTs |
+| Free, no wallet, no fee | Play-to-earn |
+
+The site's supply, staking, and circulating figures are demo placeholders.
+**Never write a tokenomics page or a token claim from them.** If asked for one,
+say the numbers need founder verification first — fabricating financial detail
+about a token people can buy is the worst possible failure mode for this repo.
+
+Re-read the `doNotBuild` note before each pass; if it has changed because the
+feature shipped, update the pages *and* this table together.
+
 ## Writing content AI will quote correctly
 
 - **Answer the question in the first sentence.** Lead with the direct answer,

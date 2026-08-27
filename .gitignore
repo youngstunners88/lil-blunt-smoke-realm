@@ -6,3 +6,10 @@ dist/
 .pnpm-store/
 .cache/
 .icp/
+
+# Third-party agent skills installed via `npx skills add`.
+# Reproducible from skills-lock.json — rerun the installer rather than
+# vendoring several MB of third-party JS into the repo. Matches how the
+# other lockfile entries work.
+.agents/
+.claude/skills/impeccable

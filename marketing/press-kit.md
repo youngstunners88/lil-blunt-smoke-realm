@@ -27,14 +27,14 @@ Everything here is factual — do not add claims not backed by the shipped game.
 
 ### One line (≤ 100 chars)
 
-> A free Wild West 2D platformer with high scores recorded on the Internet Computer.
+> A free Wild West 2D platformer running entirely on the Internet Computer.
 
 ### Short (≈ 50 words) — for directories and tag pages
 
 > Lil Blunt: The Smoke Realm is a free 2D platformer set in an 1800s mining
 > town. Dig through the Dustrock Mines, jump the carts, dodge the Tax Man, and
-> chase a high score recorded on the Internet Computer blockchain. No wallet, no
-> purchase, no fees — it runs in your browser.
+> chase a high score. The whole game and site run on the Internet Computer. No
+> wallet, no purchase, no fees — it plays in your browser.
 
 ### Medium (≈ 120 words) — for itch.io's short description slot
 
@@ -46,10 +46,9 @@ Everything here is factual — do not add claims not backed by the shipped game.
 > old-west leaderboard where the frontier remembers who dug deepest. Watch out
 > for the Tax Man, who always turns up for his cut.
 >
-> Scores are recorded on the Internet Computer, so the leaderboard is publicly
-> verifiable rather than a private database row. Signing in is optional and uses
-> your device's fingerprint or face scan — no wallet, no seed phrase, no fees.
-> Free to play in your browser.
+> The whole site runs on the Internet Computer — not just a token contract.
+> Signing in is optional and uses your device's fingerprint or face scan, with
+> no wallet, no seed phrase and no fees. Free to play in your browser.
 
 ### Long — for the itch.io page body
 
@@ -67,18 +66,23 @@ Everything here is factual — do not add claims not backed by the shipped game.
 > **The wanted board.** Your strongest runs get posted to the leaderboard, an
 > old-west bounty poster tracking who dug deepest. The frontier keeps a record.
 >
-> **The on-chain part, in plain English.** This game runs on the Internet
-> Computer, a public blockchain that can host entire web applications. That
-> means your high scores are written to a public chain rather than a private
-> company database — anyone can verify the leaderboard is real.
+> **The on-chain part, in plain English.** This whole thing runs on the Internet
+> Computer, a public blockchain that can host entire web applications. Not just
+> a token contract with a normal website bolted on — the site itself is served
+> from a canister on chain.
 >
 > Here is the important part: **you do not need a crypto wallet.** You do not
 > need to buy anything, fund anything, or pay a transaction fee. Most Web3 games
 > make you install a browser extension before you can play. This one doesn't.
-> If you want your scores on the record, you sign in with Internet Identity,
-> which uses the fingerprint reader or face scan already on your device — no
-> password, no seed phrase. And if you would rather not sign in at all, the game
-> plays completely normally.
+> Sign-in is optional and uses Internet Identity, which works off the
+> fingerprint reader or face scan already on your device — no password, no seed
+> phrase. And if you would rather not sign in at all, the game plays completely
+> normally.
+>
+> And to be straight with you: there is no token to earn, no airdrop, and no NFT
+> minting here. Proof of Play is an achievement layer. The leaderboard figures
+> on the site today are demo data while that ships. It's a game, not a yield
+> farm.
 >
 > **The world.** The Smoke Realm spans three connected protocols: SMOKE, the
 > cannabis-green haze of the lounge; DIAMONDS, the lantern-lit mine shafts and
@@ -109,7 +113,7 @@ Everything here is factual — do not add claims not backed by the shipped game.
 ## Key features (bullet form, for directory submissions)
 
 - Free 2D platformer, playable directly in a browser — no download
-- High scores recorded on the Internet Computer blockchain, publicly verifiable
+- Entire front end served from a canister on the Internet Computer
 - No crypto wallet, purchase, or transaction fee required to play
 - Optional sign-in via Internet Identity using device biometrics, not seed phrases
 - Old-west "wanted board" leaderboard
@@ -131,8 +135,16 @@ Everything here is factual — do not add claims not backed by the shipped game.
 Keep outreach accurate — inflated claims are the fastest way to lose a
 directory listing or a reviewer's trust.
 
-- Do not promise token rewards, airdrops, or earnings. The game records scores;
-  it is not a play-to-earn product.
+- Do not promise token rewards, airdrops, or earnings. Proof of Play is an
+  achievement layer, not a play-to-earn product.
 - Do not describe it as an NFT game unless and until minting actually ships.
+- **Do not claim the leaderboard is live on-chain.** The repo carries an
+  explicit `doNotBuild` constraint — no live on-chain leaderboard with real
+  scores — and the figures on the site are labelled DEMO. What is true and
+  safe to say: the site itself is served from an ICP canister, and Internet
+  Identity sign-in works. Revisit this line if that ships.
 - Do not cite player counts, ratings, or press coverage that do not exist.
 - Keep the 21+/entertainment-only framing on cannabis-adjacent copy.
+- Before writing a tokenomics claim of any kind, confirm it against a source
+  the founder has verified. The site's supply and staking figures are demo
+  placeholders, not real numbers.

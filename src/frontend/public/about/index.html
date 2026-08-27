@@ -46,7 +46,7 @@
         Lil Blunt: The Smoke Realm is a free 2D platformer game you play in your
         web browser. You control Lil Blunt, a green outlaw prospector, running
         and jumping through the Dustrock Mines of an 1800s Wild West mining town.
-        Your high scores are recorded on the Internet Computer blockchain.
+        The whole site runs on the Internet Computer blockchain.
       </p>
 
       <h2>What kind of game is it?</h2>
@@ -86,24 +86,31 @@
         You can optionally sign in using <strong>Internet Identity</strong>,
         which is the Internet Computer's built-in login system. It works through
         your device's existing security — a fingerprint reader, a face scan, or
-        a hardware key — rather than a password or a seed phrase. When you sign
-        in this way, the scores you earn get written to the chain, so the
-        leaderboard is publicly verifiable rather than sitting in a private
-        company database.
+        a hardware key — rather than a password or a seed phrase.
       </p>
       <p>
         You do not need to buy anything, connect an existing crypto wallet, or
         pay a transaction fee to do this. If you would rather not sign in at
-        all, the game still plays normally — you just won't have a persistent
-        on-chain record.
+        all, the game still plays normally.
+      </p>
+      <p>
+        <strong>What is and isn't live right now.</strong> The website itself is
+        genuinely served from the Internet Computer, and Internet Identity
+        sign-in genuinely works. The Proof of Play achievement layer is the
+        design for how runs are recorded. The leaderboard and ecosystem figures
+        currently shown on the site are <strong>demonstration data</strong> —
+        they are labelled DEMO on the page — and there is not yet a live
+        on-chain leaderboard carrying real player scores. There is also no NFT
+        minting: Proof of Play is an achievement layer, not a token drop.
       </p>
 
       <h2>How is it different from other browser platformers?</h2>
       <ul>
         <li>
-          <strong>Verifiable scores.</strong> Most browser-game leaderboards are
-          a database row that the operator can change. Here the record lives on
-          a public chain.
+          <strong>The whole app is on-chain, not just a token.</strong> The
+          front end is served from a canister on the Internet Computer rather
+          than a conventional web host — unusual even among Web3 games, which
+          typically put only a contract on chain and host the site normally.
         </li>
         <li>
           <strong>No wallet friction.</strong> The usual barrier to a "Web3 game"
@@ -112,9 +119,9 @@
           device.
         </li>
         <li>
-          <strong>The whole site is on-chain.</strong> Not just the scores. The
-          front end itself is served from a canister on the Internet Computer,
-          not from a conventional web host.
+          <strong>Achievements, not earnings.</strong> Proof of Play is an
+          achievement layer. There is no token reward, airdrop, or
+          play-to-earn mechanic attached to playing.
         </li>
         <li>
           <strong>It is a real game first.</strong> The platforming works on its

@@ -12,6 +12,7 @@ const SECTION_LINKS: { label: string; href: string }[] = [
   { label: "Game Showcase", href: "#showcase" },
   { label: "Three Protocols", href: "#protocols" },
   { label: "On-Chain Points", href: "#points" },
+  { label: "Docs", href: "/docs/" },
   { label: "About the Game", href: "/about/" },
   { label: "How to Play", href: "/how-to-play/" },
 ];
