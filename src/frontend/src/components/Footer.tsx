@@ -1,6 +1,6 @@
-import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS } from "@/lib/brand";
+import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS, SOCIAL_LINKS } from "@/lib/brand";
 import { ExternalLink } from "lucide-react";
-import { SiGithub, SiTelegram, SiX } from "react-icons/si";
+import { SiTelegram, SiX } from "react-icons/si";
 
 /** Internal anchor nav — aligned with the Navbar's section targets. */
 const SECTION_LINKS: { label: string; href: string }[] = [
@@ -16,19 +16,33 @@ const PROTOCOL_SITES: { label: string; href: string }[] = [
   { label: "GOLD", href: PROTOCOL_LINKS.gold },
 ];
 
-/** Social links are disabled placeholders — no fabricated URLs. */
-const SOCIAL_LINKS: { label: string; icon: typeof SiGithub }[] = [
-  { label: "X", icon: SiX },
-  { label: "Telegram", icon: SiTelegram },
-  { label: "GitHub", icon: SiGithub },
+/** Official community channels — founder-supplied accounts. */
+const SOCIAL_CHANNELS: {
+  label: string;
+  href: string;
+  icon: typeof SiX;
+  description: string;
+}[] = [
+  {
+    label: "X",
+    href: SOCIAL_LINKS.x,
+    icon: SiX,
+    description: "Follow $SMOKE and Lil Blunt: The Smoke Realm on X",
+  },
+  {
+    label: "Telegram",
+    href: SOCIAL_LINKS.telegram,
+    icon: SiTelegram,
+    description: "Join the Lil Blunt: The Smoke Realm community on Telegram",
+  },
 ];
 
 /**
  * Site footer — clean minimal glass surface in the hybrid dusk/night tone.
  *
  * Left: Lil Blunt logo + "Lil Blunt: The Smoke Realm" wordmark.
- * Right: anchor nav to page sections, outbound protocol links, and
- * disabled social placeholders. A cannabis-appropriate risk/age
+ * Right: anchor nav to page sections, outbound protocol links, and the
+ * official X and Telegram channels. A cannabis-appropriate risk/age
  * disclaimer sits above the neutral copyright line. No third-party
  * platform branding appears anywhere on the surface.
  */
@@ -66,22 +80,28 @@ export function Footer() {
                 can&apos;t tax the vibe.
               </p>
 
-              {/* Social placeholders — disabled, no fabricated URLs */}
-              <div className="flex items-center gap-2">
-                {SOCIAL_LINKS.map(({ label, icon: Icon }) => (
-                  <button
-                    key={label}
-                    type="button"
-                    disabled
-                    data-ocid={`footer.social.${label.toLowerCase()}`}
-                    title="Coming soon"
-                    className="flex size-9 cursor-not-allowed items-center justify-center rounded-lg border border-border/60 bg-muted/40 text-muted-foreground/40"
-                  >
-                    <Icon className="size-4" />
-                    <span className="sr-only">{label} (coming soon)</span>
-                  </button>
-                ))}
-              </div>
+              {/* Official community channels */}
+              <nav
+                className="flex items-center gap-2"
+                aria-label="Community channels"
+              >
+                {SOCIAL_CHANNELS.map(
+                  ({ label, href, icon: Icon, description }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      data-ocid={`footer.social.${label.toLowerCase()}`}
+                      title={description}
+                      className="flex size-9 items-center justify-center rounded-lg border border-border/60 bg-muted/40 text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-gold/50 hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <Icon className="size-4" aria-hidden="true" />
+                      <span className="sr-only">{description}</span>
+                    </a>
+                  ),
+                )}
+              </nav>
             </div>
 
             {/* Link columns */}

@@ -34,6 +34,15 @@ export const PROTOCOL_LINKS = {
 export type ProtocolKey = keyof typeof PROTOCOL_LINKS;
 
 /**
+ * Official community channels for $SMOKE and the Smoke Realm site.
+ * These are the founder-supplied accounts — do not substitute others.
+ */
+export const SOCIAL_LINKS = {
+  x: "https://x.com/smokering25",
+  telegram: "https://t.me/LilBluntdotWin",
+} as const;
+
+/**
  * @deprecated Legacy placeholder labels retained for backward compatibility
  * with unmounted section components. The BLAZE and GOLD assets are now
  * supplied at the paths above; these constants are no longer used to gate
