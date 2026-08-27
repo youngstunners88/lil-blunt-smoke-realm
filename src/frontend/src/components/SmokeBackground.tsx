@@ -75,8 +75,8 @@ export function SmokeBackground() {
         style={{ backgroundImage: `url(${BACKGROUND_CANVAS_SRC})` }}
       />
 
-      {/* Dark overlay so foreground cards/text/buttons stay readable */}
-      <div className="absolute inset-0 bg-[oklch(0.08_0.02_270/0.55)]" />
+      {/* Light readability wash — kept subtle so the canvas stays visible */}
+      <div className="absolute inset-0 bg-[oklch(0.08_0.02_270/0.22)]" />
 
       {/* Rising ember particles — SMOKE protocol (cannabis energy) */}
       {embers.map((e) => (
@@ -164,7 +164,7 @@ export function SmokeBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 45%, oklch(0.11 0.025 280 / 0.72) 100%)",
+            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 55%, oklch(0.11 0.025 280 / 0.45) 100%)",
         }}
       />
     </div>

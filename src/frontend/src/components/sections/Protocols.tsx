@@ -41,10 +41,6 @@ type ProtocolCard = {
   hoverClass: string;
   /** Tailwind text color class for the protocol name. */
   nameTextClass: string;
-  /** Tailwind classes for the circular logo frame's themed bezel. */
-  ringClass: string;
-  /** Decorative ambient glow class layered behind the logo. */
-  ambientClass: string;
 };
 
 const PROTOCOLS: readonly ProtocolCard[] = [
@@ -60,9 +56,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     hoverClass:
       "hover:-translate-y-1.5 hover:edge-smoke focus-visible:-translate-y-1.5 focus-visible:edge-smoke",
     nameTextClass: "text-[oklch(var(--realm-smoke))]",
-    ringClass: "ring-2 ring-[oklch(var(--realm-smoke)/0.55)]",
-    ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-smoke)/0.18),transparent_70%)]",
   },
   {
     id: "diamonds",
@@ -77,9 +70,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     hoverClass:
       "hover:-translate-y-1.5 hover:edge-blue focus-visible:-translate-y-1.5 focus-visible:edge-blue",
     nameTextClass: "text-[oklch(var(--realm-blue))]",
-    ringClass: "ring-2 ring-[oklch(var(--realm-blue)/0.55)]",
-    ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-blue)/0.18),transparent_70%)]",
   },
   {
     id: "gold",
@@ -94,9 +84,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     hoverClass:
       "hover:-translate-y-1.5 hover:edge-gold focus-visible:-translate-y-1.5 focus-visible:edge-gold",
     nameTextClass: "text-[oklch(var(--realm-gold))]",
-    ringClass: "ring-2 ring-[oklch(var(--realm-gold)/0.55)]",
-    ambientClass:
-      "bg-[radial-gradient(circle,oklch(var(--realm-gold)/0.2),transparent_70%)]",
   },
 ] as const;
 
@@ -172,15 +159,10 @@ export function Protocols() {
               {protocol.name}
             </span>
 
-            {/* Circular logo frame with themed ambient glow */}
-            <div className="relative mt-6 flex items-center justify-center">
-              <div
-                aria-hidden="true"
-                className={`absolute inset-0 -z-10 size-32 rounded-full blur-2xl ${protocol.ambientClass}`}
-              />
-              <div
-                className={`flex size-32 items-center justify-center overflow-hidden rounded-full bg-black/60 ${protocol.ringClass} transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04]`}
-              >
+            {/* Circular logo frame — the founder-supplied artwork only, no
+                added ring or glow layered on top of the original file */}
+            <div className="mt-6 flex items-center justify-center">
+              <div className="flex size-32 items-center justify-center overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04]">
                 <img
                   src={protocol.logoSrc}
                   alt={protocol.logoAlt}

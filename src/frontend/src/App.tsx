@@ -1,3 +1,4 @@
+import { AmbientAudioPlayer } from "@/components/AmbientAudioPlayer";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SmokeBackground } from "@/components/SmokeBackground";
@@ -31,6 +32,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <SmokeBackground />
+      <AmbientAudioPlayer />
       <Navbar />
       <main className="relative z-10">
         {/* 1. Hero — owned by the hero page task */}
