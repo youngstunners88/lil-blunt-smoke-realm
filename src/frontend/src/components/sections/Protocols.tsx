@@ -4,9 +4,7 @@ import {
   LIL_BLUNT_LOGO_SRC,
   PROTOCOL_LINKS,
 } from "@/lib/brand";
-import { Gem, Leaf, Pickaxe } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import type { ComponentType, SVGProps } from "react";
 
 /**
  * THREE PROTOCOLS section — the three pillars of the Smoke Realm.
@@ -16,8 +14,8 @@ import type { ComponentType, SVGProps } from "react";
  * (cannabis lounge), DIAMONDS sits on cold iron in a lantern-lit mine
  * shaft, and GOLD sits on warm saloon wood with a brass trim — the same
  * .wood / .iron / .smoke-den materials used across the rest of the site.
- * A large, faint watermark icon (leaf / pickaxe+gem / pickaxe+coins)
- * grounds each card in its world without touching the supplied logos.
+ * Cards show only the logo, name, descriptor, and enter button — no
+ * decorative watermark icons.
  *
  * Honors prefers-reduced-motion: entrance transforms are dropped when
  * the user prefers reduced motion (opacity-only fade), and the global
@@ -47,8 +45,6 @@ type ProtocolCard = {
   ringClass: string;
   /** Decorative ambient glow class layered behind the logo. */
   ambientClass: string;
-  /** Large, low-opacity watermark icon(s) grounding the card's world. */
-  watermark: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
 const PROTOCOLS: readonly ProtocolCard[] = [
@@ -67,7 +63,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     ringClass: "ring-2 ring-[oklch(var(--realm-smoke)/0.55)]",
     ambientClass:
       "bg-[radial-gradient(circle,oklch(var(--realm-smoke)/0.18),transparent_70%)]",
-    watermark: Leaf,
   },
   {
     id: "diamonds",
@@ -85,7 +80,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     ringClass: "ring-2 ring-[oklch(var(--realm-blue)/0.55)]",
     ambientClass:
       "bg-[radial-gradient(circle,oklch(var(--realm-blue)/0.18),transparent_70%)]",
-    watermark: Gem,
   },
   {
     id: "gold",
@@ -103,7 +97,6 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     ringClass: "ring-2 ring-[oklch(var(--realm-gold)/0.55)]",
     ambientClass:
       "bg-[radial-gradient(circle,oklch(var(--realm-gold)/0.2),transparent_70%)]",
-    watermark: Pickaxe,
   },
 ] as const;
 
@@ -169,25 +162,18 @@ export function Protocols() {
               ease: [0.22, 1, 0.36, 1],
               delay: shouldReveal ? index * 0.12 : 0,
             }}
-            className={`group relative flex flex-col items-center overflow-hidden rounded-2xl p-7 text-center transition-all duration-300 will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-8 ${protocol.surfaceClass} ${protocol.hoverClass}`}
+            className={`group flex flex-col items-center rounded-2xl p-7 text-center transition-all duration-300 will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-8 ${protocol.surfaceClass} ${protocol.hoverClass}`}
           >
-            {/* World watermark — large, faint icon grounding the card's setting */}
-            <protocol.watermark
-              aria-hidden="true"
-              strokeWidth={1}
-              className="pointer-events-none absolute -bottom-6 -right-6 size-36 text-foreground/[0.05] transition-transform duration-500 group-hover:scale-105"
-            />
-
             {/* Protocol name eyebrow */}
             <span
-              className={`relative font-mono text-xs font-semibold uppercase tracking-[0.35em] ${protocol.nameTextClass}`}
+              className={`font-mono text-xs font-semibold uppercase tracking-[0.35em] ${protocol.nameTextClass}`}
               data-ocid={`protocols.card.${protocol.id}.name`}
             >
               {protocol.name}
             </span>
 
             {/* Circular logo frame with themed ambient glow */}
-            <div className="relative z-[1] mt-6 flex items-center justify-center">
+            <div className="relative mt-6 flex items-center justify-center">
               <div
                 aria-hidden="true"
                 className={`absolute inset-0 -z-10 size-32 rounded-full blur-2xl ${protocol.ambientClass}`}
@@ -200,7 +186,7 @@ export function Protocols() {
                   alt={protocol.logoAlt}
                   loading="lazy"
                   decoding="async"
-                  className="size-full object-contain object-center p-1.5"
+                  className="size-full object-contain object-center"
                   data-ocid={`protocols.card.${protocol.id}.logo`}
                 />
               </div>
@@ -208,7 +194,7 @@ export function Protocols() {
 
             {/* One-line descriptor */}
             <p
-              className="relative mt-6 max-w-[16rem] font-body text-sm font-light leading-relaxed text-muted-foreground"
+              className="mt-6 max-w-[16rem] font-body text-sm font-light leading-relaxed text-muted-foreground"
               data-ocid={`protocols.card.${protocol.id}.descriptor`}
             >
               {protocol.descriptor}
@@ -216,7 +202,7 @@ export function Protocols() {
 
             {/* External-link affordance */}
             <span
-              className="relative mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 group-hover:text-foreground"
+              className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 group-hover:text-foreground"
               data-ocid={`protocols.card.${protocol.id}.link`}
             >
               Enter {protocol.name}

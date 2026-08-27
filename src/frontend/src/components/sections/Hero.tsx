@@ -2,13 +2,8 @@ import { ConnectWalletModal } from "@/components/ConnectWalletModal";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { BLAZE_LOGO_SRC, LIL_BLUNT_LOGO_SRC } from "@/lib/brand";
 import { Gamepad2, Triangle, Wallet } from "lucide-react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
-import { useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
 
 const PLAY_GAME_HREF = "https://youngstunners88.itch.io/lil-blunt-adventure";
 
@@ -17,120 +12,6 @@ function smoothScroll(href: string) {
   if (el) {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-}
-
-/**
- * Far mountain ridge — the darkest, slowest parallax layer. A wide SVG
- * silhouette that sits behind the town and drifts gently as the page scrolls.
- * Dusk/night tone: cool-shifted charcoal with a faint sapphire rim so the
- * crystal-glow particles read against it.
- */
-function FarMountains() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 1440 420"
-      preserveAspectRatio="xMidYMax slice"
-      className="absolute inset-x-0 bottom-0 h-[70%] w-full"
-    >
-      <path
-        d="M0 420 L0 300 L120 210 L240 300 L360 180 L480 290 L600 220 L720 320 L840 200 L960 300 L1080 230 L1200 320 L1320 250 L1440 330 L1440 420 Z"
-        fill="oklch(0.13 0.025 270)"
-      />
-      <path
-        d="M0 420 L0 340 L160 260 L300 340 L440 250 L580 350 L720 280 L860 360 L1000 270 L1140 350 L1280 300 L1440 360 L1440 420 Z"
-        fill="oklch(0.1 0.025 280)"
-      />
-      {/* Faint sapphire rim light along the upper ridge — crystal energy */}
-      <path
-        d="M0 300 L120 210 L240 300 L360 180 L480 290 L600 220 L720 320 L840 200 L960 300 L1080 230 L1200 320 L1320 250 L1440 330"
-        fill="none"
-        stroke="oklch(0.62 0.17 250 / 0.18)"
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
-}
-
-/**
- * Near ridge + mining town silhouettes — the faster parallax layer. Dark
- * building shapes with soft cyan crystal-glow windows, a mine entrance, and
- * a headframe tower so the hero reads as a living frontier town, not a logo
- * on black. A warm gold rim light traces the rooftops so the western gold
- * light coexists with the cyan crystal glow. Cool-shifted to dusk/night so
- * neon cyan + emerald + sapphire + gold all read against it.
- */
-function MiningTown() {
-  const windows = [
-    { x: 90, y: 300, w: 10, h: 14 },
-    { x: 130, y: 322, w: 10, h: 14 },
-    { x: 250, y: 290, w: 10, h: 14 },
-    { x: 290, y: 312, w: 10, h: 14 },
-    { x: 880, y: 288, w: 10, h: 14 },
-    { x: 920, y: 310, w: 10, h: 14 },
-    { x: 1150, y: 300, w: 10, h: 14 },
-    { x: 1190, y: 322, w: 10, h: 14 },
-  ];
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 1440 420"
-      preserveAspectRatio="xMidYMax slice"
-      className="absolute inset-x-0 bottom-0 h-[62%] w-full"
-    >
-      {/* Ground ridge — cool dusk earth */}
-      <path
-        d="M0 420 L0 360 L180 320 L360 360 L560 330 L760 370 L980 340 L1180 370 L1360 350 L1440 370 L1440 420 Z"
-        fill="oklch(0.16 0.025 270)"
-      />
-      {/* Mine headframe tower */}
-      <g fill="oklch(0.13 0.022 270)">
-        <rect x="640" y="250" width="70" height="110" />
-        <rect x="630" y="236" width="90" height="16" />
-        <rect x="650" y="252" width="12" height="108" />
-        <rect x="688" y="252" width="12" height="108" />
-      </g>
-      {/* Mine entrance */}
-      <path
-        d="M700 360 Q700 320 740 320 Q780 320 780 360 Z"
-        fill="oklch(0.08 0.02 280)"
-      />
-      {/* Saloon / general store */}
-      <g fill="oklch(0.14 0.022 270)">
-        <rect x="60" y="300" width="120" height="60" />
-        <rect x="52" y="290" width="136" height="12" />
-        <rect x="230" y="310" width="100" height="50" />
-        <rect x="224" y="300" width="112" height="12" />
-        <rect x="840" y="296" width="110" height="64" />
-        <rect x="832" y="286" width="126" height="12" />
-        <rect x="1120" y="306" width="130" height="54" />
-        <rect x="1112" y="296" width="146" height="12" />
-      </g>
-      {/* Lit windows — soft cyan crystal glow (diamond energy), no orange */}
-      {windows.map((w, i) => (
-        <rect
-          key={w.x}
-          x={w.x}
-          y={w.y}
-          width={w.w}
-          height={w.h}
-          rx="1"
-          fill="oklch(0.82 0.16 195 / 0.7)"
-          className="crystal-pulse"
-          style={{ animationDelay: `${i * 0.4}s` }}
-        />
-      ))}
-      {/* Warm gold rim light along the rooftops — western light coexisting
-          with the cyan crystal glow so the three worlds read as one scene */}
-      <path
-        d="M52 290 L188 290 M224 300 L336 300 M630 236 L720 236 M832 286 L958 286 M1112 296 L1258 296"
-        fill="none"
-        stroke="oklch(0.78 0.13 75 / 0.35)"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
 }
 
 /**
@@ -290,25 +171,18 @@ function GoldOreParticles() {
 
 /**
  * Hero section for LIL BLUNT: THE SMOKE REALM. The Lil Blunt logo is mounted
- * as the hero emblem framed in neon-cyan + emerald glow, set against a dusk/
- * night mining town: parallax mountains, town silhouettes with lit windows,
- * drifting four-color smoke, rising embers, sapphire crystal shards, and
- * gold-ore motes — the three protocols present in the air. Environmental
- * motion only — no aggressive zoom or huge text animation.
+ * as the hero emblem framed in neon-cyan + emerald glow, set against the
+ * founder-supplied "Lil Blunt Prospecting Co." background canvas (rendered
+ * by SmokeBackground behind the whole page): drifting four-color smoke,
+ * rising embers, sapphire crystal shards, and gold-ore motes — the three
+ * protocols present in the air. Environmental motion only — no aggressive
+ * zoom or huge text animation.
  *
  * `id="play"` is the navbar anchor target — the navbar logo scrolls here.
  */
 export function Hero() {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLElement>(null);
   const [walletOpen, setWalletOpen] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const farY = useTransform(scrollYProgress, [0, 1], [0, 70]);
-  const nearY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 20 },
@@ -322,36 +196,20 @@ export function Hero() {
 
   return (
     <section
-      ref={ref}
       id="play"
       data-ocid="section.hero"
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-4 py-24 sm:px-6 lg:px-8"
     >
-      {/* Night sky wash — dusk/night with sapphire + emerald + gold undertones */}
+      {/* Subtle color wash so the realm's tri-color palette reads against the
+          real background canvas, without hiding it (no opaque fill) */}
       <div
         aria-hidden="true"
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 90% 60% at 50% -10%, oklch(0.62 0.17 250 / 0.22), transparent 60%), radial-gradient(ellipse 60% 50% at 15% 20%, oklch(0.72 0.16 150 / 0.12), transparent 65%), radial-gradient(ellipse 50% 40% at 85% 30%, oklch(0.78 0.13 75 / 0.1), transparent 65%), linear-gradient(180deg, oklch(0.1 0.025 280), oklch(0.13 0.025 270))",
+            "radial-gradient(ellipse 90% 60% at 50% -10%, oklch(0.62 0.17 250 / 0.18), transparent 60%), radial-gradient(ellipse 60% 50% at 15% 20%, oklch(0.72 0.16 150 / 0.1), transparent 65%), radial-gradient(ellipse 50% 40% at 85% 30%, oklch(0.78 0.13 75 / 0.08), transparent 65%)",
         }}
       />
-
-      {/* Parallax environment */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{ y: reduce ? 0 : farY }}
-      >
-        <FarMountains />
-      </motion.div>
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{ y: reduce ? 0 : nearY }}
-      >
-        <MiningTown />
-      </motion.div>
 
       <DriftingSmoke />
       <EmberParticles />

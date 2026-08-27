@@ -1,24 +1,26 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useMemo } from "react";
 
+const BACKGROUND_CANVAS_SRC =
+  "/assets/generated/lil-blunt-prospecting-co-background.png";
+
 /**
- * Fixed full-screen animated background for LIL BLUNT: THE SMOKE REALM —
- * the hybrid dusk/night frontier where smoke, crystal, and gold meet.
+ * Fixed full-screen background for LIL BLUNT: THE SMOKE REALM — the
+ * founder-supplied "Lil Blunt Prospecting Co." cinematic canvas: an 1800s
+ * American mining town (wooden signs, steam train, lanterns, dusty main
+ * street, mountains) infused with cannabis culture.
  *
  * Layers, back to front:
- *   1. `.smoke-layer` nebula drift (emerald + cyan + sapphire + gold).
- *   2. Parallax mountain silhouettes (two dusk/night ridgelines drifting
- *      at different speeds for depth) — cool-shifted to match the new
- *      background token (0.11 0.025 280).
+ *   1. The cinematic background canvas image, cover-fit and fixed.
+ *   2. A dark overlay + vignette so foreground content (cards, text,
+ *      buttons) stays readable on top of the rich image.
  *   3. Three protocol particle families rising from the bottom:
  *        - Warm embers (SMOKE — cannabis energy)
  *        - Blue crystal-glow particles (DIAMONDS — sapphire crystal energy)
  *        - Gold-ore shimmer particles (GOLD — warm metallic ore)
- *   4. A soft dust haze and a vignette to keep content legible.
  *
- * All motion is environmental — drifting smoke, rising particles, slow
- * parallax — no aggressive zoom or floating cards. Honors
- * `prefers-reduced-motion`.
+ * All motion is environmental — rising particles only, no aggressive zoom
+ * or floating cards. Honors `prefers-reduced-motion`.
  */
 export function SmokeBackground() {
   const reduce = useReducedMotion();
@@ -67,42 +69,14 @@ export function SmokeBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Base nebula smoke drift layer */}
-      <div className="smoke-layer" />
-
-      {/* Parallax mountain silhouettes — far ridge (dusk/night tone) */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[42vh]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, oklch(0.1 0.025 280 / 0.6) 100%)",
-          clipPath:
-            "polygon(0 62%, 8% 48%, 16% 58%, 26% 40%, 36% 55%, 46% 44%, 56% 58%, 66% 42%, 76% 55%, 86% 46%, 100% 58%, 100% 100%, 0 100%)",
-        }}
-        animate={reduce ? undefined : { x: [0, -18, 0] }}
-        transition={{
-          duration: 60,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
+      {/* Founder-supplied cinematic canvas — 1800s mining town + cannabis culture */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${BACKGROUND_CANVAS_SRC})` }}
       />
 
-      {/* Parallax mountain silhouettes — near ridge (dusk/night tone) */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[30vh]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, oklch(0.08 0.022 270 / 0.66) 100%)",
-          clipPath:
-            "polygon(0 70%, 12% 52%, 24% 64%, 38% 46%, 52% 62%, 64% 48%, 78% 60%, 90% 50%, 100% 62%, 100% 100%, 0 100%)",
-        }}
-        animate={reduce ? undefined : { x: [0, 24, 0] }}
-        transition={{
-          duration: 80,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
+      {/* Dark overlay so foreground cards/text/buttons stay readable */}
+      <div className="absolute inset-0 bg-[oklch(0.08_0.02_270/0.55)]" />
 
       {/* Rising ember particles — SMOKE protocol (cannabis energy) */}
       {embers.map((e) => (
