@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef } from "react";
  * silently serve stale or missing content.
  */
 const VIDEO_CDN_BASE =
-  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@238c4484ca17c8c38c0410e14ac580c1e44e3b92/src/frontend/public/assets/video";
+  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@76ad784de3986ec2616bf7e284bd7c73effc4a21/src/frontend/public/assets/video";
 
 const BACKGROUND_VIDEO_MP4 = `${VIDEO_CDN_BASE}/smoke-realm-background.mp4`;
 
@@ -45,9 +45,11 @@ const BACKGROUND_POSTER_SRC =
  * mining town (wooden signs, steam train, lanterns, dusty main street,
  * mountains) infused with cannabis culture.
  *
- * The canvas is rendered as a seamless 10-second video loop generated from
- * that exact still, so the town is alive — smoke curls, lanterns flicker,
- * vegetation sways — without any camera movement. The still itself is the
+ * The canvas is rendered as a seamless 20-second video loop generated from
+ * that exact still: ten seconds of the empty town breathing, then ten of the
+ * street coming to life — cowboys talking and passing a joint, diamonds
+ * tipped from a pouch, a golden revolver caught in the low sun, women in
+ * period dress on the boardwalk. No camera movement throughout. The still itself is the
  * poster and the fallback, so the composition is identical whether the video
  * plays or not.
  *
@@ -182,7 +184,7 @@ export function SmokeBackground() {
         style={{ backgroundImage: `url(${BACKGROUND_POSTER_SRC})` }}
       />
 
-      {/* Seamless 10s loop of that same canvas. Silent by design. */}
+      {/* Seamless 20s loop of that same canvas. Silent by design. */}
       {!reduce && (
         <video
           ref={videoRef}
