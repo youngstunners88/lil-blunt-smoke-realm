@@ -18,16 +18,18 @@ const THEME_TRACK_SRC = "/assets/audio/theme.mp3";
  * component lifetime (not re-created via JSX props), so playback survives
  * re-renders.
  *
- * Autoplay is attempted as soon as the track is ready; browsers that
- * block unmuted autoplay will silently fail, and playback then starts on
- * the first user gesture anywhere on the page instead — except on the
- * toggle button itself, whose own click already carries the play/pause
- * intent and must not be second-guessed by the generic gesture listener.
+ * Browsers always block unmuted autoplay with zero prior interaction, but
+ * always allow *muted* autoplay. So playback starts muted the moment the
+ * track is ready, and the very first gesture anywhere on the page unmutes
+ * it — from the visitor's perspective the theme is already running before
+ * they've even found the toggle button, which only ever needs pressing to
+ * stop or resume playback that has already started.
  */
 export function AmbientAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const userPausedRef = useRef(false);
+  const unlockedRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
@@ -35,6 +37,7 @@ export function AmbientAudioPlayer() {
     audio.loop = true;
     audio.preload = "auto";
     audio.volume = 0.35;
+    audio.muted = true;
     audioRef.current = audio;
 
     const handlePlay = () => setIsPlaying(true);
@@ -52,8 +55,24 @@ export function AmbientAudioPlayer() {
     const tryPlay = () => {
       if (userPausedRef.current || !audio.src) return;
       audio.play().catch(() => {
-        // Autoplay blocked — wait for a user gesture.
+        // Still blocked — a later gesture, or the toggle button, retries.
       });
+    };
+
+    // Unmute on the first real gesture. This is intentionally idempotent
+    // via `unlockedRef` rather than removing the listeners the instant a
+    // gesture fires: a gesture can land before the blob fetch below has
+    // finished, when `audio.src` isn't set yet and `tryPlay` is a no-op.
+    // Removing the listeners at that point (the previous behavior) left
+    // nothing to retry once the fetch *did* resolve — that later `play()`
+    // call happens outside any gesture, so the browser silently blocks it
+    // forever and the track never starts. Leaving the listeners live until
+    // a gesture actually lands after the track is ready fixes that.
+    const unlock = () => {
+      if (unlockedRef.current) return;
+      unlockedRef.current = true;
+      audio.muted = false;
+      tryPlay();
     };
 
     const onGesture = (event: Event) => {
@@ -66,9 +85,7 @@ export function AmbientAudioPlayer() {
         // The toggle button handles its own play/pause intent.
         return;
       }
-      tryPlay();
-      document.removeEventListener("pointerdown", onGesture);
-      document.removeEventListener("keydown", onGesture);
+      unlock();
     };
     document.addEventListener("pointerdown", onGesture);
     document.addEventListener("keydown", onGesture);
@@ -113,6 +130,8 @@ export function AmbientAudioPlayer() {
   const togglePlayback = () => {
     const audio = audioRef.current;
     if (!audio) return;
+    unlockedRef.current = true;
+    audio.muted = false;
     if (audio.paused) {
       userPausedRef.current = false;
       audio.play().catch(() => {});
