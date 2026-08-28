@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef } from "react";
  * silently serve stale or missing content.
  */
 const VIDEO_CDN_BASE =
-  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@76ad784de3986ec2616bf7e284bd7c73effc4a21/src/frontend/public/assets/video";
+  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@95092b5a346c11336e9ded60c4a579f445d115e4/src/frontend/public/assets/video";
 
 const BACKGROUND_VIDEO_MP4 = `${VIDEO_CDN_BASE}/smoke-realm-background.mp4`;
 
@@ -46,12 +46,16 @@ const BACKGROUND_POSTER_SRC =
  * mountains) infused with cannabis culture.
  *
  * The canvas is rendered as a seamless 20-second video loop generated from
- * that exact still: ten seconds of the empty town breathing, then ten of the
- * street coming to life — cowboys talking and passing a joint, diamonds
- * tipped from a pouch, a golden revolver caught in the low sun, women in
- * period dress on the boardwalk. No camera movement throughout. The still itself is the
- * poster and the fallback, so the composition is identical whether the video
- * plays or not.
+ * that exact still: the town breathes, then period characters walk into the
+ * existing street and interact — cowboys talking and passing a joint,
+ * diamonds tipped from a pouch, a golden revolver caught in the low sun,
+ * women in period dress crossing the street — before the street empties
+ * again to close the loop. No camera movement throughout. Generated as one
+ * continuous take (Seedance video-extend, grounded in the actual prior
+ * clip's last frame) rather than two independently-generated clips glued
+ * together, which is what caused an earlier version to read as a visible
+ * cut. The still itself is the poster and the fallback, so the composition
+ * is identical whether the video plays or not.
  *
  * The video is dropped entirely when the user prefers reduced motion. If it
  * fails to decode it needs no error handling: the still is painted beneath
