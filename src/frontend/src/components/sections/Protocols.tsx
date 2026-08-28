@@ -41,6 +41,17 @@ type ProtocolCard = {
   hoverClass: string;
   /** Tailwind text color class for the protocol name. */
   nameTextClass: string;
+  /**
+   * Clip this logo to a circle.
+   *
+   * True only where the source file is opaque with a square background —
+   * the Lil Blunt mark is a JPEG, so its black corners are baked in and a
+   * circular mask is the only way to drop them. Its own cyan ring runs to
+   * the edge of the frame, so the mask removes background and nothing else.
+   * The other two are PNGs with real transparency and must NOT be masked:
+   * doing so cropped into their own ring artwork.
+   */
+  maskToCircle?: boolean;
 };
 
 const PROTOCOLS: readonly ProtocolCard[] = [
@@ -56,6 +67,7 @@ const PROTOCOLS: readonly ProtocolCard[] = [
     hoverClass:
       "hover:-translate-y-1.5 hover:edge-smoke focus-visible:-translate-y-1.5 focus-visible:edge-smoke",
     nameTextClass: "text-[oklch(var(--realm-smoke))]",
+    maskToCircle: true,
   },
   {
     id: "diamonds",
@@ -152,19 +164,25 @@ export function Protocols() {
               {protocol.name}
             </span>
 
-            {/* Circular logo frame — the founder-supplied artwork only, no
-                added ring or glow layered on top of the original file */}
+            {/* Logo — the founder-supplied artwork, shown whole.
+                Each file already carries its own round design (green ring on
+                DIAMONDS, gold chain on GOLD, cyan ring on Lil Blunt) but with
+                different internal padding, so forcing all three through one
+                shared circular frame cropped into that artwork. Masking is
+                now per-file: only the opaque JPEG needs it, to drop its baked
+                black corners. Nothing is stretched, and no ring, border or
+                glow is added on top of any original. */}
             <div className="mt-6 flex items-center justify-center">
-              <div className="flex size-32 items-center justify-center overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04]">
-                <img
-                  src={protocol.logoSrc}
-                  alt={protocol.logoAlt}
-                  loading="lazy"
-                  decoding="async"
-                  className="size-full object-contain object-center"
-                  data-ocid={`protocols.card.${protocol.id}.logo`}
-                />
-              </div>
+              <img
+                src={protocol.logoSrc}
+                alt={protocol.logoAlt}
+                loading="lazy"
+                decoding="async"
+                className={`size-36 object-contain object-center transition-transform duration-300 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${
+                  protocol.maskToCircle ? "rounded-full" : ""
+                }`}
+                data-ocid={`protocols.card.${protocol.id}.logo`}
+              />
             </div>
 
             {/* One-line descriptor */}
