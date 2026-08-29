@@ -136,7 +136,29 @@ def draw_centered(draw, text, font, y, w, fill, line_gap=8):
     return y
 
 
-def render(src: Image.Image, size_name: str, tw: int, th: int, copy: dict) -> Image.Image:
+def paste_logo(canvas: Image.Image, logo_path: str, base: int) -> None:
+    """Drop the circular mascot badge top-centre.
+
+    Game ads live or die on character recognition, so the badge earns its
+    place even though the scrim already carries the brand name. The source
+    logo is an opaque JPEG with square black corners, so it is masked to a
+    circle before compositing.
+    """
+    logo = Image.open(logo_path).convert("RGB")
+    d = max(64, int(base * 0.20))
+    logo = logo.resize((d, d), Image.LANCZOS)
+
+    mask = Image.new("L", (d * 4, d * 4), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, d * 4 - 1, d * 4 - 1), fill=255)
+    mask = mask.resize((d, d), Image.LANCZOS)   # supersampled = clean edge
+
+    x = (canvas.width - d) // 2
+    y = int(base * 0.075)
+    canvas.paste(logo, (x, y), mask)
+
+
+def render(src: Image.Image, size_name: str, tw: int, th: int, copy: dict,
+           logo_path: str | None = None) -> Image.Image:
     src_ratio = src.width / src.height
     tgt_ratio = tw / th
     # A landscape target from portrait art loses too much to a crop.
@@ -148,6 +170,11 @@ def render(src: Image.Image, size_name: str, tw: int, th: int, copy: dict) -> Im
         scrim_frac = 0.40 if th >= tw else 0.50
 
     canvas = add_scrim(canvas, scrim_frac)
+
+    base_for_logo = min(tw, th)
+    if logo_path:
+        paste_logo(canvas, logo_path, base_for_logo)
+
     draw = ImageDraw.Draw(canvas)
 
     # Type scale keyed off the short edge so every size reads the same.
@@ -197,6 +224,8 @@ def main() -> None:
     ap.add_argument("--source", required=True, help="Path to the hero image")
     ap.add_argument("--variant", default="all", choices=["a", "b", "c", "all"])
     ap.add_argument("--outdir", default=str(Path(__file__).parent / "out"))
+    ap.add_argument("--logo", default=None,
+                    help="Optional mascot badge composited top-centre")
     args = ap.parse_args()
 
     src = Image.open(args.source).convert("RGB")
@@ -208,7 +237,7 @@ def main() -> None:
         vdir = Path(args.outdir) / vname
         vdir.mkdir(parents=True, exist_ok=True)
         for size_name, (tw, th) in SIZES.items():
-            img = render(src, size_name, tw, th, copy)
+            img = render(src, size_name, tw, th, copy, logo_path=args.logo)
             out = vdir / f"lilblunt-{vname}-{size_name}.jpg"
             img.save(out, "JPEG", quality=90, optimize=True, progressive=True)
             print(f"  wrote {out}  ({os.path.getsize(out)//1024} KB)")
