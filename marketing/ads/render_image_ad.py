@@ -106,16 +106,24 @@ def fit_contain_blur(img: Image.Image, tw: int, th: int) -> Image.Image:
 
 
 def add_scrim(img: Image.Image, height_frac: float, strength: int = 250) -> Image.Image:
-    """Fade the bottom of the frame to near-black so text stays legible."""
+    """Fade the bottom of the frame to near-black so text stays legible.
+
+    The ramp reaches full strength partway down the band and holds there,
+    rather than easing all the way to the bottom edge. A pure ease meant the
+    middle of the band — exactly where the headline sits — was still only
+    ~a third opaque, so bright artwork showed straight through the type. The
+    hero image is brightest and busiest at the bottom, which is where this
+    matters most.
+    """
     w, h = img.size
     band = int(h * height_frac)
+    # Fraction of the band over which the scrim ramps in; solid below it.
+    ramp = 0.42
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
     for i in range(band):
-        # Ease-in so the top of the scrim melts into the art instead of
-        # showing a hard edge.
         t = i / band
-        alpha = int(strength * (t ** 1.6))
+        alpha = int(strength * min(1.0, (t / ramp) ** 1.5))
         draw.line([(0, h - band + i), (w, h - band + i)], fill=(4, 6, 10, alpha))
     return Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
 
@@ -157,17 +165,87 @@ def paste_logo(canvas: Image.Image, logo_path: str, base: int) -> None:
     canvas.paste(logo, (x, y), mask)
 
 
+def draw_left(draw, text, font, y, x, fill, line_gap=8):
+    """Draw possibly-multiline text left-aligned at x, returning the new y."""
+    for line in text.split("\n"):
+        bbox = draw.textbbox((0, 0), line, font=font)
+        draw.text((x - bbox[0], y - bbox[1]), line, font=font, fill=fill)
+        y += (bbox[3] - bbox[1]) + line_gap
+    return y
+
+
+def render_split(src: Image.Image, tw: int, th: int, copy: dict) -> Image.Image:
+    """Side-by-side layout for wide targets: art right, copy on a solid panel left.
+
+    Letterboxing portrait art into a 1200x628 card leaves most of the frame as
+    blurred filler and still forces the text back on top of the artwork. A
+    split spends the width instead of wasting it: the art keeps its own crop,
+    and the copy gets a clean ground it never has to fight.
+    """
+    art_w = int(tw * 0.52)
+    canvas = Image.new("RGB", (tw, th), (10, 12, 16))
+
+    art = fit_cover(src, art_w, th, focus_y=0.30)
+    canvas.paste(art, (tw - art_w, 0))
+
+    # Feather the art's inner edge into the panel so the seam is not a hard line.
+    feather = int(tw * 0.06)
+    overlay = Image.new("RGBA", (feather, th), (0, 0, 0, 0))
+    od = ImageDraw.Draw(overlay)
+    for i in range(feather):
+        od.line([(i, 0), (i, th)], fill=(10, 12, 16, int(255 * (1 - i / feather))))
+    region = canvas.crop((tw - art_w, 0, tw - art_w + feather, th)).convert("RGBA")
+    canvas.paste(Image.alpha_composite(region, overlay).convert("RGB"), (tw - art_w, 0))
+
+    draw = ImageDraw.Draw(canvas)
+    base = th
+    f_kicker = load_font(FONT_BOLD, max(13, int(base * 0.035)))
+    f_head = load_font(FONT_BOLD, max(26, int(base * 0.088)))
+    f_sub = load_font(FONT_REG, max(14, int(base * 0.036)))
+    f_cta = load_font(FONT_BOLD, max(18, int(base * 0.052)))
+
+    x = int(tw * 0.055)
+    head_lines = copy["headline"].count("\n") + 1
+    block_h = (
+        f_kicker.size * 1.7
+        + f_head.size * 1.22 * head_lines
+        + f_sub.size * 2.1
+        + f_cta.size * 2.0
+    )
+    y = int((th - block_h) / 2)
+
+    y = draw_left(draw, copy["kicker"], f_kicker, y, x, GOLD,
+                  line_gap=int(f_kicker.size * 0.7))
+    y += int(f_kicker.size * 0.55)
+    y = draw_left(draw, copy["headline"], f_head, y, x, WHITE,
+                  line_gap=int(f_head.size * 0.24))
+    y += int(f_head.size * 0.34)
+    y = draw_left(draw, copy["sub"], f_sub, y, x, MUTED,
+                  line_gap=int(f_sub.size * 0.4))
+    y += int(f_sub.size * 0.9)
+
+    cta = copy["cta"]
+    bbox = draw.textbbox((0, 0), cta, font=f_cta)
+    cw, ch = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    px, py = int(f_cta.size * 0.8), int(f_cta.size * 0.45)
+    bw, bh = cw + px * 2, ch + py * 2
+    draw.rounded_rectangle([x, y, x + bw, y + bh], radius=bh / 2, fill=GREEN)
+    draw.text((x + px - bbox[0], y + py - bbox[1]), cta, font=f_cta, fill=(10, 14, 8))
+
+    return canvas
+
+
 def render(src: Image.Image, size_name: str, tw: int, th: int, copy: dict,
            logo_path: str | None = None) -> Image.Image:
     src_ratio = src.width / src.height
     tgt_ratio = tw / th
-    # A landscape target from portrait art loses too much to a crop.
+    # A landscape target from portrait art loses too much to a crop, and
+    # letterboxing wastes the width — split the frame instead.
     if tgt_ratio > src_ratio * 1.15:
-        canvas = fit_contain_blur(src, tw, th)
-        scrim_frac = 0.46
+        return render_split(src, tw, th, copy)
     else:
         canvas = fit_cover(src, tw, th)
-        scrim_frac = 0.40 if th >= tw else 0.50
+        scrim_frac = 0.46 if th >= tw else 0.52
 
     canvas = add_scrim(canvas, scrim_frac)
 
@@ -180,7 +258,7 @@ def render(src: Image.Image, size_name: str, tw: int, th: int, copy: dict,
     # Type scale keyed off the short edge so every size reads the same.
     base = min(tw, th)
     f_kicker = load_font(FONT_BOLD, max(14, int(base * 0.028)))
-    f_head = load_font(FONT_BOLD, max(30, int(base * 0.082)))
+    f_head = load_font(FONT_BOLD, max(28, int(base * 0.072)))
     f_sub = load_font(FONT_REG, max(15, int(base * 0.031)))
     f_cta = load_font(FONT_BOLD, max(20, int(base * 0.046)))
 
