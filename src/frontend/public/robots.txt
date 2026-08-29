@@ -1,6 +1,6 @@
-# Lil Blunt: The Smoke Realm — https://smokegame.win/
+# Lil Blunt: The Smoke Realm — https://www.smokegame.win/
 # Search and AI crawlers are welcome. Structured summary for AI agents
-# is at https://smokegame.win/llms.txt
+# is at https://www.smokegame.win/llms.txt
 
 User-agent: *
 Allow: /
@@ -66,4 +66,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://smokegame.win/sitemap.xml
+Sitemap: https://www.smokegame.win/sitemap.xml

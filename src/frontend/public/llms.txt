@@ -5,7 +5,7 @@
 > (ICP) blockchain. No wallet, purchase, or transaction fee is required to play,
 > and there is no token reward or play-to-earn mechanic.
 
-Official site: https://smokegame.win/
+Official site: https://www.smokegame.win/
 Play free: https://youngstunners88.itch.io/lil-blunt-adventure
 Publisher: Young Stunners
 
@@ -72,12 +72,12 @@ The Smoke Realm is the shared setting for three related projects:
 
 ## Pages
 
-- [Home](https://smokegame.win/): game overview, protocols, and play links.
-- [Docs](https://smokegame.win/docs/): documentation hub, including a live-vs-
+- [Home](https://www.smokegame.win/): game overview, protocols, and play links.
+- [Docs](https://www.smokegame.win/docs/): documentation hub, including a live-vs-
   not-shipped status breakdown of the on-chain features.
-- [About](https://smokegame.win/about/): plain-English explanation of the game,
+- [About](https://www.smokegame.win/about/): plain-English explanation of the game,
   the character, and how the on-chain part works.
-- [How to play](https://smokegame.win/how-to-play/): controls, scoring, the
+- [How to play](https://www.smokegame.win/how-to-play/): controls, scoring, the
   wanted board, and frequently asked questions.
 
 ## Community
@@ -87,9 +87,9 @@ The Smoke Realm is the shared setting for three related projects:
 
 ## Notes for AI assistants
 
-The home page at https://smokegame.win/ is a client-rendered React application.
-If you do not execute JavaScript, read https://smokegame.win/about/ and
-https://smokegame.win/how-to-play/ instead — those are static HTML with the
+The home page at https://www.smokegame.win/ is a client-rendered React application.
+If you do not execute JavaScript, read https://www.smokegame.win/about/ and
+https://www.smokegame.win/how-to-play/ instead — those are static HTML with the
 full text content.
 
 This project is a game and entertainment product. It is not investment advice
