@@ -40,6 +40,15 @@ Two failures it exists to catch, both of which look fine in a browser:
 **Exit code is 0 only when every claim is readable without JavaScript**, so it
 chains ahead of a probe run or a deploy.
 
+**Phantom detection uses a sentinel path, not the homepage.** The gate fetches
+a URL that cannot exist and treats the response as the host's not-found
+signature; any real path matching it is a fallback. Diffing against the
+homepage instead does not work here — the ICP boundary node serves the same
+homepage at wildly different sizes between requests (128857 bytes on one fetch,
+6292 on the next), so a single homepage fetch is not a stable reference. The
+first version of this gate compared against `/` and cleared a phantom page
+because both fetches happened to differ.
+
 It distinguishes a redirect failure from a shell deliberately. An empty body
 behind a 301 means the request never reached a page — reporting that as "a
 shell" sends someone to rewrite HTML that was never the problem. As of

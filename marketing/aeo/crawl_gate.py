@@ -77,6 +77,17 @@ def main() -> int:
         return 2
     claims = json.loads(claims_file.read_text())
 
+    # Fetch a path that cannot exist. Whatever comes back is this host's
+    # not-found behaviour, and any real URL matching it is an SPA fallback.
+    # Comparing against the homepage instead is unreliable: the boundary node
+    # serves the homepage at different sizes between requests, so a single
+    # homepage fetch is not a stable reference to diff against.
+    _, _, sentinel_body = fetch(
+        args.base + "/__crawl_gate_sentinel_does_not_exist__/", args.timeout)
+    sentinel = (hashlib.sha256(sentinel_body.encode()).hexdigest()[:12]
+                if sentinel_body and not sentinel_body.startswith("__ERROR__")
+                else None)
+
     status, final, body = fetch(args.base + "/", args.timeout)
     if body.startswith("__ERROR__"):
         print(f"\n  FAIL  homepage unreachable: {body[10:]}")
@@ -117,18 +128,32 @@ def main() -> int:
             missing.append(key)
         print(f"  {key:<14}{'yes' if ok else 'NO':>9}   {sentence[:44]}")
 
-    print(f"\n  {'path':<22}{'status':>7}{'bytes':>8}  distinct from /")
+    print(f"\n  {'path':<22}{'status':>7}{'bytes':>8}  real page?")
     print("  " + "-" * 66)
+    if sentinel is None:
+        print("  (could not fetch the sentinel path; phantom-page detection off)")
+    phantom = []
     for p in PATHS:
         st, _, b = fetch(args.base + p, args.timeout)
         if b.startswith("__ERROR__"):
             print(f"  {p:<22}{'ERR':>7}{'':>8}  {b[10:60]}")
             continue
         h = hashlib.sha256(b.encode()).hexdigest()[:12]
-        same = (h == home_hash)
-        note = "SAME AS / (SPA fallback)" if same and p != "/" else \
-               ("—" if p == "/" else "yes")
+        if p == "/":
+            note = "—"
+        elif sentinel and h == sentinel:
+            note = "NO — SPA fallback, not a real page"
+            phantom.append(p)
+        else:
+            note = "yes"
         print(f"  {p:<22}{st:>7}{len(b):>8}  {note}")
+
+    if phantom:
+        print(f"\n  {len(phantom)} path(s) return the app shell rather than a "
+              f"document:\n        {', '.join(phantom)}")
+        print("        These answer 200 and look fine in a browser, but a "
+              "crawler sees\n        a duplicate of the homepage. They are not "
+              "indexable as pages.")
 
     if missing:
         print(f"\n  FAIL  {len(missing)} claim(s) missing from crawlable HTML: "
