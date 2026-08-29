@@ -64,6 +64,34 @@ front-page thread as progress toward being recommended by an answer engine —
 those are now two different jobs. The citation half is covered by
 `aeo-ai-discoverability` and lives on our own documentation pages.
 
+### 3b. Profile and directory links
+
+A circulated list of eight easy backlink targets, worth knowing but worth
+scoping honestly — it is built for a **personal brand** chasing a Google
+knowledge panel, not for a game:
+
+| Target | Note |
+|---|---|
+| `personalwebsites.org` | Free directory listing |
+| `slashfriends.org` | Requires a `/friends` page |
+| `nownownow.com` | Requires a `/now` page |
+| `aboutideasnow.com` | Requires a `/now` page |
+| `about.me` | Profile with a link |
+| `apsense.com` | Profile with a link |
+| X profile | Put the site link in the bio |
+| LinkedIn profile | Put the site link in the bio |
+
+**What actually applies here.** The two profile-bio links are free, take a
+minute, and are worth doing. The `/now` and `/friends` directories expect a
+personal site and would require building pages that have nothing to do with the
+game — that fails the topical-centrality rule in `aeo-ai-discoverability` and is
+not worth it.
+
+Treat directory profiles as a small, one-off task, never as a strategy. They are
+low-authority links; a handful is fine and a hundred is a footprint. And none of
+this matters before the site is indexed — see the phase discipline in
+`search-ranking-strategy`, which puts all of it in Phase B.
+
 ### 4. Technical writing
 
 Higher effort, longest-lived payoff. Dev posts get indexed, cited, and

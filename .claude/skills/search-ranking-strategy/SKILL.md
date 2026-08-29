@@ -106,6 +106,63 @@ links from the pages that already exist. Orphan pages do not rank.
   links you control; anything untagged in that column is a mix of organic and
   true direct.
 
+## The operating loop — two phases, and never run them at once
+
+Stress-tested through `model-gauntlet`; full transcript and rejected
+alternatives in `marketing/out/seo-gauntlet.md`.
+
+The single most common way to waste months here is running Phase B work while
+Phase A is unfinished. They look similar and only one of them can pay off.
+
+**Phase A — until the homepage is indexed on Google.**
+
+Nothing else matters, because an unindexed page is never in any answer engine's
+grounding pool. Work only these, in order:
+
+1. **Gate 0: is the raw HTML real?** `curl` the homepage and strip `<script>`.
+   If what remains does not contain the identity sentence, the access claim and
+   a real `<title>`, the site is a JS shell and every later step is wasted. This
+   is the only thing worth fixing that week.
+2. Verify Search Console by DNS, then Request Indexing on `/`.
+3. Verify Bing Webmaster Tools. ChatGPT grounds on Bing, so this is not
+   optional despite Google's share.
+4. Rewrite the itch.io page — it is already indexed and can pass discovery
+   through.
+5. Wait. Days to ~2 weeks. **If 21 days pass with no indexation, the HTML is
+   still a shell or robots is blocking — do not respond by writing more
+   content.**
+
+**Phase A has exactly one win condition:** the homepage flips to indexed in
+Search Console. Not traffic, not a mention, not a good feeling about a page.
+
+**Phase B — after that flip.** Probe, pick *one* on-page change a week, ship it,
+measure. See `aeo-measurement` for the instruments and thresholds.
+
+**At most one on-page change per week.** With near-zero traffic there is no way
+to attribute two simultaneous changes, so a second one does not double the
+learning — it destroys both readings.
+
+## The deploy constraint that shapes everything
+
+**A git push does not deploy.** Production is built by Caffeine from a separate
+codebase; this repo is the source of record, not the deployment path. So the
+real artifact of an SEO change is a **dispatch** — an exact, minimal instruction
+to paste into Caffeine — not a commit.
+
+Three rules for any such dispatch, because a broken build costs far more than
+the change gains:
+
+- **No SSR/SSG conversion, no npm additions, no React Router pages.** Each has a
+  real chance of breaking a build that currently works.
+- **Change the raw HTML of the existing page** rather than adding routes. Extra
+  URLs served by an SPA fallback are the same page wearing a hat; a crawler sees
+  duplicates, not new documents.
+- **Specify exactly what to insert and say "change nothing else."**
+
+Before believing a new URL is a real page, fetch it and compare its body hash to
+the homepage's. Identical hash means the SPA fallback served it and the "page"
+does not exist.
+
 ## The honest ceiling
 
 SEO brings qualified traffic to a free game. Traffic multiplied by a free

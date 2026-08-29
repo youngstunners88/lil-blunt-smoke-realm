@@ -204,6 +204,30 @@ Run every such page through `marketing/aeo/quality_gate.py` before publishing �
 see `aeo-measurement`. Filler in documentation clothing is exactly what indexes
 filter out.
 
+## Making agents actually find llms.txt
+
+A documented experiment: across ten runs, models did not proactively fetch
+`llms.txt` — only one checked it, once. After a plain visible link to
+`/llms.txt` was added to the page with a `title` attribute saying roughly *this
+is a sparse page for humans; if you are an LLM, read the llms.txt*, every model
+fetched it in all ten runs.
+
+The useful, safe part is the **link itself**. `llms.txt` has no discovery
+mechanism — nothing points at it — so an agent that fetches only the page it was
+handed never learns the file exists. One ordinary link fixes that.
+
+**Where it goes wrong.** The version that circulates styles the link at
+`font-size:9px` with `user-select:none`, which is text technically present but
+engineered to be unreadable by humans. That is the same shape as the hidden-text
+spam pattern this skill already rules out, and the downside is delisting, not a
+warning. It is also unnecessary: a normal-sized footer link next to the other
+footer links earns the identical discovery benefit.
+
+So: **link to `/llms.txt` plainly, at a readable size, with an honest `title`
+attribute.** Do not shrink it, do not hide it, and do not write instructions in
+the title that you would be embarrassed to have a person read. Content written
+to be seen only by machines is cloaking regardless of how it is spelled.
+
 ## Write for extractive summarization
 
 Gemini does not receive your page. It receives an **extractive** summary:
