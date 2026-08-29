@@ -16,6 +16,40 @@ python3 marketing/aeo/quality_gate.py draft.md     # gate one page
 python3 marketing/aeo/quality_gate.py --all src/   # gate a tree
 ```
 
+## Run the crawl gate first — it gates everything else
+
+```bash
+python3 marketing/aeo/crawl_gate.py                        # live site
+python3 marketing/aeo/crawl_gate.py --base http://127.0.0.1:8845   # a build
+```
+
+It strips `<script>` from the homepage and checks that every sentence in
+`marketing/aeo/claims.json` survives, then fetches each other URL and compares
+body hashes against the homepage.
+
+Two failures it exists to catch, both of which look fine in a browser:
+
+- **A JS shell.** The site is client-rendered React, so a crawler that does not
+  execute JavaScript can see an empty div. That is not a ranking problem with a
+  content fix; it is an emptiness problem, and content work does nothing while
+  it is true.
+- **SPA-fallback phantom pages.** A single-page app can serve the same shell for
+  every path, so a route that looks like a new page is the homepage wearing a
+  hat. Identical body hash means the page does not exist as a document.
+
+**Exit code is 0 only when every claim is readable without JavaScript**, so it
+chains ahead of a probe run or a deploy.
+
+It distinguishes a redirect failure from a shell deliberately. An empty body
+behind a 301 means the request never reached a page — reporting that as "a
+shell" sends someone to rewrite HTML that was never the problem. As of
+2026-08-29 the live site returns exactly that (see `dns-apex-fix`), while the
+local build passes all five claims.
+
+`claims.json` is the source of truth for the sentences that must be crawlable.
+Change a claim there and the gate starts requiring the new wording — which is
+the point.
+
 ## The method, and why it is shaped this way
 
 Adapted from Dan Petrovic's approach. Three design choices carry the weight:
