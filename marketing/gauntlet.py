@@ -46,31 +46,45 @@ MODELS = {
 # model rather than a truncated one. These floors are what actually produced
 # answers in testing; the brief pushes reasoning much longer, hence the split.
 MIN_TOKENS = 3000
-MIN_TOKENS_BRIEF = 6000
+# Measured, not guessed: at 6000 with the project brief attached, Kimi K3 spent
+# the entire budget reasoning about a multi-part task and returned no content at
+# all — the run silently proceeded with two models instead of three. Reasoning
+# length scales with how many sub-questions the prompt contains, so a gauntlet
+# task needs far more headroom than a council question.
+MIN_TOKENS_BRIEF = 16000
 
 # Anonymous labels: an attacker that knows which model wrote a draft tends to
 # argue with the model's reputation instead of the text in front of it.
 LABELS = "ABCDEFGH"
 
 
-def call(model: str, messages: list[dict], max_tokens: int, timeout: int) -> str:
+def call(model: str, messages: list[dict], max_tokens: int, timeout: int,
+         attempts: int = 2) -> str:
     body = {"model": model, "max_tokens": max_tokens, "messages": messages}
-    req = urllib.request.Request(
-        API,
-        data=json.dumps(body).encode(),
-        headers={
-            "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            d = json.load(r)
-    except urllib.error.HTTPError as e:
-        return f"[ERROR HTTP {e.code}: {e.read().decode(errors='replace')[:200]}]"
-    except Exception as e:  # noqa: BLE001 - report any transport failure verbatim
-        return f"[ERROR {type(e).__name__}: {str(e)[:200]}]"
+    last = ""
+    # A long generation occasionally arrives truncated and json.load raises
+    # JSONDecodeError mid-body. That cost a whole model's contribution to a
+    # 19-minute run, so it is worth one retry rather than a lost proposal.
+    for attempt in range(attempts):
+        req = urllib.request.Request(
+            API,
+            data=json.dumps(body).encode(),
+            headers={
+                "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                d = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            return f"[ERROR HTTP {e.code}: {e.read().decode(errors='replace')[:200]}]"
+        except Exception as e:  # noqa: BLE001 - report any transport failure
+            last = f"[ERROR {type(e).__name__}: {str(e)[:200]}]"
+            if attempt == attempts - 1:
+                return last
 
     if "error" in d:
         return f"[ERROR {str(d['error'])[:200]}]"
