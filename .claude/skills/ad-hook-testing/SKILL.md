@@ -111,6 +111,40 @@ Always write down the prediction *before* looking at results. If you cannot
 say in advance which variant you expect to win and why, the test is not
 measuring an idea — and calibrating that prediction is how judgment is built.
 
+## Diagnosing which part is broken
+
+CTR alone cannot tell you *what* to fix. The funnel has four stages before a
+purchase, and each failure has a different owner — confusing them means fixing
+the wrong thing:
+
+| Symptom | The problem is | Fix |
+|---|---|---|
+| Low click-through | The **creative** — hook, image, promise | Rewrite the hook |
+| Clicks but little scrolling | The **landing page** broke the ad's promise | Match page to hook |
+| Scrolls but no action | The **offer or CTA** isn't convincing | Change the ask |
+| Action but no revenue | The **price or product** (later, once there is one) | — |
+
+This diagnosis is identical whether the final action is "play" or "buy", which
+makes it one of the most transferable things on this page.
+
+## Reading it from real data
+
+The site is instrumented (`src/frontend/src/lib/analytics.ts`), so the stages
+above are observable rather than guessed:
+
+```bash
+python3 marketing/report.py --days 3
+```
+
+It prints visitors, scroll depth, play clicks and **play rate** per
+`utm_content`, and refuses to declare a winner it cannot support — under 100
+visitors per variant, or a gap below 30%, it says so.
+
+Judge creatives on **play rate** (action ÷ visitors), not on clicks. High
+clicks with a low play rate means the ad bought the wrong people — a genuinely
+bad result that looks like a good one inside the ad platform. Ad dashboards
+cannot see this; it is the single most valuable thing the instrumentation adds.
+
 ## Organic is the free hook lab
 
 This is the highest-leverage habit in the whole skill, especially at low
