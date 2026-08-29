@@ -49,8 +49,11 @@ defect on this project.
 | Ranking on Google, keyword strategy, organic traffic | `search-ranking-strategy` |
 | On-page SEO mechanics — titles, JSON-LD, sitemap | `seo-optimization` |
 | Being cited by ChatGPT/Perplexity/AI answers | `aeo-ai-discoverability` |
+| Measuring whether AI search knows us; content quality gate | `aeo-measurement` |
 | Off-site copy — itch.io, Reddit, directories, outreach | `game-distribution` |
 | Paid data/research on a budget | `monid-research` |
+| A second opinion, creative variants | `model-council` |
+| Stress-testing a plan before committing to it | `model-gauntlet` |
 
 **Building and assets**
 
@@ -77,6 +80,16 @@ defect on this project.
 - **`revenue-paths` vs everything marketing** — revenue-paths is the reality
   check. When a task assumes traffic converts to income, it does not yet;
   nothing is purchasable. Say so before optimizing a funnel that ends in $0.
+- **`aeo-ai-discoverability` vs `aeo-measurement`** — discoverability owns the
+  *theory and the on-page work* (how grounding and citation actually work, what
+  to write). Measurement owns the *instruments* (probe loop, share of voice,
+  quality gate). Do not report AI-visibility progress from the first without a
+  reading from the second; "we added structured data" is an action, not a
+  result.
+- **`model-council` vs `model-gauntlet`** — council for width (variants, a
+  quick second read). Gauntlet for depth (a plan that is expensive to get
+  wrong). The gauntlet costs ~6-10x and takes 10-20 minutes; do not use it to
+  pick a headline.
 
 ## Workflows that chain skills
 
@@ -87,8 +100,15 @@ defect on this project.
 
 **Adding a public page** → `search-ranking-strategy` (is this query winnable?)
 → `seo-optimization` (metadata, canonical on www, sitemap entry) →
-`aeo-ai-discoverability` (crawlable without JS) → accuracy check against
-`AGENTS.md` → internal links, because orphan pages do not rank.
+`aeo-ai-discoverability` (crawlable without JS; written to survive extractive
+summarization) → `python3 marketing/aeo/quality_gate.py <page>` (must not come
+back `filler` or `ambiguous`) → accuracy check against `AGENTS.md` → internal
+links, because orphan pages do not rank.
+
+**Claiming AI visibility improved** → `python3 marketing/aeo/probe.py --run
+--report` → compare against the recorded history → a change counts only if it
+holds for **three consecutive runs**. One good run is noise; these are small
+samples against non-deterministic models.
 
 **Any visual change** → `impeccable` → `brand-links` if a logo or handle is
 involved → verify against `DESIGN.md`'s material system.
