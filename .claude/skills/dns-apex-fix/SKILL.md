@@ -52,3 +52,31 @@ curl -sI https://smokegame.win | head -5
 # Fix A: HTTP/2 200
 # Fix B: HTTP/2 301 Location: https://www.smokegame.win/
 ```
+
+## Gotcha: URL forwarding clobbers the www CNAME (redirect loop)
+
+Observed 2026-08-29. Enabling NameSilo **URL Forwarding** to redirect the apex
+replaced the working `www` CNAME with A records pointing at NameSilo's HTTP
+forwarding servers (207.246.78.75, 45.77.75.133, 45.77.92.157), and applied the
+forward to `www` as well as `@`. Result: `www.smokegame.win` 301-redirects to
+`https://www.smokegame.win/` — an **infinite loop**, and the game becomes
+unreachable (worse than the original apex-only error).
+
+There is **no nginx/Caddy/app redirect** in this stack — ICP serves the asset
+canister directly and does no host-based redirect. Any self-redirect on `www`
+is DNS: the `www` record is pointing at a forwarder instead of ICP.
+
+Fix:
+1. Delete the three `www` A records (the NameSilo forwarder IPs).
+2. Re-add `www` as CNAME -> `www.smokegame.win.icp1.io`.
+3. Scope the URL forward to `smokegame.win` (apex) ONLY.
+
+Then apex forwards to www, and www serves the game via ICP. Verify:
+```bash
+curl -sI https://www.smokegame.win | grep -i '^HTTP'   # want 200, not 301
+curl -sI https://smokegame.win | grep -iE '^HTTP|^location'  # want 301 -> www
+```
+
+If choosing Fix A (full ICP at apex) instead, skip forwarding entirely so this
+cannot recur — but apex-on-ICP needs the domain registered with the boundary
+node, not just DNS records.
