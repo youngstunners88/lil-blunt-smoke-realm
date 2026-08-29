@@ -148,9 +148,101 @@ validator before considering a change done.
 - Claiming things the product does not do. AI systems cross-reference sources;
   a claim contradicted elsewhere damages the whole page's credibility.
 
+## How AI visibility actually works — the model that explains the rest
+
+Source: Dan Petrovic (Dejan) on the Ahrefs podcast, plus Promptwatch citation
+data. This corrects the intuition most AEO advice is built on.
+
+**LLMs do not crawl the web.** They query a conventional search index and
+re-rank what comes back. ChatGPT leans on Bing, Gemini on Google, Claude on
+Brave. The model never goes looking for you — it re-orders a grounding pool
+handed to it by a search engine. **So classic indexation is a precondition, not
+a parallel track.** If the site does not rank, it is never in the pool to be
+re-ranked, and no amount of `llms.txt` polish changes that.
+
+This is why `search-ranking-strategy`'s "is it even indexed?" question comes
+before anything in this skill.
+
+**Three different things, routinely conflated:**
+
+| Term | Meaning | Worth |
+|---|---|---|
+| Grounding | Your page is handed to the model as candidate context | Entry ticket |
+| Citation | The model attributes a sentence to it | Useful |
+| Mention | Your brand is actually named | The goal |
+
+A **linked mention** is the win. Being a grounding source that never gets named
+earns nothing. Optimise for being nameable, not merely retrievable.
+
+**Two biases decide the outcome.** Primary: what the model absorbed about the
+brand during pre-training. Secondary: what search returns at query time. A
+model that already thinks well of a brand will promote it from the bottom of
+the grounding list; one that does not may omit it even when it ranks well.
+Seeding pre-training is out of reach at this budget — that is a
+million-dollar exercise. On-page work against the secondary bias is not.
+
+## What changed in 2026: the citation substrate moved
+
+Promptwatch measured a reversal that invalidates a lot of standing advice:
+
+- **Reddit: ~15% of ChatGPT citations → zero.** It is rejected from grounding
+  over 90% of the time even when it appears in the pool.
+- **G2 / Capterra / Trustpilot: ~7% → zero.**
+- **Help centres and documentation: surged to 32%.**
+
+So "post on Reddit for AI visibility" is now wrong as a *citation* strategy.
+Reddit still has value for reaching humans — see `game-distribution`, which
+scopes it that way — but it is no longer a path into AI answers.
+
+**Documentation-style pages on your own site are what get cited now.** For this
+project that means the highest-leverage content is not more marketing copy; it
+is genuine reference material: controls, requirements, troubleshooting,
+mechanics, "why is the screen black". Pages that answer a specific question
+completely and verifiably.
+
+Run every such page through `marketing/aeo/quality_gate.py` before publishing —
+see `aeo-measurement`. Filler in documentation clothing is exactly what indexes
+filter out.
+
+## Write for extractive summarization
+
+Gemini does not receive your page. It receives an **extractive** summary:
+verbatim fragments of your text, cut out and joined by ellipses, selected
+against a fan-out query you never see. Abstractive rewriting would destroy
+meaning, so Google takes literal excerpts — but the compression still drops
+whatever did not get selected.
+
+**What survives that cut is what argues for you.** Practical consequences:
+
+- **Make each claim survive removal from its paragraph.** "It is free" is
+  useless as an excerpt. "Lil Blunt: The Smoke Realm is free to play in a
+  browser with no wallet, download, or account" survives alone.
+- **Front-load the load-bearing sentence** in every section. Selection favours
+  openers.
+- **Do not spread one fact across three sentences.** Anaphora ("it", "this",
+  "the game") breaks when the antecedent is cut away. Repeat the noun.
+- **Self-contained beats elegant.** Mild repetition across sections is correct
+  here, not sloppy.
+
+## Measure it, do not assume it
+
+`aeo-measurement` covers the probe loop that records whether any of this is
+working — entity fan-out questions, share of voice over time, and the
+competitor citation-mining list. Two rules from it that matter most:
+
+- **Grounding must stay ON** when probing, or you measure a frozen training
+  snapshot rather than the live index.
+- **A change counts only when it holds for three consecutive runs.** Models are
+  non-deterministic and samples are small.
+
 ## The real bottleneck
 
 AI systems mostly surface what is **corroborated across multiple independent
-sources**. On-site work makes the site readable and quotable — necessary, not
-sufficient. Getting mentioned elsewhere is the other half; see the
-`game-distribution` skill for that.
+sources**, and they only ever see what a search index already surfaced. On-site
+work makes the site readable, quotable and extractable — necessary, not
+sufficient. The other half is being in the index at all, and being mentioned
+elsewhere: see `search-ranking-strategy` and `game-distribution`.
+
+The fastest documented route into the grounding pool is not building a new page
+and waiting: it is **getting listed on a page that is already cited** for your
+target query. `marketing/aeo/probe.py --report` prints exactly that list.

@@ -13,7 +13,8 @@ interesting part.
     python3 marketing/council.py --file brief.md --models kimi,grok
     python3 marketing/council.py "..." --system "You are a direct-response copywriter."
 
-Verified working August 2026: kimi-k3, qwen3.8-max, grok-4.6.
+Verified working August 2026: kimi-k3, grok-4.6, gemini-3.7-flash,
+qwen3.8-max.
 """
 
 from __future__ import annotations
@@ -34,6 +35,7 @@ MODELS = {
     "kimi": "moonshotai/kimi-k3",
     "qwen": "qwen/qwen3.8-max",
     "grok": "x-ai/grok-4.6",
+    "gemini": "google/gemini-3.7-flash",
 }
 
 # Kimi and Qwen are reasoning models: they emit a `reasoning` block before any
@@ -99,7 +101,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("prompt", nargs="?", help="The question (or use --file)")
     ap.add_argument("--file", help="Read the prompt from a file")
-    ap.add_argument("--models", default="kimi,qwen,grok",
+    ap.add_argument("--models", default="kimi,grok,gemini",
                     help="Comma-separated aliases: " + ",".join(MODELS))
     ap.add_argument("--system", help="Optional system prompt")
     # A plain flag, not an optional-value option: with nargs="?" a bare

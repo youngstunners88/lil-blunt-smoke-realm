@@ -13,3 +13,5 @@ dist/
 # other lockfile entries work.
 .agents/
 .claude/skills/impeccable
+__pycache__/
+*.pyc

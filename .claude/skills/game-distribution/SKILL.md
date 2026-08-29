@@ -52,6 +52,18 @@ sign-in, scores on chain), not with marketing.
 Read each community's self-promotion rules first — most have a designated
 thread or day, and posting outside it gets removed and can earn a ban.
 
+**Post here to reach people, not to reach AI.** Promptwatch measured Reddit
+falling from roughly 15% of ChatGPT citations to zero, with a rejection rate
+above 90% even when a Reddit thread does make it into the grounding pool; G2,
+Capterra and Trustpilot collapsed the same way. Advice to "get on Reddit for AI
+visibility" is out of date.
+
+Reddit still earns real players, real feedback, and occasionally a real link,
+which is why it stays on this list at this position. Just do not count a
+front-page thread as progress toward being recommended by an answer engine —
+those are now two different jobs. The citation half is covered by
+`aeo-ai-discoverability` and lives on our own documentation pages.
+
 ### 4. Technical writing
 
 Higher effort, longest-lived payoff. Dev posts get indexed, cited, and
