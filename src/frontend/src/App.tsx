@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/Hero";
 import { OnChainPoints } from "@/components/sections/OnChainPoints";
 import { PlayGame } from "@/components/sections/PlayGame";
 import { Protocols } from "@/components/sections/Protocols";
+import { initAnalytics } from "@/lib/analytics";
 import { useEffect } from "react";
 
 /**
@@ -28,6 +29,11 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
+
+  // Product analytics: records the pageview, engagement depth, and — via the
+  // Play Game CTAs — the click through to the game, all keyed to the campaign
+  // that delivered the visitor. Returns its own listener cleanup.
+  useEffect(() => initAnalytics(), []);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">

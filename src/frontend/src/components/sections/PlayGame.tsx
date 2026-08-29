@@ -1,4 +1,5 @@
 import { NeonButton } from "@/components/ui/NeonButton";
+import { trackPlayClick } from "@/lib/analytics";
 import { Gamepad2, Gem, Pickaxe, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
@@ -134,6 +135,7 @@ export function PlayGame() {
             size="xl"
             href={PLAY_GAME_HREF}
             external
+            onClick={() => trackPlayClick("showcase")}
             ariaLabel="Play Lil Blunt: The Smoke Realm on itch.io (opens in a new tab)"
             data-ocid="showcase.play_game_button"
           >

@@ -1,5 +1,6 @@
 import { ConnectWalletModal } from "@/components/ConnectWalletModal";
 import { NeonButton } from "@/components/ui/NeonButton";
+import { trackPlayClick } from "@/lib/analytics";
 import { BLAZE_LOGO_SRC, LIL_BLUNT_LOGO_SRC } from "@/lib/brand";
 import { Gamepad2, Triangle, Wallet } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -302,6 +303,7 @@ export function Hero() {
             size="xl"
             href={PLAY_GAME_HREF}
             external
+            onClick={() => trackPlayClick("hero")}
             ariaLabel="Play Lil Blunt: The Smoke Realm on itch.io (opens in a new tab)"
             data-ocid="hero.play_game_button"
           >
