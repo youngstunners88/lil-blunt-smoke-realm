@@ -1,6 +1,6 @@
 ---
 name: dns-apex-fix
-description: Fix smokegame.win apex domain (no A record, shows error). www resolves fine via ICP; apex needs DNS records. Provides manual NameSilo steps and API commands for when write access is enabled.
+description: Fix smokegame.win DNS — the apex-to-www redirect and the www-to-itself infinite redirect loop that NameSilo URL forwarding causes by clobbering the www CNAME. Use when the site is unreachable, shows a redirect error, loops, or when checking whether DNS is actually serving the game.
 ---
 
 # smokegame.win Apex DNS Fix
@@ -80,3 +80,36 @@ curl -sI https://smokegame.win | grep -iE '^HTTP|^location'  # want 301 -> www
 If choosing Fix A (full ICP at apex) instead, skip forwarding entirely so this
 cannot recur — but apex-on-ICP needs the domain registered with the boundary
 node, not just DNS records.
+
+## Verifying the loop is actually gone (do not take a browser at its word)
+
+A browser will show a cached copy of the site long after DNS has broken, so
+"it looks fine to me" is not evidence. Check the authoritative record and a
+public resolver, not a page render:
+
+```bash
+# What NameSilo actually holds
+curl -s "https://www.namesilo.com/api/dnsListRecords?version=1&type=xml&key=${NAMESILO_API_KEY}&domain=smokegame.win"
+
+# What the world resolves — should be a CNAME to ICP, NOT the forwarder IPs
+curl -s "https://dns.google/resolve?name=www.smokegame.win&type=A"
+
+# The loop test: www must answer 200, never 301 to itself
+curl -sI https://www.smokegame.win | grep -iE '^HTTP/2|^location'
+```
+
+**The forwarder IPs are `207.246.78.75`, `45.77.75.133`, `45.77.92.157`.** If
+`www` resolves to any of those, the CNAME to ICP is still missing and the loop
+is live regardless of what a browser shows.
+
+Checked 2026-08-29 after the forwarding was set up: `www` still resolved to all
+three forwarder IPs on both Google and Cloudflare public DNS, and
+`https://www.smokegame.win` still returned `301 → https://www.smokegame.win/`.
+`curl -L` gives up with exit 47, too many redirects.
+
+**Why this outranks every other task when it is true.** A crawler that meets an
+infinite redirect loop does not index the page — it drops the URL. Search
+Console will report a redirect error rather than a ranking problem. So while
+this is broken, every hour spent on content, structured data or AI visibility
+banks nothing: there is no reachable page for any of it to attach to. Fix the
+loop first, then resume.
