@@ -13,6 +13,25 @@ frame by frame.
 Read `gameplay-capture` for what is still *not* possible (skilled play, boss
 fights). This skill is the part that does work.
 
+## Two capture paths
+
+**Xvfb + x11grab (preferred).** `marketing/recorder/record_xvfb.sh 60 out.mp4`
+runs a real X server, puts the browser on it, and lets ffmpeg grab the display
+at a constant 30fps. Output is full 1920x1080 at real-time pacing. Input goes
+through `xdotool`, which talks to X directly — CDP input over Xvfb kept missing
+the menu because the infobars changed the viewport aspect and moved every
+element. `--disable-infobars --test-type` removes those banners; without them
+they appear in the recording and steal ~104px.
+
+**CDP screencast (fallback).** `record_game.mjs` captures frames from a
+headless browser with no X server. Lower and irregular framerate, but it emits
+a manifest with per-frame timestamps and named marks, which makes precise
+segment extraction easy.
+
+Both feed the same composer:
+`compose_vertical.py --video out.mp4 --ss 12 --t 20` for the x11grab path, or
+`--rec /tmp/rec --segment a:b` for the frame path.
+
 ## The pipeline
 
 ```bash
@@ -71,3 +90,12 @@ reach a boss. For boss footage a human has to play; then use
 
 Never present automated footage as a skilled run, and never imply the montage
 shows content it does not.
+
+**Consider not shipping it at all.** Asked to review this, Kimi made the point
+that matters: in a game whose pitch is high-score chasing, footage of clumsy
+play reads as *janky game*, not *hard game* — and a bad video ad underperforms
+no video ad while poisoning the comparison against the image set. The recorder
+is genuinely useful for QA, for checking a build boots, and for grabbing stills.
+Using its output as the hero creative because the tooling exists is a
+sunk-cost decision. A human recording one clean 20-second run clears that bar;
+no boss is needed, just competent movement.

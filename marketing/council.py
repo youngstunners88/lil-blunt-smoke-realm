@@ -42,12 +42,16 @@ MODELS = {
 # This floor is high enough that reasoning finishes and an answer follows.
 MIN_TOKENS = 1500
 
+# A context pack pushes reasoning much longer, so the floor rises with --brief.
+# At 1500 with a brief attached, Kimi reliably starves before answering.
+MIN_TOKENS_BRIEF = 5000
+
 
 def ask(alias: str, model: str, prompt: str, system: str | None,
-        max_tokens: int, timeout: int) -> dict:
+        max_tokens: int, timeout: int, min_floor: int = MIN_TOKENS) -> dict:
     body = {
         "model": model,
-        "max_tokens": max(max_tokens, MIN_TOKENS),
+        "max_tokens": max(max_tokens, min_floor),
         "messages": (
             ([{"role": "system", "content": system}] if system else [])
             + [{"role": "user", "content": prompt}]
@@ -98,6 +102,14 @@ def main() -> int:
     ap.add_argument("--models", default="kimi,qwen,grok",
                     help="Comma-separated aliases: " + ",".join(MODELS))
     ap.add_argument("--system", help="Optional system prompt")
+    # A plain flag, not an optional-value option: with nargs="?" a bare
+    # `--brief "the question"` silently consumes the prompt as the filename.
+    ap.add_argument("--brief", action="store_true",
+                    help="Prepend the project context pack as the system "
+                         "prompt. Without it these models do not know the "
+                         "accuracy rules and will suggest play-to-earn copy.")
+    ap.add_argument("--brief-file", default="marketing/kimi-brief.md",
+                    help="Which context pack --brief loads")
     ap.add_argument("--max-tokens", type=int, default=2000)
     ap.add_argument("--timeout", type=int, default=300)
     ap.add_argument("--json", action="store_true", help="Emit raw JSON")
@@ -114,6 +126,13 @@ def main() -> int:
         print("Give a prompt argument or --file.", file=sys.stderr)
         return 1
 
+    system = args.system
+    min_floor = MIN_TOKENS
+    if args.brief:
+        min_floor = MIN_TOKENS_BRIEF
+        brief = open(args.brief_file).read()
+        system = f"{brief}\n\n{system}" if system else brief
+
     chosen = []
     for a in [x.strip() for x in args.models.split(",") if x.strip()]:
         if a not in MODELS:
@@ -126,8 +145,8 @@ def main() -> int:
     # 60-second council into three minutes.
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(chosen)) as pool:
         futures = [
-            pool.submit(ask, a, MODELS[a], prompt, args.system,
-                        args.max_tokens, args.timeout)
+            pool.submit(ask, a, MODELS[a], prompt, system,
+                        args.max_tokens, args.timeout, min_floor)
             for a in chosen
         ]
         results = [f.result() for f in futures]

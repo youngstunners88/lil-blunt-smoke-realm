@@ -64,9 +64,60 @@ def build_concat(rec: Path, frames: list[dict], out: Path) -> None:
     out.write_text("\n".join(lines) + "\n")
 
 
+def video_filter(args, title: str, cta: str) -> str:
+    """The shared 9:16 look: game centred full-width on a branded field."""
+    crop = (f"crop=iw*{args.zoom}:ih:(iw-iw*{args.zoom})/2:0,"
+            if args.zoom < 1 else "")
+    return (
+        f"{crop}"
+        f"scale={GAME_W}:-2,"
+        f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:{BG},"
+        f"drawtext=fontfile={FONT_BOLD}:text='{esc(title)}':"
+        f"fontcolor=white:fontsize=46:x=(w-text_w)/2:y={int(H*0.20)},"
+        f"drawtext=fontfile={FONT_BOLD}:text='{esc(SUBLINE)}':"
+        f"fontcolor={GOLD}:fontsize=30:x=(w-text_w)/2:y={int(H*0.245)},"
+        f"drawtext=fontfile={FONT_BOLD}:text='{esc(cta)}':"
+        f"fontcolor={GREEN}:fontsize=52:x=(w-text_w)/2:y={int(H*0.755)},"
+        f"fps={args.fps},format=yuv420p"
+    )
+
+
+def compose_from_video(args) -> int:
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    vf = video_filter(args, args.title, args.cta)
+    if args.speed != 1.0:
+        vf = f"setpts=PTS/{args.speed}," + vf
+
+    cmd = ["ffmpeg", "-y"]
+    # -ss before -i seeks on the input, which is far faster and accurate
+    # enough here because the source is a constant-rate 30fps recording.
+    if args.ss:
+        cmd += ["-ss", str(args.ss)]
+    cmd += ["-i", args.video]
+    if args.t:
+        cmd += ["-t", str(args.t)]
+    cmd += ["-vf", vf, "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+            "-movflags", "+faststart", "-an", str(out)]
+    run(cmd)
+
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries",
+         "format=duration:stream=width,height",
+         "-of", "default=noprint_wrappers=1", str(out)],
+        capture_output=True, text=True)
+    print(f"wrote {out}\n{probe.stdout.strip()}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--rec", required=True, help="Capture dir from record_game.mjs")
+    ap.add_argument("--rec", help="Capture dir from record_game.mjs (frame path)")
+    ap.add_argument("--video", help="A recorded video instead (x11grab path)")
+    ap.add_argument("--ss", type=float, default=0.0,
+                    help="With --video: seconds to seek before the clip starts")
+    ap.add_argument("--t", type=float,
+                    help="With --video: clip length in seconds")
     ap.add_argument("--out", default="marketing/gameplay/smoke-realm-vertical.mp4")
     ap.add_argument("--segment", help="start_mark:end_mark to trim to")
     ap.add_argument("--speed", type=float, default=1.0,
@@ -79,6 +130,16 @@ def main() -> int:
                          "<1 crops the sides so the game fills more height "
                          "and leaves less dead space in a 9:16 frame.")
     args = ap.parse_args()
+
+    if not args.rec and not args.video:
+        print("Give --rec (frame capture) or --video (x11grab capture).",
+              file=sys.stderr)
+        return 1
+
+    # The x11grab path already has an evenly-paced video, so it skips the
+    # concat-with-real-durations step the frame path needs.
+    if args.video:
+        return compose_from_video(args)
 
     rec = Path(args.rec)
     manifest = json.loads((rec / "manifest.json").read_text())

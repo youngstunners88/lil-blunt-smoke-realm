@@ -11,9 +11,24 @@ answer, so agreement is real signal and disagreement is the interesting part.
 
 ```bash
 python3 marketing/council.py "Critique this hook: 'They tried to tax the vibe'"
-python3 marketing/council.py --file brief.md --models kimi,grok
+python3 marketing/council.py --models kimi --brief "What is the biggest risk here?"
 python3 marketing/council.py "..." --system "You are a direct-response copywriter."
 ```
+
+## Always pass --brief for project questions
+
+`--brief` prepends `marketing/kimi-brief.md`, which carries the accuracy
+rules, what already exists, the cannabis ad-review risk, the brand-name
+collision, and the fact that nothing is for sale yet. Without it these models
+do not know any of that and will confidently suggest play-to-earn copy and
+$500/month plans.
+
+The difference is stark. Bare prompt: hooks about "reefer riches" that fail
+the accuracy check. With `--brief`: a correctly-scoped answer that references
+the real funnel and flags the real risks.
+
+A brief makes reasoning much longer, so the token floor rises to 5000
+automatically under `--brief`. At 1500 Kimi reliably starves before answering.
 
 ## The roster
 
@@ -43,10 +58,16 @@ else.
   one model's five options tend to share its tics. Good raw material for the
   variant testing in `ad-hook-testing`.
 - **Adversarial review.** "What is wrong with this plan?" against all three
-  surfaces objections a single perspective misses. On its first real run, Kimi
-  independently flagged that **TikTok restricts cannabis-referencing content
-  even as game theme**, which is a live ad-review risk for this project that
-  had not otherwise come up.
+  surfaces objections a single perspective misses. Kimi has twice caught things
+  worth acting on: that **TikTok restricts cannabis-referencing content even as
+  game theme**, and — asked about the automated gameplay recorder — that
+  shipping bot-played footage is a **sunk-cost trap**, because clumsy play reads
+  as "janky game" rather than "hard game". Both were correct and neither had
+  come up otherwise.
+
+  Ask it specifically what is wrong, and tell it to be blunt. Asked neutrally
+  it produces balanced summaries; asked adversarially it produces the objection
+  you needed.
 - **Cross-checking a factual claim** before it goes in public copy.
 
 ## What it is not for
