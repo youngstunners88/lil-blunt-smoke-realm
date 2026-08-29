@@ -1,17 +1,24 @@
-# Ad source assets
+# Ad source assets — hero.png READY FOR CLAUDE CODE
 
-**Required file for Claude Code render pipeline:**
-`marketing/ads/source/hero.png`
+**Path Claude Code is waiting on:**
+```
+marketing/ads/source/hero.png
+```
 
-Once this file is present, Claude Code will render all five sizes × both variants in ~10 seconds.
+## Status
+- Directory created
+- `decode_hero.sh` present (for base64 reconstruction if needed)
+- Full-quality source image is available in the Grok project artifacts as `hero.png` (PNG) and `hero_source.jpeg`
 
-## How to add the hero (Lil Blunt cowboy / $GOLD nuggets / $DIAMONDS ice cream)
+## To finish in < 10 seconds
+1. Download the image from the Grok chat / artifacts (`hero.png` or the original JPEG).
+2. Save it exactly as `marketing/ads/source/hero.png` in this repo (or your local clone).
+3. Tell Claude Code: "hero.png is in place — render all five sizes × both variants now."
 
-1. Take the image from the conversation attachment (IMG_2270.jpeg) or from the Grok project artifacts (`hero.png` / `hero_source.jpeg`).
-2. Save / convert it to PNG and place it exactly at:
-   ```
-   marketing/ads/source/hero.png
-   ```
-3. Commit and push, or let Claude Code pick it up if the working tree already has it.
+Claude Code already has the render pipeline ready. Once the file exists on disk in that path it will generate everything in about ten seconds.
 
-The directory was created 2026-08-29 so the path is ready. Everything else in the ads pipeline is done and waiting on this single file.
+If you prefer base64 reconstruction instead:
+```bash
+cd marketing/ads/source
+bash decode_hero.sh   # after the .b64 parts are present
+```
