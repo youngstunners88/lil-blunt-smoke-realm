@@ -62,6 +62,9 @@ defect on this project.
 | Paid data/research on a budget | `monid-research` |
 | Keyword volume, competitor gaps, real SERP data | `search-intelligence` |
 | Before planning; after a surprising result | `learning-loop` |
+| Before substantial work; "what am I missing?" | `blind-spots` |
+| Backlinks, outreach, link prospecting | `backlink-building` |
+| Which model to use next; closing a session | `model-selection` |
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
 

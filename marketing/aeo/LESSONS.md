@@ -137,3 +137,13 @@ shape rather than by a fixed number.
 **Evidence.** Confirmed by the project owner on 2026-08-30, in response to the discrepancy raised from frames of build 2026-08-26d.
 
 **What it changes.** Wild-west keyword targeting and site copy stand as written. Store and ad copy may describe the game as a Wild West platformer. Screenshots should favour Wild West areas over the intro forest so the first impression matches the promise. Because the counters are scores and not holdings, do not let store copy imply anything accrues; the site's existing 'playing awards no tokens' line stays exactly as it is.
+
+---
+
+## 2026-08-30 — Every backlink to smokegame.win is SEO spam, all nofollow
+
+**Claim.** The site has no legitimate backlinks. All referring domains are SEO-services spam (toprankauthority.shop, backlinkshop.site, rankseohub.shop, seonix.agency, grow-fast.website, seodaro.com, seolinkexpress.shop, itxoft-reliable-seo-services.site), every one nofollow, all first seen 23-27 Aug 2026.
+
+**Evidence.** Ahrefs /site-explorer/refdomains via Monid, saved at marketing/aeo/market/refdomains-smokegame.win.json. Every row shows dofollow_links: 0.
+
+**What it changes.** Treat the backlink profile as starting from zero, not from something to clean up. This is the routine spam spray new domains get from firms hoping the owner notices and buys; the links are nofollow so they pass nothing, and Google ignores this pattern rather than penalising it. Do not disavow, do not panic, and above all do not buy links from any of these senders. Real link building starts at zero.

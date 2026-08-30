@@ -44,6 +44,8 @@ PRICES = {
     "competitors": ("ahrefs", "/site-explorer/organic-competitors", 0.042),
     "pages": ("ahrefs", "/site-explorer/pages-by-traffic", 0.168),
     "history": ("ahrefs", "/site-explorer/metrics-history", 0.063),
+    "refdomains": ("ahrefs", "/site-explorer/refdomains", 0.018),
+    "authority": ("ahrefs", "/site-explorer/domain-rating", 0.006),
 }
 
 SITE = "smokegame.win"
@@ -193,6 +195,43 @@ def cmd_ours(args) -> int:
     return 0
 
 
+def cmd_refdomains(args) -> int:
+    """Who links to a target. Against a competitor this is the prospect list.
+
+    Worth being clear about what a link is for here. Ranking in this niche was
+    measured at roughly 20 visits/month for the best available term
+    (LESSONS.md), so links chased for ranking are optimising a prize that is
+    nearly worthless. Links are still worth having for two other reasons:
+    referral clicks from people who actually read the page, and being present
+    on pages that answer engines retrieve. Both favour a small relevant blog
+    over a high-authority page nobody reads, which is the opposite of how
+    link-building is usually scored.
+    """
+    provider, endpoint, unit = PRICES["refdomains"]
+    print(f"\n  up to {args.limit} referring domains x ${unit}/row  "
+          f"target={args.target}")
+    confirm(args.limit * unit, args.max_spend, args.yes)
+
+    # refdomains takes no date parameter, unlike the other site-explorer
+    # endpoints; passing one is rejected outright.
+    d = run_monid(provider, endpoint,
+                  {"target": args.target, "limit": args.limit,
+                   "mode": "subdomains"})
+    rows = rows_of(d)
+    if not rows:
+        print("\n  No referring domains returned. For our own domain that is "
+              "the\n  expected reading — nothing links to it yet.")
+    print(f"\n  {'referring domain':<40}{'DR':>5}{'links':>7}")
+    print("  " + "-" * 54)
+    for r in rows:
+        print(f"  {str(r.get('domain') or r.get('refdomain'))[:39]:<40}"
+              f"{str(r.get('domain_rating', '-')):>5}"
+              f"{str(r.get('links_to_target') or r.get('backlinks', '-')):>7}")
+    print(f"\n  billed ${spent(d):.3f}")
+    save(f"refdomains-{args.target.replace('/', '_')}", rows)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -223,12 +262,18 @@ def main() -> int:
     o = sub.add_parser("ours", help="Our own domain footprint (cheap)")
     common(o)
 
+    r = sub.add_parser("refdomains", help="Who links to a target")
+    r.add_argument("--target", default=SITE)
+    r.add_argument("--limit", type=int, default=15)
+    common(r)
+
     args = ap.parse_args()
     return {
         "keywords": cmd_keywords,
         "competitors": cmd_competitors,
         "their-keywords": cmd_their_keywords,
         "ours": cmd_ours,
+        "refdomains": cmd_refdomains,
     }[args.cmd](args)
 
 
