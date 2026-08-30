@@ -69,25 +69,26 @@ its own browse and search independent of Google:
 slug breaks every existing link, and the views already accumulated are not
 worth resetting.
 
-## The blocker on writing the description
+## Theme and counters — resolved 2026-08-30
 
-Recorded gameplay of build `2026-08-26d` shows a **pink mushroom fantasy
-forest**, not the "1800s Wild West mining town" the website describes, and the
-HUD shows `GOLD · DIAMONDS · TITANX · wBTC · XAUT · BLAZE DIAMONDS · VESTING 0%`
-against a site that states plainly that playing awards no tokens.
+Captured footage of build `2026-08-26d` showed a pink mushroom fantasy forest
+rather than the Wild West setting the site describes, which raised a genuine
+mismatch. The owner confirmed:
 
-Two questions must be answered by the owner before store copy can be written
-honestly, and both are recorded in `marketing/aeo/LESSONS.md`:
+- **The Wild West framing is correct.** The mushroom forest is an introductory
+  area, thematically justified because Lil Blunt is himself a weed leaf.
+- **The HUD counters are score counters**, still in progress — not holdings.
 
-1. Is the mushroom forest one area of a broadly Wild West game, or is the
-   Wild West framing describing a different product than the one that ships?
-2. Are the token counters cosmetic score names, or do they represent something
-   accruing?
+So wild-west keyword targeting and store copy stand. Two consequences that
+still bind:
 
-**Do not write around this.** A store description is the page a disappointed
-player compares the game against, and the keyword targeting downstream of it
-(`search-ranking-strategy`) currently aims at wild-west terms. If the theme
-does not match, that traffic bounces and the bounce is deserved.
+- **Choose Wild West screenshots over intro-forest ones.** The first image a
+  player sees should match the promise the copy makes, or the page creates its
+  own bounce.
+- **Nothing in store copy may imply the counters accrue.** The description in
+  `page-content.md` ends with the line stating scores are not on-chain and
+  playing awards no tokens; keep it, and keep it in the description rather than
+  buried in a FAQ.
 
 ## Uploading a build
 

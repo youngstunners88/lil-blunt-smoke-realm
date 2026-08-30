@@ -88,44 +88,57 @@ itch.io allows up to 10 and runs its own internal search on them. Safe,
 accurate ones regardless of the theme question:
 
 ```
-2d, platformer, arcade, html5, singleplayer, pixel-art, high-score, free
+wild-west, western, 2d, platformer, arcade, html5, pixel-art, high-score, free, singleplayer
 ```
 
-Do **not** add `wild-west` or `western` until the theme question below is
-resolved. Do not add `web3`, `nft`, `play-to-earn`, or `crypto` — they are
-inaccurate here and they attract exactly the audience that will be
-disappointed.
+`wild-west` and `western` are confirmed accurate — use them, and drop a weaker
+tag if you need the room. Do not add `web3`, `nft`, `play-to-earn` or `crypto`:
+they are inaccurate here, and they attract exactly the audience that will be
+disappointed by a free score-chasing platformer.
 
 ---
 
-## Description body — BLOCKED, needs your answer first
+## Description body — paste into the page editor
 
-I have not written this, because writing it now would mean guessing.
+Confirmed with the owner 2026-08-30: the Wild West framing is correct, and the
+mushroom forest is an introductory area (Lil Blunt is a weed leaf, so the
+opening is his own turf before the frontier). The HUD counters are score
+counters, still in progress — so nothing below implies anything accrues.
 
-**The recorded gameplay does not match the site's description.** Footage of
-build `2026-08-26d` shows a **pink mushroom fantasy forest**, not the "1800s
-Wild West mining town" and "Dustrock Mines" the website describes. The HUD in
-that footage reads: `COINS · RINGS · TOKENS · GOLD · DIAMONDS · TITANX · wBTC ·
-XAUT · BLAZE DIAMONDS · VESTING 0%`.
+```
+Lil Blunt: The Smoke Realm is a free Wild West platformer that runs in your
+browser. No download, no wallet, no account — click and play.
 
-Two things need settling before store copy can be written honestly:
+You are Lil Blunt, a green outlaw prospector working the Dustrock Mines.
+Run, jump and dash your way deeper, grab what you can carry, and keep your
+score climbing before your lives run out. The Tax Man shows up to take his
+cut. He always does.
 
-1. **What is the game's actual setting?** If the mushroom forest is one area of
-   several and the game is broadly Wild West, the copy stands and the
-   screenshot choice just needs care. If the game is a fantasy platformer, then
-   the site copy, the keyword targeting, and the ad set are all describing a
-   different product — and someone arriving on a "wild west game" promise will
-   bounce immediately.
+CONTROLS
+  A / D        move
+  W or Space   jump
+  J            attack
+  K            dash
 
-2. **What do the token counters mean?** The site states plainly that playing
-   awards no tokens, NFTs or airdrops. The game's own HUD shows GOLD, DIAMONDS,
-   wBTC, XAUT and a VESTING percentage. Those may be purely cosmetic score
-   counters, which is fine — but the store page has to say which, because a
-   player seeing "VESTING 0%" will reasonably assume something accrues.
+The arrow keys are not bound. Click the game once so it has keyboard focus.
 
-Answer those two and the description writes itself in ten minutes.
+WHAT IT IS
+  · Free, and there is nothing to buy
+  · No download and no install — it runs in the browser
+  · No crypto wallet, no browser extension, no account needed
+  · Built in Godot 4, hosted on the Internet Computer
+  · Score chasing: every run is a fresh claim on the mine
 
----
+Scores are shown on a demonstration board styled as an old-west wanted poster.
+They are not recorded on a blockchain, and playing does not award tokens,
+NFTs, or airdrops.
+
+Also playable at smokegame.win
+```
+
+Every claim there is verified. The last paragraph is not boilerplate — it is
+the line that keeps the page honest given the on-screen counters, and it
+belongs in the description rather than buried in a FAQ.
 
 ## Screenshots
 

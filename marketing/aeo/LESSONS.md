@@ -120,8 +120,20 @@ shape rather than by a fixed number.
 
 ## 2026-08-30 — Recorded gameplay does not match the site's Wild West copy
 
+**SUPERSEDED 2026-08-30** — see "Wild West framing is correct; mushroom forest is the intro area" below.
+
 **Claim.** Gameplay footage of build 2026-08-26d shows a pink mushroom fantasy forest, not the 1800s Wild West mining town the site describes, and the HUD displays token counters (GOLD, DIAMONDS, TITANX, wBTC, XAUT, BLAZE DIAMONDS) plus a VESTING percentage.
 
 **Evidence.** Frames extracted at t=30s and t=46s from /tmp/xvfb-demo2.mp4, the Xvfb capture of the itch build. Both show the same mushroom-forest area with that HUD. Unverified whether other levels are Wild West themed.
 
 **What it changes.** Do not target wild-west, cowboy or western keywords until the theme is confirmed against the current build — traffic arriving on that promise would bounce. Also reconcile the on-screen token and VESTING counters against the site's 'playing does not award tokens' claim before writing any store copy.
+
+---
+
+## 2026-08-30 — Wild West framing is correct; mushroom forest is the intro area
+
+**Claim.** The Wild West framing is accurate for the game as a whole. The pink mushroom forest seen in the captured footage is an introductory area, thematically justified because Lil Blunt is himself a weed leaf. The HUD token names (GOLD, DIAMONDS, TITANX, wBTC, XAUT, BLAZE DIAMONDS, VESTING) are score counters and still work in progress, not accruing assets.
+
+**Evidence.** Confirmed by the project owner on 2026-08-30, in response to the discrepancy raised from frames of build 2026-08-26d.
+
+**What it changes.** Wild-west keyword targeting and site copy stand as written. Store and ad copy may describe the game as a Wild West platformer. Screenshots should favour Wild West areas over the intro forest so the first impression matches the promise. Because the counters are scores and not holdings, do not let store copy imply anything accrues; the site's existing 'playing awards no tokens' line stays exactly as it is.
