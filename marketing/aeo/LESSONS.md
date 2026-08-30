@@ -147,3 +147,13 @@ shape rather than by a fixed number.
 **Evidence.** Ahrefs /site-explorer/refdomains via Monid, saved at marketing/aeo/market/refdomains-smokegame.win.json. Every row shows dofollow_links: 0.
 
 **What it changes.** Treat the backlink profile as starting from zero, not from something to clean up. This is the routine spam spray new domains get from firms hoping the owner notices and buys; the links are nofollow so they pass nothing, and Google ignores this pattern rather than penalising it. Do not disavow, do not panic, and above all do not buy links from any of these senders. Real link building starts at zero.
+
+---
+
+## 2026-08-30 — The project already has a backend; a second database would duplicate it
+
+**Claim.** Adding Polygres would duplicate persistence the project already has. src/backend is a Motoko canister exposing getLeaderboard, getPlayerProfile, getAchievements, getTokenMetrics, getVaultData and getWorlds, all currently returning demo data behind isDemo flags, with the types written so live implementations swap in at lib/game-data.mo without touching the frontend bindings.
+
+**Evidence.** src/backend/mixins/game-data-api.mo and src/backend/types/game-data.mo, read 2026-08-30. The header comment states the swap-in intent explicitly.
+
+**What it changes.** The route to a real leaderboard is implementing the repository in lib/game-data.mo and dispatching through Caffeine, not adding a database on another platform with its own credentials and deploy path. Evaluate any new datastore against this backend first. Polygres would earn its place only for something the canister genuinely cannot do — vector or hybrid retrieval over a corpus large enough that grep stops working — which is not true of 26 skills and a 149-line ledger.
