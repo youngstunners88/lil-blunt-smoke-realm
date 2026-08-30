@@ -101,7 +101,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("prompt", nargs="?", help="The question (or use --file)")
     ap.add_argument("--file", help="Read the prompt from a file")
-    ap.add_argument("--models", default="kimi,grok,gemini",
+    ap.add_argument("--models", default="kimi,grok,gemini,qwen",
                     help="Comma-separated aliases: " + ",".join(MODELS))
     ap.add_argument("--system", help="Optional system prompt")
     # A plain flag, not an optional-value option: with nargs="?" a bare

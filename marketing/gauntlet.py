@@ -192,7 +192,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("prompt", nargs="?", help="The task (or use --file)")
     ap.add_argument("--file", help="Read the task from a file")
-    ap.add_argument("--models", default="kimi,grok,gemini",
+    ap.add_argument("--models", default="kimi,grok,gemini,qwen",
                     help="Comma-separated aliases: " + ",".join(MODELS))
     ap.add_argument("--judge", help="Which model synthesises (default: first)")
     ap.add_argument("--brief", action="store_true",

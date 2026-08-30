@@ -17,6 +17,13 @@ automatic matching handles badly:
 
 If a task clearly belongs to one skill, let it load and ignore this file.
 
+## Read first
+
+`marketing/aeo/LESSONS.md` before any SEO, AEO or marketing planning. It is
+short, and it carries the findings that already reframed this work — most
+importantly that the category keyword niche has almost no search volume, so
+category SEO cannot be the growth mechanism. See `learning-loop`.
+
 ## Blocking checks — these apply to every task
 
 Run these regardless of which playbook governs. Each has already caused a real
@@ -52,6 +59,8 @@ defect on this project.
 | Measuring whether AI search knows us; content quality gate | `aeo-measurement` |
 | Off-site copy — itch.io, Reddit, directories, outreach | `game-distribution` |
 | Paid data/research on a budget | `monid-research` |
+| Keyword volume, competitor gaps, real SERP data | `search-intelligence` |
+| Before planning; after a surprising result | `learning-loop` |
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
 

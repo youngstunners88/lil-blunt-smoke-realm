@@ -31,6 +31,33 @@ Before diagnosing anything else about rankings, confirm the basics in order:
 3. **Only then** ask questions about rankings. "We don't rank" and "we aren't
    indexed" look identical from outside and have completely different fixes.
 
+## Measured 2026-08-29: the category terms have no volume
+
+Before chasing any category query, know this. Ahrefs data via
+`marketing/aeo/market.py` (US):
+
+| term | volume/mo | KD |
+|---|---|---|
+| wild west browser game | 0 | — |
+| western platformer | 0 | — |
+| godot browser game | 0 | — |
+| 2d platformer online free | 0 | — |
+| gold rush game online | 70 | 15 |
+| cowboy game online free | 10 | 5 |
+
+Control: "free online games" returns 176,000/mo at KD 93, so the zeros are real
+readings rather than a broken endpoint.
+
+**Ranking #1 for the best available term is roughly 20 visits a month.** The
+constraint is not difficulty — several of these are trivially winnable. It is
+that winning pays almost nothing.
+
+This does not make the work pointless; it relocates it. Growth here comes from
+**brand search** (created elsewhere, then captured), **recommendation surfaces**
+(`aeo-measurement`), and **distribution** (`game-distribution`) — none of which
+depend on category search volume. Check volume with `search-intelligence` before
+commissioning any page aimed at a category term.
+
 ## The brand-name collision
 
 "Lil Blunt" is an established music artist (releases on Amazon Music, YouTube).
