@@ -58,6 +58,7 @@ defect on this project.
 | Being cited by ChatGPT/Perplexity/AI answers | `aeo-ai-discoverability` |
 | Measuring whether AI search knows us; content quality gate | `aeo-measurement` |
 | Off-site copy — itch.io, Reddit, directories, outreach | `game-distribution` |
+| The itch.io store page itself — audit, cover, fields | `itch-page` |
 | Paid data/research on a budget | `monid-research` |
 | Keyword volume, competitor gaps, real SERP data | `search-intelligence` |
 | Before planning; after a surprising result | `learning-loop` |

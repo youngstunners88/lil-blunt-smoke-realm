@@ -115,3 +115,13 @@ shape rather than by a fixed number.
 **Evidence.** Promptwatch measurement, reported by its co-founder and repeated in the Aug 2026 Ahrefs podcast with Dan Petrovic; Reddit is rejected from grounding over 90% of the time even when retrieved.
 
 **What it changes.** Keep posting to Reddit to reach players, but stop counting it toward AI visibility. Own-site documentation is the format that gets cited, which is why the troubleshooting page exists.
+
+---
+
+## 2026-08-30 — Recorded gameplay does not match the site's Wild West copy
+
+**Claim.** Gameplay footage of build 2026-08-26d shows a pink mushroom fantasy forest, not the 1800s Wild West mining town the site describes, and the HUD displays token counters (GOLD, DIAMONDS, TITANX, wBTC, XAUT, BLAZE DIAMONDS) plus a VESTING percentage.
+
+**Evidence.** Frames extracted at t=30s and t=46s from /tmp/xvfb-demo2.mp4, the Xvfb capture of the itch build. Both show the same mushroom-forest area with that HUD. Unverified whether other levels are Wild West themed.
+
+**What it changes.** Do not target wild-west, cowboy or western keywords until the theme is confirmed against the current build — traffic arriving on that promise would bounce. Also reconcile the on-screen token and VESTING counters against the site's 'playing does not award tokens' claim before writing any store copy.
