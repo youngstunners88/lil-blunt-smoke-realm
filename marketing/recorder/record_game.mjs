@@ -48,13 +48,6 @@ const KEYS = {
   shift: { code: 'ShiftLeft',  key: 'Shift',      vk: 16 },
   x:     { code: 'KeyX',       key: 'x',          vk: 88 },
   z:     { code: 'KeyZ',       key: 'z',          vk: 90 },
-  // The game's own HUD documents its bindings: MOVE A/D, JUMP W/Space,
-  // ATTACK J, DASH K. Arrow keys are not bound, so these are the real ones.
-  a:     { code: 'KeyA',       key: 'a',          vk: 65 },
-  d:     { code: 'KeyD',       key: 'd',          vk: 68 },
-  w:     { code: 'KeyW',       key: 'w',          vk: 87 },
-  j:     { code: 'KeyJ',       key: 'j',          vk: 74 },
-  k:     { code: 'KeyK',       key: 'k',          vk: 75 },
 };
 
 async function keyDown(cdp, name) {
@@ -184,14 +177,14 @@ async function main() {
         // motion through a level. Not skilled play; bosses need a human.
         await keyDown(cdp, step.key ?? 'right');
         const jumps = step.jumps ?? 10;
-        const jumpKey = step.jump ?? 'space';
+        const jumpKey = step.jump ?? 'up';
         for (let i = 0; i < jumps; i++) {
           await sleep(step.every ?? 700);
           await keyDown(cdp, jumpKey);
           await sleep(120);
           await keyUp(cdp, jumpKey);
           if (step.attack) {
-            await keyDown(cdp, 'j'); await sleep(80); await keyUp(cdp, 'j');
+            await keyDown(cdp, 'enter'); await sleep(80); await keyUp(cdp, 'enter');
           }
         }
         await keyUp(cdp, step.key ?? 'right');

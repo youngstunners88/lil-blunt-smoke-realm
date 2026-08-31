@@ -11,7 +11,7 @@
 #     the public internet but exempts 127.0.0.1
 #   * that local server must send COOP/COEP or Godot 4 never starts
 #   * keyboard input goes through CDP, because a canvas has no DOM to click and
-#     the game binds A/D rather than arrow keys
+#     the game binds arrow keys rather than WASD
 #
 # Why bother when CDP screencast already works: x11grab samples the composited
 # display at a fixed rate, so the output has an even cadence and real-time

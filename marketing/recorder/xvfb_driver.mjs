@@ -23,14 +23,11 @@ const has = (name) => process.argv.includes(`--${name}`);
 const CDP = arg('cdp', 'http://127.0.0.1:9333');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Bindings come from the game's own HUD: MOVE A/D, JUMP W/Space, ATTACK J,
-// DASH K. Arrow keys are not bound.
+// Controls: Left/Right arrows to move, Up arrow to jump, Enter to throw axes.
 const KEYS = {
-  a: { code: 'KeyA', key: 'a', vk: 65 },
-  d: { code: 'KeyD', key: 'd', vk: 68 },
-  w: { code: 'KeyW', key: 'w', vk: 87 },
-  j: { code: 'KeyJ', key: 'j', vk: 74 },
-  k: { code: 'KeyK', key: 'k', vk: 75 },
+  left: { code: 'ArrowLeft', key: 'ArrowLeft', vk: 37 },
+  right: { code: 'ArrowRight', key: 'ArrowRight', vk: 39 },
+  up: { code: 'ArrowUp', key: 'ArrowUp', vk: 38 },
   space: { code: 'Space', key: ' ', vk: 32 },
   enter: { code: 'Enter', key: 'Enter', vk: 13 },
 };
@@ -90,13 +87,13 @@ async function main() {
       case 'run': {
         // Keep running until the budget runs out rather than a fixed count —
         // the recording length, not the script, decides how long play lasts.
-        const dir = step.key ?? 'd';
-        const jump = step.jump ?? 'space';
+        const dir = step.key ?? 'right';
+        const jump = step.jump ?? 'up';
         await keyDown(cdp, dir);
         while (left() > 2500) {
           await sleep(step.every ?? 650);
           await keyDown(cdp, jump); await sleep(120); await keyUp(cdp, jump);
-          if (step.attack) { await keyDown(cdp, 'j'); await sleep(80); await keyUp(cdp, 'j'); }
+          if (step.attack) { await keyDown(cdp, 'enter'); await sleep(80); await keyUp(cdp, 'enter'); }
         }
         await keyUp(cdp, dir);
         break;

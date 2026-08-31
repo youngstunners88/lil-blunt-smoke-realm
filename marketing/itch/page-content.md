@@ -67,17 +67,13 @@ player thinks the controls are broken.
 
 ## Controls block — paste into the description
 
-These are verified against the build, and the current site copy is **wrong**
-about them (it says arrow keys, which are not bound):
-
 ```
 Controls
-  A / D      move
-  W or Space jump
-  J          attack
-  K          dash
+  Left / Right arrow   move
+  Up arrow             jump
+  Enter                throw axes
 
-The arrow keys are not bound. Click the game once so it has keyboard focus.
+Click the game once so it has keyboard focus.
 ```
 
 ---
@@ -115,12 +111,11 @@ score climbing before your lives run out. The Tax Man shows up to take his
 cut. He always does.
 
 CONTROLS
-  A / D        move
-  W or Space   jump
-  J            attack
-  K            dash
+  Left / Right arrow   move
+  Up arrow             jump
+  Enter                throw axes
 
-The arrow keys are not bound. Click the game once so it has keyboard focus.
+Click the game once so it has keyboard focus.
 
 WHAT IT IS
   · Free, and there is nothing to buy

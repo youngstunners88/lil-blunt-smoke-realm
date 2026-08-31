@@ -21,8 +21,8 @@ the Tax Man, who turns up to take a cut of what you dig — hence the tagline
 Genre: 2D platformer, arcade, indie, Web3 game
 Platform: Web browser (HTML5), Internet Computer
 Price: Free
-Controls: A and D to move, W or spacebar to jump, J to attack, K to dash.
-          The arrow keys are not bound.
+Controls: Left and Right arrow keys to move, Up arrow to jump, Enter to
+          throw axes.
 
 ## What the blockchain integration actually does
 

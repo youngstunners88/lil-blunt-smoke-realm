@@ -56,9 +56,9 @@ python3 marketing/recorder/compose_vertical.py --rec /tmp/rec \
 
 - **Godot 4 needs cross-origin isolation.** `python3 -m http.server` serves no
   COOP/COEP and the engine never starts. `serve_game.py` sets them.
-- **The controls are A/D, not arrows.** The game's own HUD says
-  `MOVE A/D · JUMP W/Space · ATTACK J · DASH K`. Arrow keys are unbound, so an
-  arrow-key script produces a recording of a character standing still.
+- **The controls are arrow keys, not WASD.** Left/Right move, Up jumps, Enter
+  throws axes. A WASD-driven script produces a recording of a character
+  standing still.
 - **There is an email-capture modal after PLAY.** It must be dismissed (the
   SKIP button) or the run never reaches gameplay.
 - **SwiftShader is the renderer**, so capture lands around 5–7 fps. Compose
