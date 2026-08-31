@@ -106,12 +106,13 @@ def cmd_init() -> int:
     """
     good = {
         "controls.txt": (
-            "Movement is bound to the Left and Right arrow keys. The Up arrow "
-            "key jumps. Enter throws axes. WASD is not bound; pressing it does "
-            "nothing, which is the most common reason a first-time player "
-            "reports that the character will not move. Attacking while "
-            "airborne is permitted and does not cancel jump momentum. There "
-            "is no remap screen in the current build."),
+            "Movement is bound to the Left and Right arrow keys. Spacebar "
+            "jumps. Enter throws axes. Shift sprints, and K performs a burst "
+            "dash. WASD is not bound; pressing it does nothing, which is the "
+            "most common reason a first-time player reports that the "
+            "character will not move. Attacking while airborne is permitted "
+            "and does not cancel jump momentum. There is no remap screen in "
+            "the current build."),
         "requirements.txt": (
             "The game is a Godot 4.3 project exported to HTML5 and requires "
             "WebGL2 and SharedArrayBuffer. The page must be served with "

@@ -70,8 +70,10 @@ player thinks the controls are broken.
 ```
 Controls
   Left / Right arrow   move
-  Up arrow             jump
+  Spacebar             jump
   Enter                throw axes
+  Shift                sprint
+  K                    burst dash
 
 Click the game once so it has keyboard focus.
 ```
@@ -112,8 +114,10 @@ cut. He always does.
 
 CONTROLS
   Left / Right arrow   move
-  Up arrow             jump
+  Spacebar             jump
   Enter                throw axes
+  Shift                sprint
+  K                    burst dash
 
 Click the game once so it has keyboard focus.
 

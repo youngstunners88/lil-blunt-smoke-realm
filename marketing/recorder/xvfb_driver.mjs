@@ -23,13 +23,15 @@ const has = (name) => process.argv.includes(`--${name}`);
 const CDP = arg('cdp', 'http://127.0.0.1:9333');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Controls: Left/Right arrows to move, Up arrow to jump, Enter to throw axes.
+// Controls: Left/Right arrows to move, Spacebar to jump, Enter to throw
+// axes, Shift to sprint, K for a burst dash.
 const KEYS = {
   left: { code: 'ArrowLeft', key: 'ArrowLeft', vk: 37 },
   right: { code: 'ArrowRight', key: 'ArrowRight', vk: 39 },
-  up: { code: 'ArrowUp', key: 'ArrowUp', vk: 38 },
   space: { code: 'Space', key: ' ', vk: 32 },
   enter: { code: 'Enter', key: 'Enter', vk: 13 },
+  shift: { code: 'ShiftLeft', key: 'Shift', vk: 16 },
+  k: { code: 'KeyK', key: 'k', vk: 75 },
 };
 
 async function keyDown(cdp, n) {
@@ -88,7 +90,7 @@ async function main() {
         // Keep running until the budget runs out rather than a fixed count —
         // the recording length, not the script, decides how long play lasts.
         const dir = step.key ?? 'right';
-        const jump = step.jump ?? 'up';
+        const jump = step.jump ?? 'space';
         await keyDown(cdp, dir);
         while (left() > 2500) {
           await sleep(step.every ?? 650);

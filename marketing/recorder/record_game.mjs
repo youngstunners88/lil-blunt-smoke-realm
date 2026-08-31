@@ -46,6 +46,7 @@ const KEYS = {
   space: { code: 'Space',      key: ' ',          vk: 32 },
   enter: { code: 'Enter',      key: 'Enter',      vk: 13 },
   shift: { code: 'ShiftLeft',  key: 'Shift',      vk: 16 },
+  k:     { code: 'KeyK',       key: 'k',          vk: 75 },
   x:     { code: 'KeyX',       key: 'x',          vk: 88 },
   z:     { code: 'KeyZ',       key: 'z',          vk: 90 },
 };
@@ -177,7 +178,7 @@ async function main() {
         // motion through a level. Not skilled play; bosses need a human.
         await keyDown(cdp, step.key ?? 'right');
         const jumps = step.jumps ?? 10;
-        const jumpKey = step.jump ?? 'up';
+        const jumpKey = step.jump ?? 'space';
         for (let i = 0; i < jumps; i++) {
           await sleep(step.every ?? 700);
           await keyDown(cdp, jumpKey);

@@ -9,7 +9,8 @@ that violates them is worse than no advice.
 A **free** 2D Wild-West platformer, Godot 4.3 exported to HTML5, playable in a
 browser with no download and no wallet. Hosted on the Internet Computer.
 Live at `www.smokegame.win`, also on itch.io. Controls are Left/Right arrows
-to move, Up arrow to jump, Enter to throw axes.
+to move, Spacebar to jump, Enter to throw axes, Shift to sprint, K for a
+burst dash.
 
 There is currently **nothing for sale**. No merch, no paid tier, no token sold
 to players. Any advice that assumes a purchase funnel exists is wrong today.
