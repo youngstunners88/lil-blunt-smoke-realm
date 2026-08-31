@@ -1,4 +1,5 @@
 import { AmbientAudioPlayer } from "@/components/AmbientAudioPlayer";
+import { ContentOverlay } from "@/components/ContentOverlay";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SmokeBackground } from "@/components/SmokeBackground";
@@ -8,7 +9,8 @@ import { OnChainPoints } from "@/components/sections/OnChainPoints";
 import { PlayGame } from "@/components/sections/PlayGame";
 import { Protocols } from "@/components/sections/Protocols";
 import { initAnalytics } from "@/lib/analytics";
-import { useEffect } from "react";
+import { type ContentPage, findContentPage } from "@/lib/contentPages";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * Lil Blunt: The Smoke Realm — single-route landing page.
@@ -35,6 +37,30 @@ export default function App() {
   // that delivered the visitor. Returns its own listener cleanup.
   useEffect(() => initAnalytics(), []);
 
+  // The Docs / About / How-to-Play pages open in-app (ContentOverlay) rather
+  // than as a full navigation, so the homepage — and the ambient music
+  // mounted on it — never unmounts. The URL still updates via pushState so
+  // the address bar and the browser's own back/forward stay meaningful.
+  const [overlayPage, setOverlayPage] = useState<ContentPage | null>(null);
+
+  const openContentPage = useCallback((page: ContentPage) => {
+    window.history.pushState({}, "", page.href);
+    setOverlayPage(page);
+  }, []);
+
+  const closeContentPage = useCallback(() => {
+    window.history.pushState({}, "", "/");
+    setOverlayPage(null);
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      setOverlayPage(findContentPage(window.location.pathname) ?? null);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <SmokeBackground />
@@ -54,7 +80,12 @@ export default function App() {
         <OnChainPoints />
       </main>
       {/* 5. Footer — owned by the footer page task */}
-      <Footer />
+      <Footer onOpenContentPage={openContentPage} />
+      <ContentOverlay
+        src={overlayPage?.href ?? null}
+        title={overlayPage?.label ?? ""}
+        onClose={closeContentPage}
+      />
     </div>
   );
 }

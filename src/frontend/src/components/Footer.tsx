@@ -1,20 +1,22 @@
 import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS, SOCIAL_LINKS } from "@/lib/brand";
+import { CONTENT_PAGES, type ContentPage } from "@/lib/contentPages";
 import { ExternalLink } from "lucide-react";
 import { SiTelegram, SiX } from "react-icons/si";
 
 /**
- * Internal nav — the Navbar's section anchors plus the two static content
- * pages. The static pages are real crawlable HTML (this app is
- * client-rendered), so linking them here is what lets search and AI
- * crawlers discover them.
+ * Internal nav — the Navbar's section anchors plus the static content
+ * pages. The content pages are real, separate crawlable HTML documents
+ * (this app is otherwise client-rendered) — that's still true and is what
+ * lets search and AI crawlers discover them at their own URLs. From the
+ * homepage, though, clicking one opens it via `onOpenContentPage`
+ * (ContentOverlay, wired in App.tsx) instead of a full navigation, so the
+ * page never unmounts and the ambient music never stops.
  */
 const SECTION_LINKS: { label: string; href: string }[] = [
   { label: "Game Showcase", href: "#showcase" },
   { label: "Three Protocols", href: "#protocols" },
   { label: "On-Chain Points", href: "#points" },
-  { label: "Docs", href: "/docs/" },
-  { label: "About the Game", href: "/about/" },
-  { label: "How to Play", href: "/how-to-play/" },
+  ...CONTENT_PAGES,
 ];
 
 /** Outbound protocol sites — the three pillars of the Smoke Realm. */
@@ -54,7 +56,12 @@ const SOCIAL_CHANNELS: {
  * disclaimer sits above the neutral copyright line. No third-party
  * platform branding appears anywhere on the surface.
  */
-export function Footer() {
+interface FooterProps {
+  /** Opens a content page (Docs/About/How-to-Play) in the in-app overlay. */
+  onOpenContentPage: (page: ContentPage) => void;
+}
+
+export function Footer({ onOpenContentPage }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -123,6 +130,14 @@ export function Footer() {
                   <a
                     key={link.href}
                     href={link.href}
+                    onClick={
+                      link.href.startsWith("/")
+                        ? (e) => {
+                            e.preventDefault();
+                            onOpenContentPage(link);
+                          }
+                        : undefined
+                    }
                     data-ocid={`footer.link.${link.href.replace("#", "")}`}
                     className="font-body text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
