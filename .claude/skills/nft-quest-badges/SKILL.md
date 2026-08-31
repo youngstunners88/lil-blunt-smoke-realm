@@ -137,31 +137,40 @@ the realm's costume. Per-realm palette and costume:
 
 Full copy-paste prompts live in `prompts/tripo-badges.md`.
 
-## Generating the art (Tripo)
+## Generating the art
 
-The Tripo CLI (`ravanova/tripo-cli`, two shell scripts) drives the generative
-API. **Blocker as of this writing: the Tripo account balance is 0 credits** —
-the key authenticates (`{"code":0,...}`) but there is nothing to spend and the
-scripts refuse to run at zero. Top up at tripo3d.ai, then:
+**The first set is already generated** — `art/gm-pioneer.png`,
+`art/diamond-hands.png`, `art/fort-knox-claim.png`, `art/realm-sovereign.png`
+(1024×1024 PNG each). They were reviewed against the art direction and match.
+
+### The pipeline that actually worked (OpenRouter → Gemini)
+
+Tripo was the intended tool but its account had **0 credits**; so did the
+direct Gemini key (free-tier image quota 0 / HTTP 429), xAI (no credits), and
+PixelLab ($0). The one image path with real balance was **OpenRouter**
+(`OPENROUTER_API_KEY`, not free-tier), routing to `google/gemini-2.5-flash-image`
+— which produced the cohesive on-brand set on the first pass. Reuse it:
 
 ```sh
-# The saved key is in $TRIPO_API; the CLI wants $TRIPO_API_KEY — map it:
-export TRIPO_API_KEY="$TRIPO_API"
-
-# Confirm there are credits before spending:
-curl -s -H "Authorization: Bearer $TRIPO_API_KEY" \
-  https://api.tripo3d.ai/v2/openapi/user/balance   # want data.balance > 0
-
-# 2D badge card (right format for an NFT medallion), ~5–10 credits each:
-cd /tmp/tripo-cli
-TRIPO_MODEL=gpt_image_2 ./tripo-image.sh "<prompt from prompts/tripo-badges.md>" \
-  out/gm-pioneer.png
+# prompts/gen_openrouter.py takes a prompt + output path; model via OR_MODEL.
+OR_MODEL=google/gemini-2.5-flash-image \
+  python3 .claude/skills/nft-quest-badges/prompts/gen_openrouter.py \
+  "<prompt from prompts/tripo-badges.md>" \
+  .claude/skills/nft-quest-badges/art/gm-pioneer.png
 ```
 
-Generate **one** badge first (GM Pioneer — its realm is the only live level),
-review it against the art direction, and only then spend on the other three.
-One good generation beats four rushed ones; this project's recurring lesson is
-verify-before-spend.
+`google/gemini-3-pro-image` is the higher-quality (pricier) OpenRouter option if
+a badge needs more detail. Check credit first: `GET /api/v1/key` with the
+OpenRouter key.
+
+### Tripo (fallback, if credits get topped up)
+
+The Tripo CLI (`ravanova/tripo-cli`) is still staged — map `TRIPO_API` →
+`TRIPO_API_KEY`, check `GET /v2/openapi/user/balance` for `data.balance > 0`,
+then run the prompts in `prompts/tripo-badges.md`.
+
+Whatever the tool: generate **one** badge first, review it against the art
+direction, then do the rest. Verify-before-spend.
 
 ## Wiring (implementation lives in GM-GAME, not this repo)
 
