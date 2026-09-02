@@ -17,7 +17,7 @@ verified before committing.
 
 ## Tasks
 
-- [ ] **T1 — Three AEO question pages.**
+- [x] **T1 — Three AEO question pages.** (partial, 2026-09-02: /faq/controls/ shipped & gated; free+wallet held as drafts in marketing/aeo/drafts/faq/ — gzip gate ambiguous against thin corpus, see T5)
   Author three static HTML pages under `src/frontend/public/`, one real
   question each, in the exact style of `src/frontend/public/about/index.html`.
   Questions must be things a real person asks and that the game can answer
@@ -60,6 +60,15 @@ verified before committing.
   is read-only so nothing here is automatable.
   **Acceptance:** a reviewer could fill the itch form from this file without
   writing a word themselves.
+
+- [ ] **T5 — Rescue the two held FAQ drafts.**
+  `marketing/aeo/drafts/faq/{free,wallet}.html` are accurate but the quality
+  gate rates them ambiguous against a 3-file corpus. Either rewrite them to
+  pass on merit, or expand `corpus/good/` with genuine EXTERNAL documentation
+  on "free to play" / "no-wallet Web3" (never seed with these pages). Then move
+  the passing ones into `src/frontend/public/faq/<slug>/`, add to sitemap, link
+  from a relevant page, build/test, commit.
+  **Acceptance:** each shipped page passes `quality_gate.py`; not orphaned.
 
 ## Morning report
 
