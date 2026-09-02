@@ -11,6 +11,84 @@ fields are populated.
 
 ---
 
+## COPY-PASTE PACK — fill the form top to bottom
+
+Every value below is final and verified. Paste each block into the matching
+field on the edit page; write nothing of your own. The "why" for each choice is
+in the sections further down. **The one thing you must change from what is live
+now is the tagline — the current one makes a false on-chain claim (see BLOCKING
+below).**
+
+**1 — Title**
+```
+Lil Blunt: The Smoke Realm
+```
+(Leave the URL slug as `lil-blunt-adventure`. Changing a live slug breaks every
+existing link.)
+
+**2 — Short description / tagline** (the line under the title; ~120-char limit)
+```
+Free browser platformer. No download, no wallet, no account — just play.
+```
+
+**3 — Classification** → Kind of project: **HTML** · Genre: **Platformer**
+
+**4 — Embed / uploads**
+- This file will be played in the browser: **on**
+- **Enable fullscreen.** (Currently off at a 1280×720 frame — a real
+  playability limit for a platformer.)
+- Frame: **Click to launch** (not autoplay), so the game has keyboard focus
+  from the first frame.
+
+**5 — Tags** (itch allows up to 10; paste as-is)
+```
+wild-west, western, 2d, platformer, arcade, html5, pixel-art, high-score, free, singleplayer
+```
+Do **not** add `web3`, `nft`, `play-to-earn`, or `crypto` — inaccurate here, and
+they draw the audience most likely to be let down by a free score-chaser.
+
+**6 — Description** (the main rich-text body)
+```
+Lil Blunt: The Smoke Realm is a free Wild West platformer that runs in your
+browser. No download, no wallet, no account — click and play.
+
+You are Lil Blunt, a green outlaw prospector working the Dustrock Mines.
+Run, jump and dash your way deeper, grab what you can carry, and keep your
+score climbing before your lives run out. The Tax Man shows up to take his
+cut. He always does.
+
+CONTROLS
+  Left / Right arrow   move
+  Spacebar             jump
+  Enter                throw axes
+  Shift                sprint
+  K                    burst dash
+
+Click the game once so it has keyboard focus.
+
+WHAT IT IS
+  · Free, and there is nothing to buy
+  · No download and no install — it runs in the browser
+  · No crypto wallet, no browser extension, no account needed
+  · Built in Godot 4, hosted on the Internet Computer
+  · Score chasing: every run is a fresh claim on the mine
+
+Scores are shown on a demonstration board styled as an old-west wanted poster.
+They are not recorded on a blockchain, and playing does not award tokens,
+NFTs, or airdrops.
+
+Also playable at smokegame.win
+```
+
+**7 — Cover image & screenshots** — cover is already uploaded. Keep the 5
+screenshots; prefer frames showing motion and threat (a mid-air jump, an enemy
+close) over static scenery.
+
+That is the whole form. Everything below is the reasoning and the accuracy
+history, not new work.
+
+---
+
 ## BLOCKING — accuracy, measured 2026-09-02
 
 Re-measured against the live page. **The cover image and tagline are now

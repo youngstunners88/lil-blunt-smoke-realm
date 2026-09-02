@@ -53,7 +53,7 @@ verified before committing.
   **Acceptance:** findings appended to the morning report; if something changed
   materially, note it as a headline.
 
-- [ ] **T4 — itch.io paste-pack finalisation.**
+- [x] **T4 — itch.io paste-pack finalisation.** (2026-09-02: field-by-field COPY-PASTE PACK added at top of page-content.md)
   Make `marketing/itch/page-content.md` a clean copy-paste job: final tagline,
   final "what makes it different" bullets (no on-chain-reward claims), a tag
   set, and the exact text for each itch field. The human pastes it; the itch API
