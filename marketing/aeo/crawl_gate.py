@@ -44,10 +44,16 @@ PATHS = ["/", "/about/", "/how-to-play/", "/docs/", "/troubleshooting/",
 UA = ("Mozilla/5.0 (compatible; SmokeRealmCrawlGate/1.0; "
       "+https://www.smokegame.win/)")
 
+# A real browser string. The host has been observed serving a completely
+# different document depending on the user agent, so measuring only one of
+# them reports a state that no one actually experiences. See check_ua_split.
+BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
-def fetch(url: str, timeout: int) -> tuple[int, str, str]:
+
+def fetch(url: str, timeout: int, ua: str = UA) -> tuple[int, str, str]:
     """Return (status, final_url, body). Redirects are followed."""
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(url, headers={"User-Agent": ua})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.status, r.geturl(), r.read().decode("utf-8", "replace")
@@ -103,6 +109,28 @@ def main() -> int:
     print(f"  homepage: HTTP {status}, {len(body)} bytes, "
           f"{len(home_text)} chars visible without JS\n")
 
+    # Everything below measures the crawler's view. If the host answers a
+    # browser with a different document, that view is only half the story —
+    # and the half a human never sees. Checking claims against one variant
+    # while the other is the one Google indexes reports a state that is not
+    # true of either. This check exists because exactly that happened.
+    _, _, browser_body = fetch(args.base + "/", args.timeout, ua=BROWSER_UA)
+    ua_split = (not browser_body.startswith("__ERROR__")
+                and browser_body != body)
+    if ua_split:
+        b_title = re.search(r"<title>(.*?)</title>", browser_body,
+                            re.I | re.S)
+        c_title = re.search(r"<title>(.*?)</title>", body, re.I | re.S)
+        print("  !! USER-AGENT SPLIT — the host serves two different pages\n")
+        print(f"     crawler view : {len(body):>7} bytes  "
+              f"{(c_title.group(1).strip()[:52] if c_title else '(no title)')}")
+        print(f"     browser view : {len(browser_body):>7} bytes  "
+              f"{(b_title.group(1).strip()[:52] if b_title else '(no title)')}")
+        print("\n     Search engines index the crawler view. Content that "
+              "only exists in\n     the browser view is invisible to them, "
+              "and two variants that differ\n     on title or canonical are "
+              "a cloaking risk, not just a bug.\n")
+
     # An empty body behind a 3xx is a redirect problem, not a rendering one.
     # Reporting it as "a shell" would send someone to rewrite HTML that is
     # fine and never reachable, so the two are separated here.
@@ -118,15 +146,28 @@ def main() -> int:
               f"is a shell.\n        A crawler that does not execute "
               f"JavaScript sees nothing here.\n")
 
-    print(f"  {'claim':<14}{'present':>9}   text")
+    browser_text = ("" if browser_body.startswith("__ERROR__")
+                    else visible_text(browser_body))
+    hdr = f"  {'claim':<14}{'crawler':>9}"
+    if ua_split:
+        hdr += f"{'browser':>9}"
+    print(hdr + "   text")
     print("  " + "-" * 66)
     missing = []
     for key, sentence in claims.items():
         # Compare on collapsed whitespace: the source wraps these across lines.
-        ok = re.sub(r"\s+", " ", sentence).lower() in home_text.lower()
+        needle = re.sub(r"\s+", " ", sentence).lower()
+        ok = needle in home_text.lower()
+        # A claim that is only readable in the browser variant is still
+        # missing from the document search engines index, so it stays a
+        # failure — but showing both columns says *why* it looks present.
         if not ok:
             missing.append(key)
-        print(f"  {key:<14}{'yes' if ok else 'NO':>9}   {sentence[:44]}")
+        row = f"  {key:<14}{'yes' if ok else 'NO':>9}"
+        if ua_split:
+            b_ok = needle in browser_text.lower()
+            row += f"{'yes' if b_ok else 'NO':>9}"
+        print(row + f"   {sentence[:44]}")
 
     print(f"\n  {'path':<22}{'status':>7}{'bytes':>8}  real page?")
     print("  " + "-" * 66)
