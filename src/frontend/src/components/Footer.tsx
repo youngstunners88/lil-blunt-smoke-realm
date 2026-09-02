@@ -176,6 +176,24 @@ export function Footer({ onOpenContentPage }: FooterProps) {
             <p className="font-mono text-xs text-muted-foreground/70">
               Web3 gaming involves risk. Play responsibly.
             </p>
+            {/* Legal pages are plain navigations on purpose: they must stay
+                reachable even if the app shell fails to boot. */}
+            <nav className="mt-1 flex items-center gap-4" aria-label="Legal">
+              <a
+                href="/terms/"
+                data-ocid="footer.link.terms"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="/privacy/"
+                data-ocid="footer.link.privacy"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Privacy Policy
+              </a>
+            </nav>
           </div>
 
           {/* Copyright */}
