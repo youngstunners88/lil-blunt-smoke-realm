@@ -56,3 +56,28 @@ Documentation-grade (gap 0.059). A draft to publish to dev.to/Hashnode.
   session's site changes (rendered claims, www canonical, restored llms.txt)
   have reached production. This is the single highest-value blocked item and it
   needs the human's "Go live" click.
+
+**T4 — itch paste-pack: done.** `marketing/itch/page-content.md` now opens with
+a field-by-field COPY-PASTE PACK (title, tagline, classification, embed, tags,
+description) — fill the itch form without writing anything. The tagline replaces
+the live one that falsely claims "own your progress on-chain".
+
+**T5 — held FAQ drafts: resolved.** `wallet` was rewritten to documentation-grade
+(passed the gate on merit, gap 0.023) and shipped to `/faq/wallet/`, added to
+sitemap, linked from `/about/`. `free` was dropped: it stays borderline-spam by
+the gate and duplicates the "is it free" answer already in `/how-to-play/`'s FAQ
+schema. Build + 11 tests green.
+
+**Queue complete.** All night-shift tasks (T1–T5) are done or resolved. Shipped
+this session: `/faq/controls/`, `/faq/wallet/`, the Godot-on-ICP devlog draft,
+the finalised itch paste-pack, plus an accuracy fix to `/how-to-play/`.
+
+## Do first when you wake (ranked) — unchanged priorities
+
+1. **Fix the environment setup script** (remove the bare
+   `https://docs.mistral.ai/#overview` line) so autonomous sessions can run.
+2. **Caffeine "Go live"** — the draft is still unpublished; the crawler variant
+   still shows 0/5 claims. This is the highest-value blocked item.
+3. **Paste the itch fixes** from `marketing/itch/page-content.md`.
+4. **Publish the devlog** (`marketing/devlog/godot-html5-on-icp.md`) to dev.to /
+   Hashnode for a real backlink.

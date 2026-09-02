@@ -61,7 +61,7 @@ verified before committing.
   **Acceptance:** a reviewer could fill the itch form from this file without
   writing a word themselves.
 
-- [ ] **T5 — Rescue the two held FAQ drafts.**
+- [x] **T5 — Rescue the two held FAQ drafts.** (2026-09-02: wallet rewritten to documentation-grade - [ ] **T5 — Rescue the two held FAQ drafts.** shipped to /faq/wallet/; free dropped as borderline + duplicative of how-to-play FAQ)
   `marketing/aeo/drafts/faq/{free,wallet}.html` are accurate but the quality
   gate rates them ambiguous against a 3-file corpus. Either rewrite them to
   pass on merit, or expand `corpus/good/` with genuine EXTERNAL documentation
