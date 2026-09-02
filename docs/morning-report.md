@@ -37,3 +37,22 @@ settings).
    tagline still makes a false on-chain claim.
 4. Re-enable the routine once step 1 is done, or tell me and I'll continue the
    queue manually in a live session.
+
+## 2026-09-02 — continued manually (routine still blocked by env setup script)
+
+The verification fire failed again (`init_script` error, not recoverable), so
+the environment setup script is still broken. Routine re-disabled. Continued the
+queue by hand in the live session.
+
+**T2 — devlog draft: done.** `marketing/devlog/godot-html5-on-icp.md`.
+Documentation-grade (gap 0.059). A draft to publish to dev.to/Hashnode.
+
+**T3 — measurement delta: NO CHANGE since baseline.** Live crawl re-run:
+- Still a user-agent split. Crawler view 128,857 bytes, **0/5 claims**, no
+  canonical. Browser view 5,850 bytes, 4/5 claims, canonical on apex.
+- `/troubleshooting/` still returns the SPA shell to crawlers.
+- `llms.txt` still 637 bytes of Caffeine boilerplate.
+- **Conclusion: the pending Caffeine draft is still not live.** None of this
+  session's site changes (rendered claims, www canonical, restored llms.txt)
+  have reached production. This is the single highest-value blocked item and it
+  needs the human's "Go live" click.

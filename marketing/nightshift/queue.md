@@ -44,7 +44,7 @@ verified before committing.
   **Acceptance:** passes `quality_gate.py` as documentation-grade; committed
   under `marketing/devlog/`.
 
-- [ ] **T3 — Measurement refresh + delta.**
+- [x] **T3 — Measurement refresh + delta.** (2026-09-02: no change vs baseline; draft still not live)
   Run `python3 marketing/aeo/crawl_gate.py` (UA-aware) and record the current
   live state. Compare against `docs/seo-audit-baseline.md` and write the delta:
   did the Caffeine draft go live, did the snapshot refresh, are the claims now
