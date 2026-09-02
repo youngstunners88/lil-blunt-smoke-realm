@@ -61,7 +61,7 @@ verified before committing.
   **Acceptance:** a reviewer could fill the itch form from this file without
   writing a word themselves.
 
-- [x] **T5 — Rescue the two held FAQ drafts.** (2026-09-02: wallet rewritten to documentation-grade - [ ] **T5 — Rescue the two held FAQ drafts.** shipped to /faq/wallet/; free dropped as borderline + duplicative of how-to-play FAQ)
+- [x] **T5 — Rescue the two held FAQ drafts.** (2026-09-02: wallet rewritten to documentation-grade & shipped to /faq/wallet/; free dropped as borderline + duplicative of how-to-play FAQ)
   `marketing/aeo/drafts/faq/{free,wallet}.html` are accurate but the quality
   gate rates them ambiguous against a 3-file corpus. Either rewrite them to
   pass on merit, or expand `corpus/good/` with genuine EXTERNAL documentation
@@ -69,6 +69,31 @@ verified before committing.
   the passing ones into `src/frontend/public/faq/<slug>/`, add to sitemap, link
   from a relevant page, build/test, commit.
   **Acceptance:** each shipped page passes `quality_gate.py`; not orphaned.
+
+- [ ] **T6 — Disambiguation AEO page (brand collision).**
+  Author `src/frontend/public/faq/not-the-artist/index.html` answering "Is Lil
+  Blunt the game the same as the music artist of a similar name?" — a real query
+  (search-ranking-strategy flags the brand-name collision). Answer: it is a free
+  browser platformer game, not the musician. Maps to the `not_artist` claim; same
+  page style as `/about/`; question in title/H1/first sentence; FAQPage JSON-LD
+  matching visible text; www canonical.
+  **Acceptance:** passes `quality_gate.py` documentation-grade; in sitemap;
+  linked from a relevant page (not orphaned); build + tests clean; dist reverted.
+
+- [ ] **T7 — Corrected SEO head-package, ready to dispatch.**
+  Per `seo-smokegame-ship` P3: write `docs/seo-head-package.md` containing the
+  exact `<head>` block (title, meta description, canonical on www, OG/Twitter,
+  VideoGame JSON-LD) to dispatch to Caffeine — with the masterplan's accuracy
+  violations removed (no "on-chain proof-of-play", no Organization author with a
+  URL, no aggregateRating). A prepared draft only; do NOT dispatch it.
+  **Acceptance:** every value is accuracy-clean vs AGENTS.md; canonical is www;
+  committed under docs/.
+
+- [ ] **T8 — Google Search Console founder checklist.**
+  Per masterplan P2: write `docs/seo-gsc-checklist.md` — the exact steps for the
+  founder to verify the property, submit the sitemap, and request indexing, with
+  the honest note that indexation is not claimed without evidence.
+  **Acceptance:** a non-technical founder could follow it end to end; committed.
 
 ## Morning report
 
