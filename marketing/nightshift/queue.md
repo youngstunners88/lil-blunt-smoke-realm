@@ -80,7 +80,7 @@ verified before committing.
   **Acceptance:** passes `quality_gate.py` documentation-grade; in sitemap;
   linked from a relevant page (not orphaned); build + tests clean; dist reverted.
 
-- [ ] **T7 — Corrected SEO head-package, ready to dispatch.**
+- [x] **T7 — Corrected SEO head-package, ready to dispatch.** (2026-09-02: docs/seo-head-package.md — masterplan §1.2 with the three accuracy violations removed; www canonical; draft only, not dispatched)
   Per `seo-smokegame-ship` P3: write `docs/seo-head-package.md` containing the
   exact `<head>` block (title, meta description, canonical on www, OG/Twitter,
   VideoGame JSON-LD) to dispatch to Caffeine — with the masterplan's accuracy
