@@ -11,34 +11,74 @@ fields are populated.
 
 ---
 
-## BLOCKING — do these two first
+## BLOCKING — accuracy, measured 2026-09-02
 
-### 1. Cover image
+Re-measured against the live page. **The cover image and tagline are now
+populated** — those are done. But the copy that was added states something the
+website explicitly denies, and it is the most widely distributed text the
+project has.
 
-**Upload:** `marketing/itch/out/cover-630x500.png` (630x500, generated from the
-hero art by `make_cover.py`).
+### 1. The tagline makes a false on-chain claim — replace it
 
-This is the single highest-impact fix available. Every itch.io browse listing,
-search result, embed card and collection tile is a thumbnail. With no cover the
-game is visually absent from the store regardless of how good the page is.
+The live `og:description` currently reads:
 
-> One caution on this particular image: it features the $GOLD and $DIAMONDS
-> branded products prominently. Those are separate partner protocols, not
-> things the game awards. On a *game store* page that can read as "play to earn
-> these". A gameplay screenshot would be both safer and, for a store listing,
-> usually higher-converting — players want to see the game. Swap it once the
-> theme question below is settled.
+> Explore the Smoke Realm and **own your progress on-chain** — no wallet
+> required to start. You can't tax the vibe..
 
-### 2. Short description / tagline
+And the description body contains:
 
-Currently empty. This is the line under the title in every listing, and what
-social cards and search results pick up.
+> Free to play, no download… Web3-ready: **Collect on-chain Blunts and own
+> your character upgrades.** Crypto-native but zero friction…
+
+`AGENTS.md` records as blocking that scores are **not** written on-chain today,
+that nothing is minted, and that there is no play-to-earn mechanic. The site's
+own copy says "No token rewards and no NFT minting". So the itch page and the
+website contradict each other, and the itch page is the one that is wrong.
+
+Why this is the top item rather than a nitpick:
+
+- `og:description` is what renders in **every Discord, Telegram and X share
+  preview**. It is the single most-reproduced sentence about this game.
+- Answer engines quote it. A contradiction between the store page and the hub
+  is exactly the kind of inconsistency that gets surfaced.
+- It promises ownership of assets that do not exist. Proof of Play is still
+  being engineered; until it ships, this is a promise, not a description.
+
+**Replacement tagline** (63 chars, inside itch's ~120 limit):
 
 ```
 Free browser platformer. No download, no wallet, no account — just play.
 ```
 
-63 characters — inside itch's ~120 character display limit.
+**Replacement for the "What Makes It Different" bullets** — same energy, no
+false claims:
+
+```
+Free to play, no download: runs instantly in your browser. No install, no wait.
+No wallet, no account: start playing in one click.
+Tight platforming: classic run-and-jump with modern responsiveness.
+Hand-crafted levels: dig the Dustrock Mines and dodge the Tax Man.
+Built on the Internet Computer: the whole game is served from a public chain.
+```
+
+That last line is true and is the genuinely unusual thing about the project —
+the *site itself* is on-chain, which is rarer than a token contract. It earns
+the Web3 interest without claiming rewards that do not exist.
+
+Revisit this section when Proof of Play actually ships, and update it together
+with `AGENTS.md`.
+
+### 2. Tags — still empty
+
+No tags found on the live page. itch runs its own internal search and browse
+on tags, so an untagged game is close to undiscoverable on the platform that
+already sends the most qualified traffic. See the Tags block below.
+
+### Already done — do not redo
+
+- **Cover image** is uploaded (`og:image` resolves).
+- **5 screenshots** present.
+- **2 links to smokegame.win** in the page body.
 
 ---
 
