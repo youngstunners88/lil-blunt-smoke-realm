@@ -87,6 +87,24 @@ concrete engine/controls/scoring specifics — the first draft read ambiguous at
 0.0035). In sitemap; linked from `/about/`; build + 11 tests green; `dist/`
 reverted. No production impact until Caffeine goes live.
 
+**T7 — corrected SEO head-package: done.** `docs/seo-head-package.md` — the
+masterplan §1.2 homepage `<head>` with its three accuracy violations removed
+(no on-chain proof-of-play, no Organization author with a URL, no
+aggregateRating), canonical on www, VideoGame JSON-LD accuracy-checked in a
+table. **Draft only — not dispatched to Caffeine.** It is ready to paste when
+you decide to ship the head, and should go live in the same Caffeine dispatch
+as the rest of the pending SEO work.
+
+**T8 — GSC founder checklist: done.** `docs/seo-gsc-checklist.md` — a
+non-technical, click-by-click guide to verify the property (DNS TXT, with an
+HTML-tag fallback), submit the sitemap, and request indexing of the six live
+pages, closing with the honest rule not to claim "indexed" until Search Console
+shows it. A founder task; nothing here is automatable from this repo.
+
+**In-session queue (T6–T8) complete.** Everything remains repo-local and
+reviewable; nothing shipped to production, posted anywhere, or spent money. The
+blockers below are unchanged and all still need the human.
+
 ## Do first when you wake (ranked) — unchanged priorities
 
 1. **Fix the environment setup script** (remove the bare

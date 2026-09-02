@@ -89,7 +89,7 @@ verified before committing.
   **Acceptance:** every value is accuracy-clean vs AGENTS.md; canonical is www;
   committed under docs/.
 
-- [ ] **T8 — Google Search Console founder checklist.**
+- [x] **T8 — Google Search Console founder checklist.** (2026-09-02: docs/seo-gsc-checklist.md — non-technical, verify→sitemap→request-indexing, with the honest "don't claim indexed without evidence" close)
   Per masterplan P2: write `docs/seo-gsc-checklist.md` — the exact steps for the
   founder to verify the property, submit the sitemap, and request indexing, with
   the honest note that indexation is not claimed without evidence.
