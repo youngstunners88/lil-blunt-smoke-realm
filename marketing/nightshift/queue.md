@@ -33,7 +33,7 @@ verified before committing.
   content-page list AND `src/frontend/src/lib/contentPages.ts` so none is
   orphaned; `pnpm fix && pnpm build && pnpm test --run` clean; revert `dist/`.
 
-- [ ] **T2 — Devlog article draft.**
+- [x] **T2 — Devlog article draft.** (2026-09-02: marketing/devlog/godot-html5-on-icp.md, quality_gate documentation-grade, gap 0.059)
   Write `marketing/devlog/godot-html5-on-icp.md` — "Exporting a Godot 4.3 game
   to HTML5 and hosting it on the Internet Computer." First-hand and accurate,
   drawn from GM-GAME's real export setup (COOP/COEP headers, the
