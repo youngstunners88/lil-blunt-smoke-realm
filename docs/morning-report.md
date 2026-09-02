@@ -72,12 +72,29 @@ schema. Build + 11 tests green.
 this session: `/faq/controls/`, `/faq/wallet/`, the Godot-on-ICP devlog draft,
 the finalised itch paste-pack, plus an accuracy fix to `/how-to-play/`.
 
+## 2026-09-02 — in-session continuation (queue extended: T6–T8)
+
+The original queue (T1–T5) was complete, so per the request to "perform the work
+that was supposed to be performed in the routine now in the session," the queue
+was extended with three more fully-specified, repo-local tasks (T6–T8) and worked
+top to bottom.
+
+**T6 — disambiguation AEO page: done.** `src/frontend/public/faq/not-the-artist/`
+answers "Is Lil Blunt the game the same as the music artist?" — maps to the
+`not_artist` claim, flagged by the brand-name collision. Passes `quality_gate.py`
+documentation-grade (gap 0.0653, after tightening the game-identification prose to
+concrete engine/controls/scoring specifics — the first draft read ambiguous at
+0.0035). In sitemap; linked from `/about/`; build + 11 tests green; `dist/`
+reverted. No production impact until Caffeine goes live.
+
 ## Do first when you wake (ranked) — unchanged priorities
 
 1. **Fix the environment setup script** (remove the bare
    `https://docs.mistral.ai/#overview` line) so autonomous sessions can run.
 2. **Caffeine "Go live"** — the draft is still unpublished; the crawler variant
-   still shows 0/5 claims. This is the highest-value blocked item.
+   still shows 0/5 claims. This is the highest-value blocked item, and every
+   AEO page shipped this session (`/faq/controls/`, `/faq/wallet/`,
+   `/faq/not-the-artist/`) is invisible to crawlers until it happens.
 3. **Paste the itch fixes** from `marketing/itch/page-content.md`.
 4. **Publish the devlog** (`marketing/devlog/godot-html5-on-icp.md`) to dev.to /
    Hashnode for a real backlink.

@@ -70,7 +70,7 @@ verified before committing.
   from a relevant page, build/test, commit.
   **Acceptance:** each shipped page passes `quality_gate.py`; not orphaned.
 
-- [ ] **T6 — Disambiguation AEO page (brand collision).**
+- [x] **T6 — Disambiguation AEO page (brand collision).** (2026-09-02: shipped /faq/not-the-artist/, quality_gate documentation-grade gap 0.0653; in sitemap; linked from /about/; build + 11 tests clean; dist reverted)
   Author `src/frontend/public/faq/not-the-artist/index.html` answering "Is Lil
   Blunt the game the same as the music artist of a similar name?" — a real query
   (search-ranking-strategy flags the brand-name collision). Answer: it is a free
