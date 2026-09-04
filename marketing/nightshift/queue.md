@@ -95,6 +95,84 @@ verified before committing.
   the honest note that indexation is not claimed without evidence.
   **Acceptance:** a non-technical founder could follow it end to end; committed.
 
+- [ ] **T9 — AEO page: is it play-to-earn?**
+  Author `src/frontend/public/faq/play-to-earn/index.html` answering "Is Lil
+  Blunt: The Smoke Realm play-to-earn?" — the honest answer is **no**, and that
+  honesty is the point: the site's Web3 framing makes this a real query, and
+  every other page already states there is no token payout, airdrop, or NFT
+  minting. Maps to the `not_onchain` claim. Explain what Proof of Play actually
+  is (an achievement layer, still being engineered) versus what play-to-earn
+  means, and that the chain here is the web host, not a casino. Same page style
+  as `/faq/wallet/`; question in title/H1/first sentence; FAQPage JSON-LD
+  matching visible text; www canonical.
+  **Acceptance:** passes `python3 marketing/aeo/quality_gate.py <file>` as
+  documentation-grade; in `sitemap.xml`; linked from a relevant page (not
+  orphaned); `pnpm build && pnpm test --run` clean from `src/frontend/`;
+  `dist/` reverted. Must not claim any reward mechanic exists.
+
+- [ ] **T10 — AEO page: does it work on mobile?**
+  Author `src/frontend/public/faq/mobile/index.html` answering "Can you play Lil
+  Blunt: The Smoke Realm on a phone?" The truthful answer is that it is built
+  for a browser with a keyboard, so desktop or laptop is the intended
+  experience — there are no touch controls in the current build. This is a real
+  pre-click question and answering it honestly prevents a bad first session.
+  Cover: why a keyboard is required (the bound keys), that the non-threaded
+  HTML5 export does load on mobile browsers but is not playable without a
+  keyboard, and what to do instead (play on desktop). Do not promise a mobile
+  version or a date.
+  **Acceptance:** same as T9 — documentation-grade gate, sitemap, linked, build
+  + tests clean, `dist/` reverted.
+
+- [ ] **T11 — Devlog #2: the gzip quality gate.**
+  Write `marketing/devlog/gzip-quality-gate.md` — "Filtering AI-generated filler
+  with gzip, before you publish it." Document the technique actually implemented
+  in `marketing/aeo/quality_gate.py`: normalized compression distance (Cilibrasi
+  & Vitanyi) against a hand-written good/spam corpus, why markup is stripped
+  first, why a narrow gap is treated as a fail rather than a pass, and the
+  honest limitation we hit — a thin 3-file corpus produces ambiguous verdicts on
+  genuinely fine pages (what happened to the `free` and `wallet` drafts in T5).
+  This is a real, uncommon, first-hand technique post and it earns links
+  (`backlink-building` #4). DRAFT ONLY — do not post it anywhere.
+  **Acceptance:** passes `quality_gate.py` as documentation-grade; committed
+  under `marketing/devlog/`; every claim about the script matches the actual
+  code in `marketing/aeo/quality_gate.py`.
+
+- [ ] **T12 — Backlink prospect list.**
+  Write `marketing/backlinks/prospects.md` — a researched, ranked list of at
+  least 12 concrete places that could plausibly link to smokegame.win or the
+  itch page, drawn from what `backlink-building` says is worth chasing for this
+  project (Godot/HTML5 dev communities, ICP/Internet Computer ecosystem
+  listings, free-browser-game directories, devlog platforms). For each: the
+  name, the exact URL to submit or post to, what it wants, which asset we
+  already have that fits (the devlogs, the itch page, the press kit), and a
+  one-line honest pitch. Rank by realistic chance of acceptance, not by domain
+  authority.
+  **Acceptance:** every URL is real and reachable (verify each with a fetch, and
+  drop any that 404); no prospect requires a claim `AGENTS.md` marks false;
+  committed. **Do not contact anyone** — this is a list for the human to work.
+
+- [ ] **T13 — Directory & showcase submission pack.**
+  Write `marketing/backlinks/submission-pack.md`: for the top 5 prospects from
+  T12, the exact paste-ready submission text for each (title, blurb at whatever
+  length that site wants, tags, links, screenshot choice). Reuse the verified
+  copy in `marketing/itch/page-content.md` rather than inventing new claims.
+  The human pastes these; nothing here is automatable.
+  **Acceptance:** a reviewer could submit to all five without writing a word
+  themselves; every factual claim traces to `claims.json` or
+  `marketing/itch/page-content.md`; T12 must be done first.
+
+- [ ] **T14 — Measurement refresh + delta.**
+  Run `python3 marketing/aeo/crawl_gate.py` and record current live state.
+  Compare against the last measurement in `docs/morning-report.md` and
+  `docs/seo-audit-baseline.md`. Answer specifically: is the user-agent split
+  still present, did the Caffeine draft go live, are the claims now in the
+  **crawler** variant, is `llms.txt` restored, and are the new `/faq/` pages
+  reachable to crawlers. Quote measurements; infer nothing.
+  **Acceptance:** findings appended to the morning report with numbers; if the
+  draft went live, say so as the headline — that unblocks everything else.
+  This task is repeatable: when it is the only one left, re-open it rather than
+  leaving the queue empty.
+
 ## Morning report
 
 Each firing appends to `docs/morning-report.md` (create if missing): the date,
