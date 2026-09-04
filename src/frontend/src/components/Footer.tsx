@@ -193,6 +193,13 @@ export function Footer({ onOpenContentPage }: FooterProps) {
               >
                 Privacy Policy
               </a>
+              <a
+                href="/accessibility/"
+                data-ocid="footer.link.accessibility"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Accessibility
+              </a>
             </nav>
           </div>
 
