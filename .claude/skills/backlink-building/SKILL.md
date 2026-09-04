@@ -169,3 +169,80 @@ with the source URL. Never invent or guess an email.
 `competitor_link_gap` (source domains linking to a named competitor but not to
 smokegame.win) is the free equivalent of OpenSEO's paid competitor-gap tool —
 use it once a real competitor set exists, not speculatively.
+
+Note on OpenSEO's other eight skills (`seo-audit`, `competitive-landscape`,
+`competitor-analysis`, `keyword-clustering`, `seo-coach`,
+`seo-project-setup`, `local-seo`, plus the paid MCP tools throughout): all are
+sized for a market with real competitors and real search volume. This
+project's own measurement is the opposite — best available term ~70
+searches/month, most at zero (`search-ranking-strategy`, `LESSONS.md`). Porting
+market-level competitive-analysis machinery here would be building tooling for
+a market that doesn't exist. `link-prospecting` was the one skill that
+transferred; the rest were read and deliberately left out.
+
+### Full prospecting workflow (adapted from OpenSEO's link-prospecting)
+
+1. **State the linkable asset first, out loud.** Not "get backlinks" — name
+   the actual thing worth citing: a devlog post
+   (`marketing/devlog/godot-html5-on-icp.md`, or the queued gzip-gate one), the
+   itch page once its copy pack ships, or a specific verifiable claim (the
+   whole front end served from an ICP canister — genuinely unusual, see
+   `/about/`). A prospect email with no real asset behind it is spam regardless
+   of personalization.
+2. **Build 5-10 queries** from the patterns above, scoped to that asset.
+3. **Run them as web searches**, in one batch.
+4. **Filter hard.** Keep: resource/roundup pages, directories, curated lists,
+   comparison pages, statistics/guide pages that could cite the game or the
+   ICP-hosting angle. Drop: homepages, login pages, thin affiliate pages,
+   unrelated forums, and — per the reframe above — anything that wouldn't send
+   a person who'd actually click through and play.
+5. **Assign each surviving prospect an outreach angle** (below) — never send
+   generic "please link to us."
+6. **Contact-discover only the strongest prospects**, per the rules above.
+   Never bulk-guess emails across the whole list.
+7. **Draft outreach per prospect**, personalized to the page, not a
+   mail-merge template with the name swapped.
+
+### Output format — use this table when reporting prospects
+
+| Prospect URL | Domain | Found via | Relevance | Angle | Contact path | Priority |
+|---|---|---|---|---|---|---|
+
+Lead the report with: the best outreach angle found, the single
+highest-priority prospect, and any real limitation in the search (not enough
+relevant pages found, no contact path discoverable, etc.) — stated plainly,
+not papered over.
+
+### Outreach angles, with real drafts in the game's actual voice
+
+Pick the angle that's true for the specific prospect; never send the same
+draft to two different prospect types.
+
+**1. Resource/list inclusion** — for a "best free browser games" roundup:
+> Hey — noticed [page title] and thought Lil Blunt: The Smoke Realm might fit.
+> It's a free 2D Wild West platformer, runs straight in the browser with no
+> download, no wallet, no account — click and play. The whole site is
+> actually served from the Internet Computer, which is the unusual bit if
+> that's relevant to your readers. Here's the link if useful:
+> https://youngstunners88.itch.io/lil-blunt-adventure — no worries either way,
+> just thought it was a fit.
+
+**2. Devlog / technical reference** — for a Godot or ICP-hosting audience:
+> Hi — I wrote up two specific traps from shipping a Godot 4.3 HTML5 export on
+> the Internet Computer (a threaded-export setting that silently fails to
+> boot inside an iframe, and why ICP asset canisters break Range-request
+> audio). Thought it might be useful if you cover [their topic]:
+> [devlog URL]. Real numbers, no pitch — happy to answer anything about the
+> setup.
+
+**3. Comparison/alternative inclusion** — only where the comparison is
+honest (see the reframe: never claim ranking or reward mechanics the game
+doesn't have):
+> Following up because [page] compares [category] — Lil Blunt: The Smoke
+> Realm is a free, no-wallet browser platformer that might round it out; it's
+> not play-to-earn and doesn't claim to be, just an honest free game with an
+> unusual (ICP-hosted) backend if that's a distinction worth noting.
+
+Every draft: one send, personalized, honest about what the game is and isn't
+(no play-to-earn or token-reward claims — `AGENTS.md`), and never claim a link
+landed without fetching the page and confirming the anchor is actually there.
