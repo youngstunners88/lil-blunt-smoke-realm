@@ -62,6 +62,35 @@ If a probe contradicts what the user told you, **the probe is evidence about
 one container at one moment, not proof the user is wrong.** Report what it
 shows, name the timing gap, and ask — don't accuse.
 
+## Wiring an MCP server: two traps
+
+Both of these cost real time on CrawlConsole (2026-09-04).
+
+### Trap 1 — the npx package is an *installer*, not the server
+
+`npx -y @crawlconsole/mcp` does **not** run an MCP server. It is an installer:
+it opens a Google sign-in, mints an Agent API key, then writes config pointing
+at the hosted endpoint `https://mcp.crawlconsole.com/mcp`. Registering it as a
+stdio server (`claude mcp add x -- npx -y @pkg/mcp`) produces a 30-second
+connect timeout forever, because there is no server on the other end.
+
+**Check before registering:** `npm pack <pkg>` then read its README and bin.
+If the bin talks about sign-in, `--agent`, or writing configs, it is an
+installer — find the real endpoint URL inside it (often a `DEFAULT_MCP_URL`
+constant) and register *that* as an HTTP server instead.
+
+### Trap 2 — project ID is not an API key
+
+`CRAWLCONSOLE_API` was set correctly by the user, but held the **project ID**
+(`cc_…`), not an Agent API key. The endpoint returned
+`HTTP 401 {"error":"unauthorized","message":"Invalid bearer token."}`.
+
+An identifier and a credential often look alike and live in adjacent fields in
+a vendor dashboard. When an MCP server 401s on a token that is definitely
+"set", suspect a **credential type mismatch** before suspecting the user
+forgot to set it. `claude mcp get <name>` prints the header it actually sent —
+read it and check the prefix against the vendor's docs.
+
 ## Hard rules
 
 - Never print env var **values**. Names only. `probe.sh` enforces this.
