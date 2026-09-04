@@ -105,14 +105,63 @@ shows it. A founder task; nothing here is automatable from this repo.
 reviewable; nothing shipped to production, posted anywhere, or spent money. The
 blockers below are unchanged and all still need the human.
 
-## Do first when you wake (ranked) — unchanged priorities
+## 2026-09-04 — Caffeine dispatch #1 verified: 1 of 3 changes landed
 
-1. **Fix the environment setup script** (remove the bare
-   `https://docs.mistral.ai/#overview` line) so autonomous sessions can run.
-2. **Caffeine "Go live"** — the draft is still unpublished; the crawler variant
-   still shows 0/5 claims. This is the highest-value blocked item, and every
-   AEO page shipped this session (`/faq/controls/`, `/faq/wallet/`,
-   `/faq/not-the-artist/`) is invisible to crawlers until it happens.
-3. **Paste the itch fixes** from `marketing/itch/page-content.md`.
-4. **Publish the devlog** (`marketing/devlog/godot-html5-on-icp.md`) to dev.to /
-   Hashnode for a real backlink.
+Composer reported the build finished but its own automated test could not
+verify it. Re-measured independently against production
+(`www.smokegame.win`), per `docs/caffeine-dispatch-01.md`'s own verification
+steps:
+
+**Landed — confirmed:**
+- `python3 marketing/aeo/crawl_gate.py` now reports **5/5 claims pass** to
+  the crawler UA, and the earlier UA-split banner is gone entirely. The head
+  metadata fix (part 3 of the dispatch, `docs/seo-head-package.md`) reached
+  production. Canonical is now `https://www.smokegame.win/`, matching the
+  masterplan's chosen host.
+- This is the single biggest win of the project so far: every AEO page
+  shipped this session was invisible to crawlers until this landed.
+
+**Did not land — confirmed absent:**
+- **CrawlConsole tracker script** (dispatch part 1): `curl` against the live
+  homepage (crawler UA, cache-busted) finds no
+  `analytics.crawlconsole.com` reference anywhere in the served HTML.
+- **Privacy page disclosure** (dispatch part 2): `/privacy/` returns HTTP 200
+  at the same byte size as before (5820 bytes); no mention of "analytics,"
+  "processor," "crawlconsole," or "third-party" anywhere in the page.
+
+**Also still stale, unrelated to this dispatch:**
+- Production `sitemap.xml` has only **4 URLs** (`/`, `/about/`,
+  `/how-to-play/`, `/docs/`) — the repo's copy has 13, including every
+  `/faq/` page and `/accessibility/`. Caffeine's copy has not synced these.
+  None of the shipped FAQ/accessibility pages are discoverable via sitemap on
+  production yet, even though they now pass the crawler-claims check
+  individually if fetched directly.
+- `llms.txt` is unchanged: still 637 bytes of Caffeine boilerplate, not the
+  authored file.
+
+**Conclusion: the composer's "build finished" report was correct about the
+build succeeding, but wrong about which of the three requested changes
+actually shipped.** This is exactly why the dispatch doc's own rule says
+never report a Caffeine change as done without independent re-measurement —
+confirmed necessary here, not theoretical.
+
+## Do first when you wake (ranked)
+
+1. **Go back to Caffeine with the specific gap.** Not "did it work" — tell
+   the composer explicitly: the tracker script and the privacy disclosure did
+   not land; only the head/metadata change did. Re-dispatch just those two.
+2. **Get the production sitemap synced** to the repo's 13-URL version (or
+   resubmit once synced) — otherwise the FAQ and accessibility pages stay
+   undiscoverable even though they'd now pass the crawler check individually.
+3. **Submit the sitemap in Google Search Console**
+   (`docs/seo-gsc-checklist.md`) — worth doing now that the head/canonical
+   fix is confirmed live; this was low-value while the crawler variant showed
+   0/5 claims, not anymore.
+4. **Fix the night-shift routine's empty `sources`/`outcomes`** so it can
+   actually commit — two fired sessions have burned tokens and pushed
+   nothing because of this (see `env-doctor` skill). T9–T15 are queued and
+   waiting.
+5. **Publish the devlog** (`marketing/devlog/godot-html5-on-icp.md`) to
+   dev.to / Hashnode — the backlink profile is at zero per CrawlConsole
+   (`docs/crawlconsole-integration.md`), and this is the strongest asset for
+   starting it.
