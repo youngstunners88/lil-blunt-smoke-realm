@@ -86,7 +86,7 @@ Measured on the crawler variant unless noted.
 | 5 | `llms.txt` is 637 bytes of Caffeine boilerplate, not the authored 4.8 KB file | AEO | High |
 | 6 | `controls` claim stale in both variants | accuracy | Medium |
 | 7 | No 1200×630 `og-image.png`; OG image is the square logo JPEG, and no `og:image:width`/`height` | §1.3 | Medium |
-| 8 | Google Search Console property not verified | §2 | Medium (founder task) |
+| 8 | ~~Google Search Console property not verified~~ — **superseded 2026-09-03**: it is verified (see Searchata section below). Sitemap still not submitted. | §2 | Medium (founder task) |
 
 ## Accuracy conflicts inside the masterplan itself
 
@@ -112,3 +112,28 @@ separate copy and ships only on a chat dispatch plus a manual "Go live" click.
 This repo is the source of truth for *intent*; production is a separate
 artifact that must be re-measured after every deploy. That is why Phase 0 is
 not a one-off — it is the verification step after each Go live.
+
+## Real Search Console data — 2026-09-03, via Searchata
+
+First connection to real Google Search Console data (see
+`docs/searchata-integration-spec.md` for the tool spec and budget rules). This
+supersedes assumption with measurement:
+
+- **`smokegame.win` is a verified GSC property** (`siteOwner`), contradicting
+  the "not verified" line above from an earlier assumption. The verification
+  step already happened at some point before this connector was attached.
+- **No sitemap submitted.** `get_sitemaps` → zero rows, despite
+  `sitemap.xml` existing in the repo with 10 URLs. This is still the open
+  founder action from `docs/seo-gsc-checklist.md` step 3.
+- **Homepage is indexed.** `inspect_url` on `https://www.smokegame.win/` →
+  `PASS`, "Submitted and indexed," canonical matches, last crawled
+  2026-08-22. Discovered via a referring URL from the **itch.io page** — a
+  real backlink already doing work.
+- **28-day performance: 1 impression, 0 clicks.** One single impression on
+  2026-08-31, position 2. `get_opportunities` over the same window: **zero
+  rows** — not enough query volume yet for the opportunity-finder to surface
+  anything.
+
+**Read this plainly:** indexing exists but visibility is effectively zero.
+Submitting the sitemap and getting the Caffeine draft live (still the
+project's top blocker) are the two actions most likely to move this number.

@@ -173,6 +173,23 @@ verified before committing.
   This task is repeatable: when it is the only one left, re-open it rather than
   leaving the queue empty.
 
+- [ ] **T15 — Searchata indexing check (data-gated).**
+  Follow `searchata-seo` workflow W2 + W4 (see `docs/searchata-integration-spec.md`
+  for the tool spec, budget rules, and cached `propertyId`
+  `property_9e59bca5-4a8a-46d4-954a-9f568f879512`). Budget: 2 calls max —
+  `google_search_console_inspect_urls` (batch, all `/faq/*`, `/about/`,
+  `/how-to-play/` URLs, 1 call) and `google_search_console_get_performance`
+  with `dimensions: ["date"]` over 28 days (1 call). Compare against the
+  2026-09-03 baseline in `docs/seo-audit-baseline.md` (1 impression, 0 clicks,
+  homepage indexed, sitemap not submitted). Report deltas plainly — do not
+  round zero up. If nothing changed, say so; that itself is a finding (still
+  waiting on Caffeine Go-live and sitemap submission).
+  **Acceptance:** findings appended to `docs/morning-report.md` with the exact
+  numbers Searchata returned; total Searchata calls this task ≤2; no claim of
+  having fixed or submitted anything (read-only tool). This task is
+  repeatable — re-open it after it's done rather than leaving the queue empty,
+  same as T14.
+
 ## Morning report
 
 Each firing appends to `docs/morning-report.md` (create if missing): the date,
