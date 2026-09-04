@@ -117,3 +117,55 @@ page and confirming it is there.
   a campaign.
 - **Do not report a link as earned without verifying it.** Fetch the page and
   confirm the anchor exists.
+
+## Real backlink baseline — 2026-09-04, via CrawlConsole
+
+`domain_authority(smokegame.win)` and `referring_domains(smokegame.win)` both
+return **empty** — `found: false`, zero rows. `smokegame.win` does not appear
+in Common Crawl's web graph at all (`docs/crawlconsole-integration.md`). This
+does not contradict the eight spam domains Ahrefs found above; different
+crawlers, different snapshots. Read together: the profile is **effectively
+zero either way** — a handful of nofollow spam plus one known, uncrawled link
+from the itch.io page. Every prospecting task here is starting from nothing,
+not improving something weak.
+
+## Prospecting method — adapted from OpenSEO (MIT), not the paid service
+
+`every-app/open-seo` (github.com/every-app/open-seo, MIT license) is a paid
+SEO SaaS ($10/mo hosted, or self-host + your own DataForSEO key) whose data
+tools duplicate what this project already has connected — CrawlConsole covers
+its backlink/competitor-gap tools, Monid/Ahrefs covers its keyword tools,
+Searchata covers its GSC tools. **Do not sign up for it**; there is no
+incremental data it would add here. What is worth taking is free: its
+`link-prospecting` skill's query-pattern and contact-discovery methodology,
+which this project didn't have. Adapted below to use tools we actually have
+(web search/fetch, `CrawlConsole`) instead of its paid `get_serp_results` /
+`get_backlinks_overview`.
+
+**Prospecting query patterns** — build these from the linkable asset (a devlog
+post, the itch page, a specific claim), not from the brand name:
+
+- `<topic> resources`
+- `best <category> tools` / `best <category> games`
+- `<competitor-or-similar-game> alternatives`
+- `<topic> statistics`
+- `<topic> guide`
+- `<topic> examples`
+- `free browser games <year>`
+
+Run these as web searches, batched, before touching outreach. Filter for
+**editorial pages that would actually list a free browser platformer**:
+resource pages, "best free games" roundups, directories, curated lists — not
+generic news sites.
+
+**Contact discovery**, once a prospect page is real: look for an author byline
+page, a contact or "submit a game" page, an about/team page, or a public email
+in the page HTML — and for a directory, its actual submission form (see
+`itch-page` and `game-distribution` for the two that already have submission
+flows). **Only record a contact detail that was actually found on the page**,
+with the source URL. Never invent or guess an email.
+
+**Verify against CrawlConsole before trusting a competitor comparison.**
+`competitor_link_gap` (source domains linking to a named competitor but not to
+smokegame.win) is the free equivalent of OpenSEO's paid competitor-gap tool —
+use it once a real competitor set exists, not speculatively.
