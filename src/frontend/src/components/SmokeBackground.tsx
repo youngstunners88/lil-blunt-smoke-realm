@@ -1,27 +1,140 @@
 import { motion, useReducedMotion } from "motion/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 /**
- * Fixed full-screen animated background for LIL BLUNT: THE SMOKE REALM —
- * the hybrid dusk/night frontier where smoke, crystal, and gold meet.
+ * The background loop is served from jsDelivr rather than from this app's
+ * own `public/` directory.
+ *
+ * Reason: the Caffeine project and the GitHub repo are separate codebases,
+ * and the Caffeine builder cannot pull binary files across from the repo.
+ * Requests for `/assets/video/*` on the deployed canister fall through to the
+ * SPA's index.html (HTTP 200, `text/html`), so the `<video>` had no decodable
+ * source and silently showed only the poster. jsDelivr serves the files
+ * straight from the public repo with correct MIME types.
+ *
+ * The URLs are pinned to a commit SHA, so they are immutable and cacheable.
+ * If these files are ever regenerated, bump the SHA — a branch-name URL would
+ * silently serve stale or missing content.
+ */
+const VIDEO_CDN_BASE =
+  "https://cdn.jsdelivr.net/gh/youngstunners88/lil-blunt-smoke-realm@95092b5a346c11336e9ded60c4a579f445d115e4/src/frontend/public/assets/video";
+
+const BACKGROUND_VIDEO_MP4 = `${VIDEO_CDN_BASE}/smoke-realm-background.mp4`;
+
+/**
+ * VP9 fallback. H.264 is proprietary and a few Chromium builds ship without
+ * it — they report `canPlayType('video/mp4; codecs="avc1…"')` as empty and
+ * fail the MP4 outright. The browser picks the first source it can decode,
+ * so nearly everyone gets the smaller MP4 and only those builds pay for this.
+ */
+const BACKGROUND_VIDEO_WEBM = `${VIDEO_CDN_BASE}/smoke-realm-background.webm`;
+
+/**
+ * Poster / base still. Served from THIS app, not the CDN, and deliberately
+ * so: it is the layer that guarantees the page never renders on black. The
+ * canister already hosts this file, whereas the CDN is a third party that
+ * can be slow, blocked, or down. The video is an enhancement on top; the
+ * background itself must not depend on anything outside the deploy.
+ */
+const BACKGROUND_POSTER_SRC =
+  "/assets/generated/lil-blunt-prospecting-co-background.png";
+
+/**
+ * Fixed full-screen background for LIL BLUNT: THE SMOKE REALM — the
+ * founder-supplied "Lil Blunt Prospecting Co." canvas: an 1800s American
+ * mining town (wooden signs, steam train, lanterns, dusty main street,
+ * mountains) infused with cannabis culture.
+ *
+ * The canvas is rendered as a seamless 20-second video loop generated from
+ * that exact still: the town breathes, then period characters walk into the
+ * existing street and interact — cowboys talking and passing a joint,
+ * diamonds tipped from a pouch, a golden revolver caught in the low sun,
+ * women in period dress crossing the street — before the street empties
+ * again to close the loop. No camera movement throughout. Generated as one
+ * continuous take (Seedance video-extend, grounded in the actual prior
+ * clip's last frame) rather than two independently-generated clips glued
+ * together, which is what caused an earlier version to read as a visible
+ * cut. The still itself is the poster and the fallback, so the composition
+ * is identical whether the video plays or not.
+ *
+ * The video is dropped entirely when the user prefers reduced motion. If it
+ * fails to decode it needs no error handling: the still is painted beneath
+ * it and simply shows through. (An earlier `onError` that unmounted the
+ * video was actively harmful — React's synthetic handler fires on the first
+ * <source> failing, so it tore the element down before the browser could
+ * try the WebM.) It is muted and carries no audio track — the site's own
+ * theme music (`AmbientAudioPlayer`) is the only sound and must not be
+ * disturbed.
  *
  * Layers, back to front:
- *   1. `.smoke-layer` nebula drift (emerald + cyan + sapphire + gold).
- *   2. Parallax mountain silhouettes (two dusk/night ridgelines drifting
- *      at different speeds for depth) — cool-shifted to match the new
- *      background token (0.11 0.025 280).
- *   3. Three protocol particle families rising from the bottom:
- *        - Warm embers (SMOKE — cannabis energy)
- *        - Blue crystal-glow particles (DIAMONDS — sapphire crystal energy)
- *        - Gold-ore shimmer particles (GOLD — warm metallic ore)
- *   4. A soft dust haze and a vignette to keep content legible.
+ *   1. The still canvas (poster / reduced-motion / fallback).
+ *   2. The looping video, when motion is allowed.
+ *   3. A light readability wash + vignette, kept subtle so the scene stays
+ *      visible beneath the UI.
+ *   4. Three protocol particle families rising from the bottom:
+ *        - Warm embers (SMOKE), blue crystals (DIAMONDS), gold ore (GOLD).
  *
- * All motion is environmental — drifting smoke, rising particles, slow
- * parallax — no aggressive zoom or floating cards. Honors
- * `prefers-reduced-motion`.
+ * Honors `prefers-reduced-motion`.
  */
 export function SmokeBackground() {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  /**
+   * Keep the loop alive.
+   *
+   * `loop` alone is not reliable for a decorative background. Browsers stop
+   * a muted autoplay video for reasons that have nothing to do with the
+   * markup: Chrome's energy saver pauses it, returning from a background tab
+   * can leave it paused, and a dropped segment mid-playback can fire `ended`
+   * without the loop restarting. When that happens this video freezes on its
+   * final frame — which, because the clip was built to end where it began,
+   * is nearly identical to the still. It reads as "the video stopped and the
+   * old background came back."
+   *
+   * So rather than trusting `loop`, restart explicitly on `ended`, resume on
+   * an unexpected `pause`, and re-check when the tab becomes visible again.
+   * A low-frequency watchdog catches anything those three miss.
+   */
+  useEffect(() => {
+    if (reduce) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const resume = () => {
+      if (video.ended || video.currentTime >= video.duration - 0.05) {
+        video.currentTime = 0;
+      }
+      void video.play().catch(() => {});
+    };
+
+    const onEnded = () => {
+      video.currentTime = 0;
+      void video.play().catch(() => {});
+    };
+    const onPause = () => {
+      // Nothing in this UI ever pauses the background deliberately.
+      resume();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") resume();
+    };
+
+    video.addEventListener("ended", onEnded);
+    video.addEventListener("pause", onPause);
+    document.addEventListener("visibilitychange", onVisibility);
+
+    const watchdog = window.setInterval(() => {
+      if (document.visibilityState === "visible" && video.paused) resume();
+    }, 5000);
+
+    return () => {
+      video.removeEventListener("ended", onEnded);
+      video.removeEventListener("pause", onPause);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.clearInterval(watchdog);
+    };
+  }, [reduce]);
 
   // Deterministic particle positions so the DOM is stable across renders.
   const embers = useMemo(
@@ -67,42 +180,34 @@ export function SmokeBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* Base nebula smoke drift layer */}
-      <div className="smoke-layer" />
-
-      {/* Parallax mountain silhouettes — far ridge (dusk/night tone) */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[42vh]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, oklch(0.1 0.025 280 / 0.6) 100%)",
-          clipPath:
-            "polygon(0 62%, 8% 48%, 16% 58%, 26% 40%, 36% 55%, 46% 44%, 56% 58%, 66% 42%, 76% 55%, 86% 46%, 100% 58%, 100% 100%, 0 100%)",
-        }}
-        animate={reduce ? undefined : { x: [0, -18, 0] }}
-        transition={{
-          duration: 60,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
+      {/* Founder-supplied cinematic canvas — poster, reduced-motion state,
+          and fallback if the video cannot load. Always painted so there is
+          never a blank frame while the video buffers. */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${BACKGROUND_POSTER_SRC})` }}
       />
 
-      {/* Parallax mountain silhouettes — near ridge (dusk/night tone) */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[30vh]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, oklch(0.08 0.022 270 / 0.66) 100%)",
-          clipPath:
-            "polygon(0 70%, 12% 52%, 24% 64%, 38% 46%, 52% 62%, 64% 48%, 78% 60%, 90% 50%, 100% 62%, 100% 100%, 0 100%)",
-        }}
-        animate={reduce ? undefined : { x: [0, 24, 0] }}
-        transition={{
-          duration: 80,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
+      {/* Seamless 20s loop of that same canvas. Silent by design. */}
+      {!reduce && (
+        <video
+          ref={videoRef}
+          className="absolute inset-0 size-full object-cover object-center"
+          poster={BACKGROUND_POSTER_SRC}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+        >
+          <source src={BACKGROUND_VIDEO_MP4} type="video/mp4" />
+          <source src={BACKGROUND_VIDEO_WEBM} type="video/webm" />
+        </video>
+      )}
+
+      {/* Light readability wash — kept subtle so the canvas stays visible */}
+      <div className="absolute inset-0 bg-[oklch(0.08_0.02_270/0.22)]" />
 
       {/* Rising ember particles — SMOKE protocol (cannabis energy) */}
       {embers.map((e) => (
@@ -190,7 +295,7 @@ export function SmokeBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 45%, oklch(0.11 0.025 280 / 0.72) 100%)",
+            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 55%, oklch(0.11 0.025 280 / 0.45) 100%)",
         }}
       />
     </div>

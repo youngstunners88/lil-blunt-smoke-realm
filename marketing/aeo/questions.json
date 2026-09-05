@@ -1,0 +1,16 @@
+[
+  {"entity": "free browser platformer",
+   "question": "Recommend some free platformer games I can play right now in my browser with no download and no signup."},
+  {"entity": "wild west game",
+   "question": "Recommend some Wild West themed games I can play free in a browser."},
+  {"entity": "no-download browser game",
+   "question": "I want to play a game right now without installing anything or making an account. Recommend some browser games."},
+  {"entity": "html5 indie platformer",
+   "question": "Recommend some good indie HTML5 platformer games made with Godot that run in a browser."},
+  {"entity": "icp / web3 game",
+   "question": "Recommend some games hosted on the Internet Computer (ICP) that play in a browser without a wallet."},
+  {"entity": "high score arcade browser",
+   "question": "Recommend free browser games with high-score chasing and arcade-style scoring."},
+  {"entity": "brand query",
+   "question": "What is Lil Blunt: The Smoke Realm and where can I play it?"}
+]

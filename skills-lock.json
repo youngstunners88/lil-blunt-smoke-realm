@@ -105,6 +105,12 @@
       "source": "caffeinelabs/skills",
       "sourceType": "github",
       "computedHash": "10206a26f8963339cfdeac95044c22a58402291c6bfe5a1b8e55dc613c6c057e"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "fc9106b2b240a4abdbe9abf1e5d026ab06c3315f3b79b7e029383e17abb341b2"
     }
   }
 }

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docs — Lil Blunt: The Smoke Realm</title>
+    <meta name="description" content="Documentation for Lil Blunt: The Smoke Realm — what the game is, how to play it, how the Internet Computer integration works, and exactly which on-chain features are live today." />
+    <link rel="canonical" href="https://www.smokegame.win/docs/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:title" content="Docs — Lil Blunt: The Smoke Realm" />
+    <meta property="og:description" content="What the game is, how to play, how the ICP integration works, and what is live today." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.smokegame.win/docs/" />
+    <meta property="og:image" content="https://www.smokegame.win/assets/brand/lil-blunt/lil-blunt-logo.jpeg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0; padding: 3rem 1.25rem 4rem;
+        background: #0b0f19; color: #e6e9f0;
+        font: 16px/1.7 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      main { max-width: 46rem; margin: 0 auto; }
+      h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; color: #fff; }
+      h2 { font-size: 1.25rem; margin: 2.5rem 0 .5rem; color: #7dd3a0; }
+      p, li { color: #c3c9d6; }
+      a { color: #6fd3e8; }
+      .lede { font-size: 1.1rem; color: #dfe4ee; }
+      .bluf {
+        border-left: 3px solid #1c9c6b; padding: .25rem 0 .25rem 1rem;
+        margin: .5rem 0 1rem; color: #dfe4ee;
+      }
+      nav.crumbs { margin-bottom: 2rem; font-size: .875rem; }
+      .status { border: 1px solid #232838; border-radius: .5rem; padding: 1rem 1.25rem; margin: 1rem 0; }
+      .status h3 { margin: 0 0 .5rem; font-size: .8125rem; text-transform: uppercase; letter-spacing: .08em; }
+      .live h3 { color: #7dd3a0; }
+      .pending h3 { color: #e9c46a; }
+      footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #232838; font-size: .8125rem; color: #8891a5; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav class="crumbs"><a href="/">Lil Blunt: The Smoke Realm</a> → Docs</nav>
+
+      <h1>Documentation</h1>
+
+      <p class="lede">
+        Everything worth knowing about Lil Blunt: The Smoke Realm, in plain
+        English — what the game is, how to play it, how the Internet Computer
+        part works, and which on-chain features are actually live today.
+      </p>
+
+      <h2>What the game is</h2>
+      <p class="bluf">
+        Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer that
+        runs in a web browser. You play a green outlaw prospector digging
+        through the Dustrock Mines of an 1800s Wild West mining town, chasing a
+        high score while dodging hazards and the Tax Man.
+      </p>
+      <p>
+        <a href="/about/">Read the full about page →</a> — covers the setting,
+        the character, how it differs from other browser platformers, and the
+        three connected protocols.
+      </p>
+
+      <h2>How to play</h2>
+      <p class="bluf">
+        Left and Right arrow keys to move, Spacebar to jump, Enter to throw
+        axes, Shift to sprint, K for a burst dash. Get as deep into the mine
+        as you can before your lives run out. It is free, runs in a browser,
+        and needs no account to start.
+      </p>
+      <p>
+        <a href="/how-to-play/">Read the full how-to-play guide →</a> — controls,
+        scoring, the wanted board, and a frequently asked questions section.
+      </p>
+
+      <h2>Getting started with Internet Identity</h2>
+      <p class="bluf">
+        Signing in is optional. If you choose to, you use Internet Identity —
+        the Internet Computer's login system — which authenticates through your
+        device's fingerprint reader, face scan, or hardware key. There is no
+        password, no seed phrase, no wallet to install, and no fee.
+      </p>
+      <p>
+        You can play the entire game without signing in at all. See
+        <a href="/how-to-play/">how to play</a> for the details.
+      </p>
+
+      <h2>What is live today</h2>
+      <p class="bluf">
+        The website is genuinely served from a canister on the Internet
+        Computer, and Internet Identity sign-in genuinely works. The leaderboard
+        and ecosystem figures shown on the site are demonstration data and are
+        labelled DEMO — a live on-chain leaderboard with real player scores has
+        not shipped yet.
+      </p>
+
+      <div class="status live">
+        <h3>Live</h3>
+        <ul>
+          <li>The entire front end is served from an ICP canister, not a conventional web host</li>
+          <li>Internet Identity sign-in</li>
+          <li>The game itself, free and playable in a browser</li>
+        </ul>
+      </div>
+
+      <div class="status pending">
+        <h3>Not shipped yet</h3>
+        <ul>
+          <li>A live on-chain leaderboard carrying real player scores — the
+              figures currently displayed are demonstration data</li>
+        </ul>
+      </div>
+
+      <p>
+        There is <strong>no token reward, airdrop, NFT minting, or play-to-earn
+        mechanic</strong> attached to playing. Proof of Play is an achievement
+        layer, not a payout. This is a game, not an investment product, and
+        nothing here is financial advice.
+      </p>
+
+      <h2>Tokenomics</h2>
+      <p class="bluf">
+        There is no published tokenomics documentation yet. The supply, staking,
+        and circulating figures visible on the site are demonstration
+        placeholders, not real numbers, and should not be used to make any
+        decision.
+      </p>
+      <p>
+        This page will be updated if and when verified figures are published.
+        Until then, treat any tokenomics claim about this project that does not
+        come from an official channel as unverified.
+      </p>
+
+      <h2>The three protocols</h2>
+      <p class="bluf">
+        The Smoke Realm is the shared setting for three related projects:
+        SMOKE (cannabis-green haze and lounge interiors), DIAMONDS (the 1800s
+        mining town and crystal-blue veins), and GOLD (the Wild West gold rush).
+      </p>
+      <ul>
+        <li><a href="https://lilblunt.win/" rel="noopener">SMOKE — lilblunt.win</a></li>
+        <li><a href="https://diamonds1111.win/" rel="noopener">DIAMONDS — diamonds1111.win</a></li>
+        <li><a href="https://mine4gold.app/" rel="noopener">GOLD — mine4gold.app</a></li>
+      </ul>
+
+      <footer>
+        <p>
+          Having trouble? See <a href="/troubleshooting/">troubleshooting</a>.
+
+          <a href="/">Home</a> ·
+          <a href="/about/">About</a> ·
+          <a href="/how-to-play/">How to play</a> ·
+          <a href="https://youngstunners88.itch.io/lil-blunt-adventure" rel="noopener">Play free</a> ·
+          <a href="https://x.com/smokering25" rel="noopener me">X</a> ·
+          <a href="https://t.me/LilBluntdotWin" rel="noopener me">Telegram</a>
+        </p>
+        <p>For entertainment purposes only. 21+. Not financial advice.</p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -282,6 +282,22 @@
     box-shadow: 0 1px 0 0 oklch(0.95 0.02 80 / 0.4) inset, 0 20px 60px -20px
       oklch(0 0 0 / 0.5);
   }
+  /* Smoke-den surface — hazy cannabis-lounge green, warm not neon */
+  .smoke-den {
+    background: linear-gradient(
+        180deg,
+        oklch(0.19 0.03 155 / 0.92),
+        oklch(0.13 0.025 155 / 0.92)
+      ),
+      radial-gradient(
+        ellipse 80% 60% at 50% 110%,
+        oklch(0.72 0.16 150 / 0.16),
+        transparent 70%
+      );
+    border: 1px solid oklch(0.72 0.16 150 / 0.28);
+    box-shadow: 0 1px 0 0 oklch(0.94 0.015 60 / 0.06) inset, 0 20px 60px -20px
+      oklch(0 0 0 / 0.7);
+  }
   /* Iron surface — dark metal for technical panels, cool-shifted for night */
   .iron {
     background: linear-gradient(
@@ -294,6 +310,30 @@
       oklch(0 0 0 / 0.7);
   }
   /* Glassmorphism panel — frosted dark glass with neon edge (Smoke site modern dark UI) */
+  /* Readability pool for text that sits directly on the background canvas.
+     The canvas is fixed while sections scroll over it, so a heading can land
+     on the bright sunset or the pale dirt road and wash out. This lays a soft
+     radial pool of shade behind the text block only — it falls off to fully
+     transparent, so the town stays visible either side of it. Use it on
+     section headers, never on a surface that already has a material. */
+  .section-scrim {
+    position: relative;
+    isolation: isolate;
+  }
+  .section-scrim::before {
+    content: "";
+    position: absolute;
+    inset: -3rem -4rem;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 68% 78% at 50% 50%,
+      oklch(0.09 0.02 270 / 0.9),
+      oklch(0.09 0.02 270 / 0.72) 52%,
+      transparent 82%
+    );
+  }
+
   .glass-panel {
     background: oklch(0.15 0.022 270 / 0.55);
     backdrop-filter: blur(16px) saturate(140%);
