@@ -165,3 +165,45 @@ confirmed necessary here, not theoretical.
    dev.to / Hashnode — the backlink profile is at zero per CrawlConsole
    (`docs/crawlconsole-integration.md`), and this is the strongest asset for
    starting it.
+
+## 2026-09-09 — sitemap audit: 2 of 11 URLs are phantoms
+
+Dispatch #2 partially landed. Verified against production with a Googlebot UA,
+testing for each page's OWN distinctive content rather than byte size (the ICP
+boundary node serves wildly varying sizes for the same document, so size and
+even `<title>` are unreliable here — every path returns the homepage `<title>`
+regardless of whether real content is present).
+
+**Landed:** production `sitemap.xml` is now **11 URLs** (was 4).
+
+**Did NOT land, second attempt running:**
+- CrawlConsole tracker script — still absent from served HTML (0 references)
+- `/privacy/` CrawlConsole disclosure — still absent
+
+**New problem this dispatch introduced.** Of the 11 URLs now advertised in the
+sitemap, **2 serve homepage content instead of their own document**:
+
+| URL | Status |
+|---|---|
+| `/accessibility/` | **PHANTOM** — 0 of 5 content markers present |
+| `/troubleshooting/` | **PHANTOM** — 0 markers (already known, see crawl_gate) |
+
+The other 9 (`/terms/`, `/privacy/`, `/faq/controls/`, `/faq/wallet/`,
+`/faq/not-the-artist/`, `/about/`, `/how-to-play/`, `/docs/`, `/`) are real
+documents carrying their own content.
+
+`/accessibility/` is a regression **caused by this dispatch**: the page was
+added to the repo and listed in the sitemap I handed Caffeine, but Caffeine's
+separate copy never received the page itself. A sitemap that advertises a URL
+serving duplicate homepage content is a soft-404 / duplicate-content signal —
+worse than omitting it.
+
+**Fix in the next dispatch:** either ship the real `/accessibility/` page to
+Caffeine, or remove it from the sitemap until it exists. Same decision for
+`/troubleshooting/`.
+
+**Method note for future audits:** verify a page by grepping for its own
+distinctive phrases. Byte size and `<title>` both lie on this host, and
+`crawl_gate.py`'s sentinel check catches only paths matching the not-found
+signature — it does not catch a path that serves the *homepage*, which is how
+both phantoms above slipped past it.
