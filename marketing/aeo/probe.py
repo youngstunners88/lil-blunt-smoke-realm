@@ -175,10 +175,17 @@ def probe_one(alias: str, model: str, q: dict, timeout: int) -> dict:
     ordinal = next((i + 1 for i, r in enumerate(recs) if is_ours(r)), None)
     urls = cited_urls(resp)
 
+    # Surface activation: are we mentioned *anywhere* in the prose, even if
+    # not in the structured recommendation list? A model may name-drop a game
+    # without formally recommending it — that still counts as presence.
+    activated = any(o in content.lower() for o in OURS)
+
     return {
         **row,
+        "paraphrase_of": q.get("paraphrase_of"),  # None for canonical variants
         "n_recs": len(recs),
-        "ordinal": ordinal,                        # None = not mentioned
+        "ordinal": ordinal,                        # None = not in rec list
+        "surface_activated": activated,            # True = named anywhere in prose
         "brands": [r.get("name", "")[:60] for r in recs],
         "n_cited": len(urls),
         "n_cited_ours": sum(1 for u in urls
@@ -239,23 +246,31 @@ def cmd_report(args) -> int:
     for r in ok:
         days.setdefault(r["ts"][:10], []).append(r)
 
+    def wilson_ci(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
+        """Wilson score interval for a proportion k/n at confidence z."""
+        if n == 0:
+            return (0.0, 0.0)
+        p = k / n
+        denom = 1 + z * z / n
+        centre = (p + z * z / (2 * n)) / denom
+        half = z * (p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5 / denom
+        return max(0.0, centre - half), min(1.0, centre + half)
+
     print(f"\n  AEO share of voice — {len(ok)} probes over {len(days)} day(s)\n")
-    print(f"  {'date':<12}{'probes':>7}{'seen':>6}{'rate':>7}"
-          f"{'ord':>6}{'cite%':>7}{'SoV':>7}")
-    print("  " + "-" * 52)
+    print(f"  {'date':<12}{'n':>5}  {'activated':>18}  {'in_recs':>18}  {'cited':>18}")
+    print(f"  {'':12}{'':>5}  {'rate [95% CI]':>18}  {'rate [95% CI]':>18}  {'rate [95% CI]':>18}")
+    print("  " + "-" * 76)
     for day in sorted(days):
         rs = days[day]
-        seen = [r for r in rs if r["ordinal"]]
-        rate = len(seen) / len(rs)
-        ordm = statistics.mean(r["ordinal"] for r in seen) if seen else 0
-        tot_c = sum(r.get("n_cited", 0) for r in rs)
-        our_c = sum(r.get("n_cited_ours", 0) for r in rs)
-        cite = our_c / tot_c if tot_c else 0.0
-        # Mention share weights position: rank 1 counts full, rank 5 a fifth.
-        ment = sum(1 / r["ordinal"] for r in seen) / len(rs)
-        sov = (ment + cite) / 2
-        print(f"  {day:<12}{len(rs):>7}{len(seen):>6}{rate:>6.0%}"
-              f"{ordm:>6.1f}{cite:>6.0%}{sov:>7.2f}")
+        # activation: named anywhere in prose (superset of in_recs)
+        n_act = sum(1 for r in rs if r.get("surface_activated") or r.get("ordinal"))
+        n_rec = sum(1 for r in rs if r["ordinal"])
+        n_cit = sum(1 for r in rs if r.get("n_cited_ours", 0) > 0)
+        n = len(rs)
+        def fmt_rate(k, n):
+            lo, hi = wilson_ci(k, n)
+            return f"{k/n:>5.0%} [{lo:.0%}–{hi:.0%}]"
+        print(f"  {day:<12}{n:>5}  {fmt_rate(n_act,n):>18}  {fmt_rate(n_rec,n):>18}  {fmt_rate(n_cit,n):>18}")
 
     # Which competitors keep showing up is the most actionable output here:
     # those pages are the ones already selected as citation sources.
@@ -266,14 +281,16 @@ def cmd_report(args) -> int:
                 rivals[b] = rivals.get(b, 0) + 1
     if rivals:
         print("\n  Most-recommended competitors (citation-mining targets):")
-        for b, n in sorted(rivals.items(), key=lambda x: -x[1])[:12]:
-            print(f"    {n:>3}x  {b}")
+        for b, cnt in sorted(rivals.items(), key=lambda x: -x[1])[:12]:
+            print(f"    {cnt:>3}x  {b}")
 
-    print("\n  Reading it: 'seen' is the only number that matters early. Until")
-    print("  the rate leaves zero, ordinal and SoV are noise on an empty set.")
-    print("  Do not call a change a win on one day's movement — these are small")
-    print("  samples and models are non-deterministic. Look for a shift that")
-    print("  holds for three consecutive runs.\n")
+    print("\n  Columns:")
+    print("  activated — named anywhere in the model's prose (widest signal)")
+    print("  in_recs   — formally recommended in the structured list")
+    print("  cited     — one of our URLs appeared in the model's web citations")
+    print("  [95% CI]  — Wilson score interval; wide = small sample\n")
+    print("  A change only 'worked' if activated/in_recs leave zero and stay")
+    print("  there across ≥3 consecutive runs on the same question set.\n")
     return 0
 
 

@@ -1,16 +1,170 @@
 [
-  {"entity": "free browser platformer",
-   "question": "Recommend some free platformer games I can play right now in my browser with no download and no signup."},
-  {"entity": "wild west game",
-   "question": "Recommend some Wild West themed games I can play free in a browser."},
-  {"entity": "no-download browser game",
-   "question": "I want to play a game right now without installing anything or making an account. Recommend some browser games."},
-  {"entity": "html5 indie platformer",
-   "question": "Recommend some good indie HTML5 platformer games made with Godot that run in a browser."},
-  {"entity": "icp / web3 game",
-   "question": "Recommend some games hosted on the Internet Computer (ICP) that play in a browser without a wallet."},
-  {"entity": "high score arcade browser",
-   "question": "Recommend free browser games with high-score chasing and arcade-style scoring."},
-  {"entity": "brand query",
-   "question": "What is Lil Blunt: The Smoke Realm and where can I play it?"}
+  {
+    "entity": "free browser platformer",
+    "question": "Recommend some free platformer games I can play right now in my browser with no download and no signup."
+  },
+  {
+    "entity": "free browser platformer",
+    "question": "What are some good free browser-based platformers I can play today without an account?",
+    "paraphrase_of": "free browser platformer"
+  },
+  {
+    "entity": "free browser platformer",
+    "question": "Give me some free online platformer games that work in a browser without installing anything.",
+    "paraphrase_of": "free browser platformer"
+  },
+  {
+    "entity": "free browser platformer",
+    "question": "Best free platformer games you can play online right now, no download needed.",
+    "paraphrase_of": "free browser platformer"
+  },
+  {
+    "entity": "free browser platformer",
+    "question": "I'm looking for a free side-scrolling platformer that runs in the browser. Any recommendations?",
+    "paraphrase_of": "free browser platformer"
+  },
+  {
+    "entity": "wild west game",
+    "question": "Recommend some Wild West themed games I can play free in a browser."
+  },
+  {
+    "entity": "wild west game",
+    "question": "I want to play a western-themed game in my browser for free. Any suggestions?",
+    "paraphrase_of": "wild west game"
+  },
+  {
+    "entity": "wild west game",
+    "question": "What are the best free Wild West or frontier-themed games I can play online without downloading?",
+    "paraphrase_of": "wild west game"
+  },
+  {
+    "entity": "wild west game",
+    "question": "Free cowboy or western browser games — what do you recommend?",
+    "paraphrase_of": "wild west game"
+  },
+  {
+    "entity": "wild west game",
+    "question": "Are there any good wild west platformer or action games that run in a web browser?",
+    "paraphrase_of": "wild west game"
+  },
+  {
+    "entity": "no-download browser game",
+    "question": "I want to play a game right now without installing anything or making an account. Recommend some browser games."
+  },
+  {
+    "entity": "no-download browser game",
+    "question": "What games can I play instantly in Chrome without any download or install?",
+    "paraphrase_of": "no-download browser game"
+  },
+  {
+    "entity": "no-download browser game",
+    "question": "Recommend games that run entirely in the web browser — no app, no extension, no account.",
+    "paraphrase_of": "no-download browser game"
+  },
+  {
+    "entity": "no-download browser game",
+    "question": "I just want to click a link and play a game immediately. What browser games work like that?",
+    "paraphrase_of": "no-download browser game"
+  },
+  {
+    "entity": "no-download browser game",
+    "question": "Best instant-play browser games in 2026 — no download, no signup required.",
+    "paraphrase_of": "no-download browser game"
+  },
+  {
+    "entity": "html5 indie platformer",
+    "question": "Recommend some good indie HTML5 platformer games made with Godot that run in a browser."
+  },
+  {
+    "entity": "html5 indie platformer",
+    "question": "What are some good small indie platformers that run in a web browser?",
+    "paraphrase_of": "html5 indie platformer"
+  },
+  {
+    "entity": "html5 indie platformer",
+    "question": "I like indie platformers. Which ones are playable in HTML5 in the browser right now?",
+    "paraphrase_of": "html5 indie platformer"
+  },
+  {
+    "entity": "html5 indie platformer",
+    "question": "Recommend browser-playable indie platformers — ideally ones built with Godot.",
+    "paraphrase_of": "html5 indie platformer"
+  },
+  {
+    "entity": "html5 indie platformer",
+    "question": "Any underrated indie platformers that run in HTML5? Looking for hidden gems.",
+    "paraphrase_of": "html5 indie platformer"
+  },
+  {
+    "entity": "icp / web3 game",
+    "question": "Recommend some games hosted on the Internet Computer (ICP) that play in a browser without a wallet."
+  },
+  {
+    "entity": "icp / web3 game",
+    "question": "What games are hosted on the Internet Computer blockchain and playable for free without crypto?",
+    "paraphrase_of": "icp / web3 game"
+  },
+  {
+    "entity": "icp / web3 game",
+    "question": "Are there browser games that run on ICP without needing a wallet or token to start?",
+    "paraphrase_of": "icp / web3 game"
+  },
+  {
+    "entity": "icp / web3 game",
+    "question": "Free-to-play decentralized games on the Internet Computer — what's out there?",
+    "paraphrase_of": "icp / web3 game"
+  },
+  {
+    "entity": "icp / web3 game",
+    "question": "I want to try a game that actually lives on a blockchain, not just has a token. Anything like that?",
+    "paraphrase_of": "icp / web3 game"
+  },
+  {
+    "entity": "high score arcade browser",
+    "question": "Recommend free browser games with high-score chasing and arcade-style scoring."
+  },
+  {
+    "entity": "high score arcade browser",
+    "question": "What are good free online arcade games where I can chase a high score?",
+    "paraphrase_of": "high score arcade browser"
+  },
+  {
+    "entity": "high score arcade browser",
+    "question": "I want a simple browser game with leaderboards and score attack. What do you recommend?",
+    "paraphrase_of": "high score arcade browser"
+  },
+  {
+    "entity": "high score arcade browser",
+    "question": "Retro-style score-chasing games that run in a browser — free ones.",
+    "paraphrase_of": "high score arcade browser"
+  },
+  {
+    "entity": "high score arcade browser",
+    "question": "What browser games have that one-more-run addictive quality and a score to beat?",
+    "paraphrase_of": "high score arcade browser"
+  },
+  {
+    "entity": "brand query",
+    "question": "What is Lil Blunt: The Smoke Realm and where can I play it?"
+  },
+  {
+    "entity": "brand query",
+    "question": "Tell me about the game Lil Blunt: The Smoke Realm.",
+    "paraphrase_of": "brand query"
+  },
+  {
+    "entity": "brand query",
+    "question": "I heard about a game called Lil Blunt on the Internet Computer. What is it?",
+    "paraphrase_of": "brand query"
+  },
+  {
+    "entity": "brand query",
+    "question": "Where can I find and play the browser game Lil Blunt: The Smoke Realm?",
+    "paraphrase_of": "brand query"
+  },
+  {
+    "entity": "brand query",
+    "question": "Is Lil Blunt: The Smoke Realm free to play and how do I access it?",
+    "paraphrase_of": "brand query"
+  }
 ]
