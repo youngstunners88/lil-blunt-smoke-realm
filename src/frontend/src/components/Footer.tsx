@@ -1,12 +1,22 @@
-import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS } from "@/lib/brand";
+import { LIL_BLUNT_LOGO_SRC, PROTOCOL_LINKS, SOCIAL_LINKS } from "@/lib/brand";
+import { CONTENT_PAGES, type ContentPage } from "@/lib/contentPages";
 import { ExternalLink } from "lucide-react";
-import { SiGithub, SiTelegram, SiX } from "react-icons/si";
+import { SiTelegram, SiX } from "react-icons/si";
 
-/** Internal anchor nav — aligned with the Navbar's section targets. */
+/**
+ * Internal nav — the Navbar's section anchors plus the static content
+ * pages. The content pages are real, separate crawlable HTML documents
+ * (this app is otherwise client-rendered) — that's still true and is what
+ * lets search and AI crawlers discover them at their own URLs. From the
+ * homepage, though, clicking one opens it via `onOpenContentPage`
+ * (ContentOverlay, wired in App.tsx) instead of a full navigation, so the
+ * page never unmounts and the ambient music never stops.
+ */
 const SECTION_LINKS: { label: string; href: string }[] = [
   { label: "Game Showcase", href: "#showcase" },
   { label: "Three Protocols", href: "#protocols" },
   { label: "On-Chain Points", href: "#points" },
+  ...CONTENT_PAGES,
 ];
 
 /** Outbound protocol sites — the three pillars of the Smoke Realm. */
@@ -16,23 +26,42 @@ const PROTOCOL_SITES: { label: string; href: string }[] = [
   { label: "GOLD", href: PROTOCOL_LINKS.gold },
 ];
 
-/** Social links are disabled placeholders — no fabricated URLs. */
-const SOCIAL_LINKS: { label: string; icon: typeof SiGithub }[] = [
-  { label: "X", icon: SiX },
-  { label: "Telegram", icon: SiTelegram },
-  { label: "GitHub", icon: SiGithub },
+/** Official community channels — founder-supplied accounts. */
+const SOCIAL_CHANNELS: {
+  label: string;
+  href: string;
+  icon: typeof SiX;
+  description: string;
+}[] = [
+  {
+    label: "X",
+    href: SOCIAL_LINKS.x,
+    icon: SiX,
+    description: "Follow $SMOKE and Lil Blunt: The Smoke Realm on X",
+  },
+  {
+    label: "Telegram",
+    href: SOCIAL_LINKS.telegram,
+    icon: SiTelegram,
+    description: "Join the Lil Blunt: The Smoke Realm community on Telegram",
+  },
 ];
 
 /**
  * Site footer — clean minimal glass surface in the hybrid dusk/night tone.
  *
  * Left: Lil Blunt logo + "Lil Blunt: The Smoke Realm" wordmark.
- * Right: anchor nav to page sections, outbound protocol links, and
- * disabled social placeholders. A cannabis-appropriate risk/age
+ * Right: anchor nav to page sections, outbound protocol links, and the
+ * official X and Telegram channels. A cannabis-appropriate risk/age
  * disclaimer sits above the neutral copyright line. No third-party
  * platform branding appears anywhere on the surface.
  */
-export function Footer() {
+interface FooterProps {
+  /** Opens a content page (Docs/About/How-to-Play) in the in-app overlay. */
+  onOpenContentPage: (page: ContentPage) => void;
+}
+
+export function Footer({ onOpenContentPage }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -41,7 +70,7 @@ export function Footer() {
       data-ocid="footer"
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="glass-panel rounded-2xl px-6 py-8 sm:px-8 sm:py-10">
+        <div className="iron rounded-2xl px-6 py-8 sm:px-8 sm:py-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             {/* Brand */}
             <div className="flex flex-col gap-4">
@@ -66,22 +95,28 @@ export function Footer() {
                 can&apos;t tax the vibe.
               </p>
 
-              {/* Social placeholders — disabled, no fabricated URLs */}
-              <div className="flex items-center gap-2">
-                {SOCIAL_LINKS.map(({ label, icon: Icon }) => (
-                  <button
-                    key={label}
-                    type="button"
-                    disabled
-                    data-ocid={`footer.social.${label.toLowerCase()}`}
-                    title="Coming soon"
-                    className="flex size-9 cursor-not-allowed items-center justify-center rounded-lg border border-border/60 bg-muted/40 text-muted-foreground/40"
-                  >
-                    <Icon className="size-4" />
-                    <span className="sr-only">{label} (coming soon)</span>
-                  </button>
-                ))}
-              </div>
+              {/* Official community channels */}
+              <nav
+                className="flex items-center gap-2"
+                aria-label="Community channels"
+              >
+                {SOCIAL_CHANNELS.map(
+                  ({ label, href, icon: Icon, description }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      data-ocid={`footer.social.${label.toLowerCase()}`}
+                      title={description}
+                      className="flex size-9 items-center justify-center rounded-lg border border-border/60 bg-muted/40 text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-gold/50 hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <Icon className="size-4" aria-hidden="true" />
+                      <span className="sr-only">{description}</span>
+                    </a>
+                  ),
+                )}
+              </nav>
             </div>
 
             {/* Link columns */}
@@ -95,6 +130,14 @@ export function Footer() {
                   <a
                     key={link.href}
                     href={link.href}
+                    onClick={
+                      link.href.startsWith("/")
+                        ? (e) => {
+                            e.preventDefault();
+                            onOpenContentPage(link);
+                          }
+                        : undefined
+                    }
                     data-ocid={`footer.link.${link.href.replace("#", "")}`}
                     className="font-body text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
@@ -133,6 +176,31 @@ export function Footer() {
             <p className="font-mono text-xs text-muted-foreground/70">
               Web3 gaming involves risk. Play responsibly.
             </p>
+            {/* Legal pages are plain navigations on purpose: they must stay
+                reachable even if the app shell fails to boot. */}
+            <nav className="mt-1 flex items-center gap-4" aria-label="Legal">
+              <a
+                href="/terms/"
+                data-ocid="footer.link.terms"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="/privacy/"
+                data-ocid="footer.link.privacy"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="/accessibility/"
+                data-ocid="footer.link.accessibility"
+                className="font-mono text-xs text-muted-foreground/70 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Accessibility
+              </a>
+            </nav>
           </div>
 
           {/* Copyright */}

@@ -1,0 +1,15 @@
+The site is served from an asset canister on the Internet Computer. Static
+assets are fetched over HTTP through a boundary node, which does not provide
+reliable support for HTTP Range requests. Media that relies on byte-range
+seeking will fail or stall partway; the working pattern is to fetch the file in
+full and construct an object URL from the resulting blob before playback.
+
+The domain resolves through a CNAME to the boundary node, with the canister
+identifier published in a TXT record under the same hostname. Certificate
+provisioning is handled by the boundary node once that record is visible, so a
+misconfigured or missing TXT record presents as a certificate error rather than
+as a routing failure.
+
+Deployments do not originate from the git repository. The build is produced by
+a separate toolchain and pushed independently, so a commit to the repository
+changes the source of record without changing what is served.

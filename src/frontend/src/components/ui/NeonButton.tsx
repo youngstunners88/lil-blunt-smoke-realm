@@ -5,11 +5,24 @@ import { type ReactNode, forwardRef } from "react";
 export type NeonButtonVariant = "smoke" | "blue" | "gold";
 export type NeonButtonSize = "sm" | "md" | "lg" | "xl";
 
+/**
+ * A dark, blurred base sits under every variant's colour tint.
+ *
+ * The tints are deliberately light (15–25% alpha) so the material reads as
+ * glass. Over a flat surface that is fine, but the hero now sits on the
+ * cinematic town canvas, and a bright patch of sunlit road behind a button
+ * showed straight through and made the label unreadable. This backing gives
+ * the label a consistent surface to sit on wherever the button lands, while
+ * keeping the glassy look.
+ */
+const SURFACE_BASE =
+  "bg-[oklch(0.12_0.02_270/0.62)] backdrop-blur-md supports-[backdrop-filter]:bg-[oklch(0.12_0.02_270/0.52)]";
+
 const VARIANT_BASE: Record<NeonButtonVariant, string> = {
   smoke:
-    "border-primary/50 bg-primary/15 text-primary hover:bg-primary/25 hover:text-edge-smoke hover:edge-smoke",
-  blue: "border-accent/50 bg-accent/15 text-accent hover:bg-accent/25 hover:text-edge-blue hover:edge-blue",
-  gold: "border-gold/50 bg-gold/15 text-gold hover:bg-gold/25 hover:text-edge-gold hover:edge-gold",
+    "border-primary/60 bg-primary/15 text-primary hover:bg-primary/25 hover:text-edge-smoke hover:edge-smoke",
+  blue: "border-accent/60 bg-accent/15 text-accent hover:bg-accent/25 hover:text-edge-blue hover:edge-blue",
+  gold: "border-gold/60 bg-gold/15 text-gold hover:bg-gold/25 hover:text-edge-gold hover:edge-gold",
 };
 
 const SIZE_BASE: Record<NeonButtonSize, string> = {
@@ -67,6 +80,7 @@ export const NeonButton = forwardRef<
     "group inline-flex items-center justify-center border-2 font-display font-bold uppercase tracking-[0.12em] transition-all duration-300",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "disabled:cursor-not-allowed disabled:opacity-60",
+    SURFACE_BASE,
     VARIANT_BASE[variant],
     SIZE_BASE[size],
     !reduce && "hover:scale-[1.03] active:scale-[0.98]",
