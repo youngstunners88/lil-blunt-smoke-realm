@@ -68,6 +68,9 @@ defect on this project.
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
 | Choosing among many pieces of copy; accuracy-gating text before it ships | `jev-gauntlet` |
+| Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
+| Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |
+| Whether a page satisfies query intent; is this draft generic | `seo-intent-match` |
 
 **Building and assets**
 
@@ -107,6 +110,16 @@ defect on this project.
   headline** — numeric, free judging over dozens of candidates, so selection
   pressure is affordable. Rule of thumb: deciding *what to do* → model-gauntlet;
   deciding *which wording ships* → jev-gauntlet.
+- **The three Jev scoring skills split by what they optimise, and the split is
+  real.** `seo-intent-match` = does a human who clicked get what they came for.
+  `aeo-quotability` = would an assistant lift this paragraph. `geo-representation`
+  = when generated text mentions the game, is it *correct*. All three read the
+  same page and disagree usefully: `/faq/not-the-artist/` scores 2.75 on
+  disambiguation and 1.03 on list-readiness. Run `--battery all` when unsure;
+  the rewrites overlap heavily, so do them together.
+- **They score text, never plumbing.** None of them says anything about
+  indexability, canonicals, or whether a change reached production. That is
+  `seo-smokegame-ship`, and it is the check that comes first.
 - **`jev-gauntlet`'s accuracy gate is not optional.** Any public-facing text
   can be gated in about a second for free
   (`python3 marketing/aeo/jev.py --gate <file>`). This project has shipped a
