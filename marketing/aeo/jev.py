@@ -1,42 +1,56 @@
 #!/usr/bin/env python3
 """
-Structured scoring via Simple Jev — a numeric judge that needs no API key.
+Structured scoring via Jev — typed, calibrated decisions instead of prose.
 
-Simple Jev (github.com/featherless-ai/simple-jev) does NOT generate text. It
-reads a model's next-token logits for predefined answer labels and constructs
-the JSON itself. That matters here for three reasons:
+Jev (TypeSafe AI) is not an LLM. You send a state plus typed questions with
+predefined answer spaces; it returns typed answers with probabilities and
+confidence. Nothing is generated, so there is no prose to parse and no JSON to
+repair. Every question in a battery is evaluated in parallel and in isolation,
+so adding questions barely moves latency and there is no context rot.
 
-  1. There is no output to parse, so there is no parse failure. Every call
-     either returns a well-formed score or an HTTP error.
-  2. It returns a probability distribution and a confidence, so "how sure"
-     is a number rather than a tone of voice.
-  3. The public demo endpoint needs no key, so a gauntlet can afford to run
-     hundreds of judgements instead of a handful.
+Two backends, same interface:
 
-What it is NOT: calibrated. The upstream README says plainly that the
-distributions "are not calibrated probabilities of correctness" and that "a
-valid response structure does not guarantee a correct decision." Treat a score
-as a ranking signal, never as proof. The accuracy gate below is the one place
-this is leaned on hard, and it earns that by measured separation, not by faith
-(see ACCURACY_SEPARATION).
+  openrouter (DEFAULT)  ~typesafe/jev-latest via the OpenRouter key we already
+                        have. The real Jev: RLCD-trained, which means the
+                        probabilities are optimised against real outcomes
+                        rather than human preference, so higher confidence
+                        genuinely means higher accuracy in aggregate.
+                        32K context, ~$0.000015 per battery.
 
-Measured on this project's own text, 2026-09-20:
+  demo                  simple-jev's free public endpoint. NOT Jev. It reads
+                        next-token logits off generic open models to imitate
+                        the interface. Same response shape, but NOT calibrated
+                        and only ~2K context. A fallback, not an equal.
 
-    honest copy      on-chain 0.024   reward 0.023
-    violating copy   on-chain 0.988   reward 0.987   p2e 0.927
-
-A ~40x gap. That is what makes the gate usable; re-run --self-test if the
-endpoint or model changes, because the gate is worthless if that gap closes.
+The difference matters: this module's thresholds are tuned against calibrated
+output. Falling back to `demo` keeps the pipeline alive but degrades the
+guarantee — which is exactly what FALLBACK LADDER below is about.
 
     python3 marketing/aeo/jev.py --self-test
     python3 marketing/aeo/jev.py --gate src/frontend/index.html
     python3 marketing/aeo/jev.py --score marketing/devlog/godot-html5-on-icp.md
+    python3 marketing/aeo/jev.py --gate FILE --backend demo    # no key needed
+
+DESIGN RULES (from TypeSafe's own methodology, and they are load-bearing):
+
+  Atomic questions, composed in code. A question needing reasoning across
+  several factors gets decomposed; ask each factor separately and combine with
+  your own weights. When priorities change you edit a coefficient, not a prompt.
+
+  Thresholds live here, not in the model. One threshold per action, scaled to
+  what being wrong costs — not one global number for the whole system. See
+  GATE_THRESHOLDS.
+
+  Pin and log the model version. Confidence gates are calibrated to one model;
+  a silent upgrade with unpinned thresholds breaks the system quietly. Every
+  response records the resolved version.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import threading
@@ -45,26 +59,29 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-API = "https://simple-jev-demo-api.featherless.ai/v1/classifier"
-MODELS_URL = "https://simple-jev-demo-api.featherless.ai/v1/models"
+# Real Jev, through the OpenRouter key this project already uses. Both
+# /api/v1/systemone and /api/alpha/decisions work and take the same schema;
+# the alpha path is the one OpenRouter's own error message points to.
+OR_URL = "https://openrouter.ai/api/alpha/decisions"
+OR_MODEL = "~typesafe/jev-latest"
 
-# Verified present 2026-09-20 via GET /v1/models. The upstream README still
-# advertises a gemma id that the demo does not serve — do not trust the README
-# for model ids, list the endpoint.
-DEFAULT_MODEL = "featherless-ai/Qwen3.8-27B-classifier"
-FAST_MODEL = "featherless-ai/RWKV-small-classifier"
+# simple-jev's free demo. Imitates the interface on open models. Not calibrated.
+DEMO_URL = "https://simple-jev-demo-api.featherless.ai/v1/classifier"
+DEMO_MODELS_URL = "https://simple-jev-demo-api.featherless.ai/v1/models"
+DEMO_MODEL = "featherless-ai/Qwen3.8-27B-classifier"
 
-# The demo documents a 2k-token context and 2 RPS. Both were observed to be
-# softer than documented (3047 tokens accepted; 5 concurrent all returned 200),
-# but undocumented leniency is not a contract. Self-throttle to the documented
-# figures so this keeps working if they start enforcing them.
-MAX_CHARS = 6000          # ~1.8k tokens, under the documented 2k
-MIN_INTERVAL = 0.55       # ~2 RPS
+# Jev carries 32K context, so a whole page is one call and one battery. The
+# demo documents 2K. Chunking only exists for the demo path now.
+MAX_CHARS_OR = 100000
+MAX_CHARS_DEMO = 6000
+MIN_INTERVAL_DEMO = 0.55   # demo documents 2 RPS; Jev needs no self-throttle
 
-# Cloudflare fronts this endpoint and returns 403 "error code: 1010" to the
-# default Python-urllib User-Agent. curl works, urllib does not, which makes
-# this look like an outage when it is a UA block. Send a real one.
+# Cloudflare fronts the demo and 403s the default Python-urllib User-Agent.
+# curl works, urllib does not, which reads as an outage but is a UA block.
 UA = "lil-blunt-aeo/1.0 (+https://www.smokegame.win)"
+
+# Set by the last call; the version-pinning rule above requires surfacing it.
+LAST_MODEL_VERSION = [None]
 
 _rate_lock = threading.Lock()
 _last_call = [0.0]
@@ -72,31 +89,43 @@ _last_call = [0.0]
 
 def _throttle() -> None:
     with _rate_lock:
-        wait = MIN_INTERVAL - (time.monotonic() - _last_call[0])
+        wait = MIN_INTERVAL_DEMO - (time.monotonic() - _last_call[0])
         if wait > 0:
             time.sleep(wait)
         _last_call[0] = time.monotonic()
 
 
-def classify(state: str, questions: dict, model: str = DEFAULT_MODEL,
-             timeout: int = 90) -> dict:
-    """One scoring call. Returns {"answers": {...}} or {"error": "..."}."""
-    _throttle()
-    body = {"model": model, "state": state, "questions": questions}
-    req = urllib.request.Request(
-        API, data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json", "User-Agent": UA},
-        method="POST")
+def classify(state: str, questions: dict, backend: str = "openrouter",
+             model: str | None = None, timeout: int = 90) -> dict:
+    """One battery. Every question is evaluated in parallel and in isolation."""
+    if backend == "openrouter":
+        key = os.environ.get("OPENROUTER_API_KEY")
+        if not key:
+            return {"error": "OPENROUTER_API_KEY is not set"}
+        url, hdrs = OR_URL, {"Content-Type": "application/json",
+                             "Authorization": f"Bearer {key}"}
+        body = {"model": model or OR_MODEL, "state": state, "questions": questions}
+    else:
+        _throttle()
+        url, hdrs = DEMO_URL, {"Content-Type": "application/json", "User-Agent": UA}
+        body = {"model": model or DEMO_MODEL, "state": state, "questions": questions}
+
+    req = urllib.request.Request(url, data=json.dumps(body).encode(),
+                                 headers=hdrs, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.load(r)
+            out = json.load(r)
     except urllib.error.HTTPError as e:
         return {"error": f"HTTP {e.code}: {e.read().decode(errors='replace')[:200]}"}
     except Exception as e:  # noqa: BLE001
         return {"error": f"{type(e).__name__}: {str(e)[:200]}"}
+    # Pin-and-log rule: the resolved version, not the alias we asked for.
+    if out.get("model"):
+        LAST_MODEL_VERSION[0] = out["model"]
+    return out
 
 
-def chunks(text: str, size: int = MAX_CHARS) -> list[str]:
+def chunks(text: str, size: int = MAX_CHARS_DEMO) -> list[str]:
     """Split on paragraph boundaries so a claim is never cut in half.
 
     A claim split across two chunks could score low in both and slip the gate,
@@ -162,9 +191,40 @@ GATE_QUESTIONS = {
     },
 }
 
-# Bias toward catching. A false positive costs a re-read; a false negative
-# ships a false claim, which this project has done three times.
-GATE_THRESHOLD = 0.35
+# One threshold per question, scaled to what being wrong costs — not one
+# global number. All four are blocking-false per AGENTS.md, but they differ in
+# how expensive a miss is and how sharply Jev separates them:
+#
+#   onchain_scores / rewards   The two claims this project has actually shipped
+#                              and had to walk back. A miss republishes a lie.
+#                              Tightest thresholds.
+#   verifiable_leaderboard     Same severity, slightly softer because honest
+#                              copy legitimately discusses the demo board.
+#   play_to_earn               Inferential rather than literal, so honest copy
+#                              mentioning "free to play" scores a little higher.
+#                              Loosest, to keep false positives tolerable.
+#
+# Every one of these is still far below the ~0.93-0.99 that real violations
+# score, and far above the ~0.01-0.03 that honest copy scores. Re-run
+# --self-test after any model change; the gap is the whole guarantee.
+GATE_THRESHOLDS = {
+    "onchain_scores": 0.25,
+    "verifiable_leaderboard": 0.30,
+    "rewards": 0.25,
+    "play_to_earn": 0.40,
+}
+
+# What to do when Jev cannot answer. Borrowed from the trading-loop discipline:
+# a system without an explicit degraded mode is "autonomous until the first
+# network partition". For a copy gate the safe direction is always to BLOCK —
+# a missed violation ships, a false block just asks a human to look.
+FALLBACK_LADDER = """
+  Jev healthy                 -> gate decides, thresholds apply
+  Jev errors, demo available  -> retry on demo; gate decides but flag DEGRADED
+                                 (demo is not calibrated; treat as advisory)
+  both unavailable            -> BLOCK and require human review. Never pass
+                                 text because the scorer was down.
+"""
 
 SCORE_QUESTIONS = {
     "evidence_density": {
@@ -201,44 +261,82 @@ SCORE_QUESTIONS = {
 }
 
 
-def gate(text: str, model: str = DEFAULT_MODEL) -> dict:
-    """Blocking accuracy check. Worst chunk wins — a claim anywhere is a claim."""
+def _prep(text: str, backend: str) -> list[str]:
     body = visible_text(text) if "<" in text[:2000] else text
-    worst: dict[str, float] = {k: 0.0 for k in GATE_QUESTIONS}
-    errors = []
-    for ch in chunks(body):
+    if backend == "openrouter":
+        # 32K context: a whole page is one battery, no chunking, no seams.
+        return [body[:MAX_CHARS_OR]]
+    return chunks(body, MAX_CHARS_DEMO)
+
+
+def gate(text: str, backend: str = "openrouter", model: str | None = None) -> dict:
+    """Blocking accuracy check. Worst chunk wins — a claim anywhere is a claim.
+
+    Implements FALLBACK_LADDER: on a Jev failure it retries on the demo and
+    marks the result DEGRADED; if both fail it blocks rather than passing.
+    """
+    degraded = False
+    parts = _prep(text, backend)
+    worst = {k: 0.0 for k in GATE_QUESTIONS}
+    errors: list[str] = []
+
+    for ch in parts:
         if not ch.strip():
             continue
-        r = classify(ch, GATE_QUESTIONS, model)
+        r = classify(ch, GATE_QUESTIONS, backend, model)
+        if "error" in r and backend == "openrouter":
+            # Rung 2 of the ladder: keep the pipeline alive, flag the downgrade.
+            errors.append(f"jev: {r['error']}")
+            degraded = True
+            for sub in chunks(ch, MAX_CHARS_DEMO):
+                r2 = classify(sub, GATE_QUESTIONS, "demo", None)
+                if "error" in r2:
+                    errors.append(f"demo: {r2['error']}")
+                    continue
+                for k, v in r2.get("answers", {}).items():
+                    worst[k] = max(worst[k], float(v.get("noul", 0.0)))
+            continue
         if "error" in r:
             errors.append(r["error"])
             continue
         for k, v in r.get("answers", {}).items():
             worst[k] = max(worst[k], float(v.get("noul", 0.0)))
-    violations = {k: v for k, v in worst.items() if v >= GATE_THRESHOLD}
+
+    violations = {k: v for k, v in worst.items() if v >= GATE_THRESHOLDS[k]}
+    # Rung 3: no usable reading at all means block, never pass.
+    no_reading = all(v == 0.0 for v in worst.values()) and errors
     return {"scores": worst, "violations": violations,
-            "passed": not violations and not errors, "errors": errors}
+            "passed": not violations and not no_reading,
+            "degraded": degraded, "no_reading": bool(no_reading),
+            "errors": errors, "model_version": LAST_MODEL_VERSION[0]}
 
 
-def score(text: str, model: str = DEFAULT_MODEL) -> dict:
-    """AEO content rubrics. Mean across chunks, plus per-chunk detail."""
-    body = visible_text(text) if "<" in text[:2000] else text
-    acc: dict[str, list[float]] = {k: [] for k in SCORE_QUESTIONS}
+def score(text: str, backend: str = "openrouter",
+          model: str | None = None) -> dict:
+    """AEO content rubrics. Mean across parts, with confidence carried through."""
+    parts = _prep(text, backend)
+    acc = {k: [] for k in SCORE_QUESTIONS}
+    conf = {k: [] for k in SCORE_QUESTIONS}
     errors = []
-    for ch in chunks(body):
+    for ch in parts:
         if not ch.strip():
             continue
-        r = classify(ch, SCORE_QUESTIONS, model)
+        r = classify(ch, SCORE_QUESTIONS, backend, model)
         if "error" in r:
             errors.append(r["error"])
             continue
         for k, v in r.get("answers", {}).items():
             if "score" in v:
                 acc[k].append(float(v["score"]))
+                if "confidence" in v:
+                    conf[k].append(float(v["confidence"]))
     means = {k: (sum(v) / len(v) if v else None) for k, v in acc.items()}
+    confs = {k: (sum(v) / len(v) if v else None) for k, v in conf.items()}
     vals = [v for v in means.values() if v is not None]
-    return {"scores": means, "n_chunks": len(acc["evidence_density"]),
-            "overall": (sum(vals) / len(vals) if vals else None), "errors": errors}
+    return {"scores": means, "confidence": confs,
+            "n_parts": len(acc["evidence_density"]),
+            "overall": (sum(vals) / len(vals) if vals else None),
+            "errors": errors, "model_version": LAST_MODEL_VERSION[0]}
 
 
 HONEST = ("Lil Blunt: The Smoke Realm is a free Wild West platformer that runs "
@@ -252,30 +350,32 @@ VIOLATING = ("Lil Blunt: The Smoke Realm. Chase a high score signed on the "
              "as you climb the verifiable leaderboard.")
 
 
-def self_test(model: str) -> int:
+def self_test(backend: str, model: str | None) -> int:
     """The gate is only as good as its separation. Prove it, don't assume it."""
-    print(f"  model: {model}\n")
-    h, v = gate(HONEST, model), gate(VIOLATING, model)
+    print(f"  backend: {backend}")
+    h, v = gate(HONEST, backend, model), gate(VIOLATING, backend, model)
     if h["errors"] or v["errors"]:
-        print(f"  ENDPOINT ERROR: {h['errors'] + v['errors']}", file=sys.stderr)
+        print(f"  ENDPOINT ERROR: {(h['errors'] + v['errors'])[:2]}", file=sys.stderr)
         return 2
-    print(f"  {'question':<24}{'honest':>9}{'violating':>11}{'gap':>8}")
-    print("  " + "-" * 52)
+    print(f"  model:   {LAST_MODEL_VERSION[0]}\n")
+    print(f"  {'question':<24}{'honest':>8}{'violating':>11}{'gap':>8}{'thresh':>8}")
+    print("  " + "-" * 59)
     gaps = []
     for k in GATE_QUESTIONS:
         hs, vs = h["scores"][k], v["scores"][k]
         gaps.append(vs - hs)
-        print(f"  {k:<24}{hs:>9.3f}{vs:>11.3f}{vs - hs:>8.3f}")
+        print(f"  {k:<24}{hs:>8.3f}{vs:>11.3f}{vs - hs:>8.3f}"
+              f"{GATE_THRESHOLDS[k]:>8.2f}")
     worst_gap = min(gaps)
-    print(f"\n  honest passes gate:     {h['passed']}")
-    print(f"  violating is caught:    {not v['passed']}")
-    print(f"  narrowest gap:          {worst_gap:.3f}")
+    print(f"\n  honest passes gate:  {h['passed']}")
+    print(f"  violating is caught: {not v['passed']}")
+    print(f"  narrowest gap:       {worst_gap:.3f}")
     ok = h["passed"] and not v["passed"] and worst_gap > 0.4
-    print(f"\n  {'PASS — gate is usable' if ok else 'FAIL — do not trust the gate'}\n")
+    print(f"\n  {'PASS - gate is usable' if ok else 'FAIL - do not trust the gate'}\n")
     if not ok:
-        print("  The gate depends on separation between honest and violating "
-              "text.\n  If this fails, the endpoint or model changed. Fix it "
-              "before relying\n  on --gate in any workflow.\n", file=sys.stderr)
+        print("  Separation is the entire guarantee. If this fails, the model or\n"
+              "  endpoint changed — fix it before relying on --gate anywhere.\n",
+              file=sys.stderr)
     return 0 if ok else 1
 
 
@@ -284,23 +384,22 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--gate", metavar="FILE", help="Blocking accuracy check")
     ap.add_argument("--score", metavar="FILE", help="AEO content rubrics")
-    ap.add_argument("--text", help="Score/gate this literal string instead of a file")
+    ap.add_argument("--text", help="Gate/score a literal string instead of a file")
     ap.add_argument("--self-test", action="store_true",
                     help="Prove the gate still separates honest from violating")
-    ap.add_argument("--models", action="store_true", help="List demo models")
-    ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--backend", choices=["openrouter", "demo"], default="openrouter",
+                    help="openrouter = real calibrated Jev (default); "
+                         "demo = free uncalibrated imitation, no key needed")
+    ap.add_argument("--model", default=None)
+    ap.add_argument("--ladder", action="store_true", help="Print the fallback ladder")
     ap.add_argument("--json", action="store_true", help="Machine-readable output")
     a = ap.parse_args()
 
-    if a.models:
-        mreq = urllib.request.Request(MODELS_URL, headers={"User-Agent": UA})
-        with urllib.request.urlopen(mreq, timeout=30) as r:
-            for m in json.load(r).get("data", []):
-                print(f"  {m['id']}")
+    if a.ladder:
+        print(FALLBACK_LADDER)
         return 0
-
     if a.self_test:
-        return self_test(a.model)
+        return self_test(a.backend, a.model)
 
     target = a.gate or a.score
     if not target and not a.text:
@@ -309,31 +408,40 @@ def main() -> int:
     text = a.text if a.text else Path(target).read_text(errors="replace")
 
     if a.gate or (a.text and not a.score):
-        r = gate(text, a.model)
+        r = gate(text, a.backend, a.model)
         if a.json:
             print(json.dumps(r, indent=2))
             return 0 if r["passed"] else 1
-        print(f"\n  Accuracy gate — {a.gate or 'inline text'}\n")
-        for k, v in r["scores"].items():
-            flag = "  <-- VIOLATION" if v >= GATE_THRESHOLD else ""
-            print(f"    {k:<24}{v:>7.3f}{flag}")
+        print(f"\n  Accuracy gate — {a.gate or 'inline text'}")
+        print(f"  model: {r['model_version']}\n")
+        for k, val in r["scores"].items():
+            flag = "  <-- VIOLATION" if val >= GATE_THRESHOLDS[k] else ""
+            print(f"    {k:<24}{val:>7.3f}  (thresh {GATE_THRESHOLDS[k]:.2f}){flag}")
+        if r["degraded"]:
+            print("\n  DEGRADED: fell back to the uncalibrated demo backend.")
+            print("  Treat this reading as advisory, not authoritative.")
+        if r["no_reading"]:
+            print("\n  NO READING: every backend failed. Blocking by policy —")
+            print("  text is never passed because the scorer was unavailable.")
         if r["errors"]:
-            print(f"\n  errors: {r['errors']}", file=sys.stderr)
-        print(f"\n  {'PASS' if r['passed'] else 'BLOCKED'} "
-              f"(threshold {GATE_THRESHOLD})\n")
+            print(f"\n  errors: {r['errors'][:3]}", file=sys.stderr)
+        print(f"\n  {'PASS' if r['passed'] else 'BLOCKED'}\n")
         return 0 if r["passed"] else 1
 
-    r = score(text, a.model)
+    r = score(text, a.backend, a.model)
     if a.json:
         print(json.dumps(r, indent=2))
         return 0
-    print(f"\n  Content score — {a.score} ({r['n_chunks']} chunk(s))\n")
-    for k, v in r["scores"].items():
-        print(f"    {k:<24}{'n/a' if v is None else f'{v:>6.2f} / 3.00'}")
+    print(f"\n  Content score — {a.score} ({r['n_parts']} part(s))")
+    print(f"  model: {r['model_version']}\n")
+    for k, val in r["scores"].items():
+        c = r["confidence"].get(k)
+        cs = f"   conf {c:.2f}" if c is not None else ""
+        print(f"    {k:<24}{'n/a' if val is None else f'{val:>6.2f} / 3.00'}{cs}")
     if r["overall"] is not None:
         print(f"\n    {'OVERALL':<24}{r['overall']:>6.2f} / 3.00")
     if r["errors"]:
-        print(f"\n  errors: {r['errors']}", file=sys.stderr)
+        print(f"\n  errors: {r['errors'][:3]}", file=sys.stderr)
     print()
     return 0
 

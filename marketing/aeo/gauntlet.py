@@ -108,13 +108,13 @@ def generate(model: str, brief: str, seeds: list[str], n: int,
     return [s.strip() for s in arr if isinstance(s, str) and s.strip()]
 
 
-def evaluate(text: str, model: str) -> dict:
+def evaluate(text: str, backend: str) -> dict:
     """Gate first. A blocked variant is never scored — it is already dead."""
-    g = jev.gate(text, model)
+    g = jev.gate(text, backend)
     if not g["passed"]:
         return {"text": text, "blocked": True,
                 "violations": g["violations"], "overall": None}
-    s = jev.score(text, model)
+    s = jev.score(text, backend)
     return {"text": text, "blocked": False, "violations": {},
             "scores": s["scores"], "overall": s["overall"]}
 
@@ -130,7 +130,8 @@ def main() -> int:
                     help="Variants per model per round")
     ap.add_argument("--keep", type=int, default=3, help="Winners seeding next round")
     ap.add_argument("--models", default=",".join(GENERATORS))
-    ap.add_argument("--judge", default=jev.DEFAULT_MODEL)
+    ap.add_argument("--backend", choices=["openrouter", "demo"],
+                    default="openrouter", help="Judge backend (see jev.py)")
     ap.add_argument("--out", metavar="FILE", help="Write full results as JSON")
     a = ap.parse_args()
 
@@ -155,10 +156,11 @@ def main() -> int:
         if not cands:
             print("  no candidates generated; stopping.", file=sys.stderr)
             return 1
-        print(f"  gating + scoring {len(cands)} unique candidates "
-              f"(~{len(cands)*2*0.55:.0f}s at 2 RPS)")
+        est = f"~{len(cands)*2*0.55:.0f}s at 2 RPS" if a.backend == "demo" \
+            else f"~${len(cands)*2*1.5e-5:.4f}"
+        print(f"  gating + scoring {len(cands)} unique candidates ({est})")
 
-        results = [evaluate(c, a.judge) for c in cands]
+        results = [evaluate(c, a.backend) for c in cands]
         blocked = [r for r in results if r["blocked"]]
         alive = sorted((r for r in results if not r["blocked"]),
                        key=lambda r: r["overall"] or 0, reverse=True)

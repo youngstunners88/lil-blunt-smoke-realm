@@ -1,85 +1,120 @@
 ---
 name: jev-gauntlet
-description: Score and select SEO/AEO/GEO content using Simple Jev, a free key-less numeric judge, and run an evolutionary generate-gate-score-select loop over copy. Use when writing or choosing marketing copy, FAQ/AEO page text, outreach pitches, itch.io descriptions, or taglines; when a piece of public-facing text needs an accuracy check against the AGENTS.md blocking rules before it ships; or when asked to generate many variants and pick the best. Not for measuring whether anything got cited (aeo-measurement / probe.py) or for prose debate between models (model-gauntlet).
+description: Score and select SEO/AEO/GEO content using Jev, a calibrated typed-decision model reachable through our OpenRouter key, and run an evolutionary generate-gate-score-select loop over copy. Use when writing or choosing marketing copy, FAQ/AEO page text, outreach pitches, itch.io descriptions, or taglines; when public-facing text needs an accuracy check against the AGENTS.md blocking rules before it ships; or when asked to generate many variants and pick the best. Not for measuring whether anything got cited (aeo-measurement / probe.py) or for prose debate between models (model-gauntlet).
 ---
 
-# Jev gauntlet — numeric judging for copy
+# Jev gauntlet — calibrated judging for copy
 
-Two tools, both dependency-free, both in `marketing/aeo/`:
+Three tools in `marketing/aeo/`:
 
-| | What it does | Cost |
-|---|---|---|
-| `jev.py` | Accuracy gate + content rubrics | **Free, no API key** |
-| `gauntlet.py` | generate → gate → score → select loop | OpenRouter tokens for generation only |
+| | What it does |
+|---|---|
+| `jev.py` | Accuracy gate + content rubrics |
+| `calibrate.py` | Proves the gate's numbers mean what they say |
+| `gauntlet.py` | generate → gate → score → select loop |
 
-## Start here: the accuracy gate
+## Reaching Jev
 
-This is the highest-value part and it costs nothing.
+```python
+POST https://openrouter.ai/api/alpha/decisions
+{"model": "~typesafe/jev-latest", "state": "...", "questions": {...}}
+```
+
+**The leading `~` is required** and the endpoint is not `chat/completions`.
+Posting to `chat/completions` returns *"`~typesafe/jev-latest` is a decisions
+model and cannot be used with the chat/completions endpoint"* — which is
+OpenRouter telling you the model exists, not that it doesn't. It also does not
+appear in `GET /v1/models`, so **a catalogue search will tell you it is absent
+and the catalogue search is wrong.** Verify a model by calling it.
+
+`/api/v1/systemone` works identically. Both resolve to a pinned version
+(`typesafe/jev-1.13-20260917` as of 2026-09-20) which `jev.py` logs on every
+response — confidence gates are calibrated to one model and a silent upgrade
+breaks them quietly.
+
+Schema note: `score` questions take `criteria` as an **array**; the TypeSafe
+SDK's `legend={...}` form is rejected here.
+
+### Two backends
+
+| Backend | What it is |
+|---|---|
+| `openrouter` (default) | **Real Jev.** RLCD-trained, so probabilities are optimised against real outcomes. 32K context — a whole page is one call. ~$0.000015 per battery. |
+| `demo` | `simple-jev`'s free keyless endpoint. **Not Jev** — it reads next-token logits off generic open models to imitate the interface. Same response shape, *not* calibrated, ~2K context. A fallback, not an equal. |
+
+The demo needs a real `User-Agent`; Cloudflare 403s `Python-urllib` with
+"error code: 1010", which reads as an outage but is a UA block.
+
+## The accuracy gate
 
 ```bash
-python3 marketing/aeo/jev.py --gate src/frontend/index.html
-python3 marketing/aeo/jev.py --text "some copy you are about to ship"
+python3 marketing/aeo/jev.py --gate src/frontend/index.html   # exit 0/1
+python3 marketing/aeo/jev.py --self-test                      # prove separation
+python3 marketing/aeo/calibrate.py                            # prove the numbers
 ```
 
-It scores text against the four blocking rules in `AGENTS.md` § Public Claims
-Accuracy and exits non-zero on a violation, so it drops into a pre-commit hook
-or a night-shift validation step.
-
-**This project has shipped a false on-chain claim three times** — the
+Scores text against the four blocking rules in `AGENTS.md` § Public Claims
+Accuracy. **This project has shipped a false on-chain claim three times** — the
 `/how-to-play/` FAQ schema, the homepage JSON-LD, and the itch.io page. Each
-was caught by a human reading carefully, twice only weeks later. The gate
-catches all three in about a second.
+was caught by a human, twice only weeks later. The gate catches all three in
+one call. It reads JSON-LD deliberately: two of the three hid in a `ld+json`
+block where a human skims past.
 
-### Why the gate is trustworthy (and how to re-verify)
+### These numbers are measured, not asserted
 
-It is trustworthy because the separation was **measured**, not assumed:
+`calibrate.py` runs 14 labelled cases — the real strings that shipped and were
+walked back, plus honest counterparts — and reports:
 
 ```
-                        honest    violating    gap
-  onchain_scores         0.013       0.983    0.970
-  verifiable_leaderboard 0.012       0.976    0.964
-  rewards                0.016       0.931    0.916
-  play_to_earn           0.012       0.699    0.686
+Brier score   0.0146   (0 perfect, 0.25 = coin flip)
+ECE           0.0757   (0 = predicted matches observed)
+
+onchain_scores          violating 0.745  honest 0.030  thresh 0.25
+verifiable_leaderboard  violating 0.970  honest 0.020  thresh 0.30
+rewards                 violating 0.865  honest 0.027  thresh 0.25
+play_to_earn            violating 0.970  honest 0.040  thresh 0.40
 ```
 
-Run `python3 marketing/aeo/jev.py --self-test` before trusting it in any new
-workflow. It re-measures that gap and **fails loudly if it has closed** — the
-gate is worthless without separation, and the endpoint is a free demo that can
-change its models underneath us. Threshold is 0.35, biased toward catching:
-a false positive costs a re-read, a false negative ships a lie.
+**Verdict: well calibrated on our own content** — a 0.74 can be read as roughly
+a 74% chance the claim is really there, not merely "higher than 0.3". RLCD
+calibrates against TypeSafe's distribution, not ours, so this re-measures on
+ours. Grow `CASES` in `calibrate.py` whenever a new violation is found; the
+measurement is only as good as the labels.
 
-It reads JSON-LD deliberately. Two of the three historical violations lived
-inside `<script type="application/ld+json">`, exactly where a human skims past.
+### Thresholds are per-question, and live in code
 
-## What Simple Jev actually is
+One number for the whole system is wrong — each threshold is scaled to what
+being wrong costs. `onchain_scores` and `rewards` sit tightest (0.25) because
+those two are the claims actually shipped and retracted. `play_to_earn` is
+loosest (0.40) because it is inferential, so honest "free to play" copy scores
+slightly higher. Thresholds belong in `GATE_THRESHOLDS`, never in the prompt:
+when priorities change you edit a coefficient, not a question.
 
-Not a chat model. It sends your context plus a set of questions, reads the
-model's **next-token logits** for the allowed answer labels, and **constructs
-the JSON server-side**. Nothing is generated.
+### The fallback ladder
 
-Consequences that matter:
+```
+Jev healthy                -> gate decides, thresholds apply
+Jev errors, demo available -> retry on demo, flag DEGRADED (advisory only)
+both unavailable           -> BLOCK and require human review
+```
 
-- **No parse failures.** There is no model output to parse. Compare `probe.py`,
-  which needs a balanced-brace scanner because models wrap JSON in prose.
-- **Numeric confidence**, not a tone of voice. You get a distribution.
-- **Cheap enough to run hundreds of times**, which is what makes a selection
-  loop possible at all.
+**Never pass text because the scorer was down.** A missed violation ships; a
+false block just asks a human to look. `--ladder` prints this.
 
-Three question types: `choice` (pick one + distribution), `score` (rubric
-index, fractional, e.g. 2.89/3), `noul` (truth judgement 0.01–0.99).
+## Design rules that make the gate work
 
-### Verified facts (2026-09-20 — re-check before relying on these)
+From TypeSafe's own methodology, and they are load-bearing:
 
-- Endpoint `https://simple-jev-demo-api.featherless.ai/v1/classifier`, **no auth**.
-- Models: list them with `--models`. The **upstream README is stale** — it
-  advertises a `gemma-4-26B` id the demo does not serve. Default here is
-  `featherless-ai/Qwen3.8-27B-classifier`.
-- **Cloudflare 403 "error code: 1010" on the default `Python-urllib` UA.**
-  curl works, urllib does not. `jev.py` sends a real User-Agent. If you write a
-  fresh client and it 403s, this is why — it is not an outage.
-- Documented limits are 2k context / 2 RPS. Both were observed softer (3047
-  tokens accepted, 5 concurrent all 200). `jev.py` self-throttles to the
-  documented figures anyway; undocumented leniency is not a contract.
+- **Atomic questions, composed in code.** A question needing reasoning across
+  several factors gets decomposed — ask each factor separately, combine with
+  your own weights. "Is this copy accurate?" is unanswerable; four specific
+  claim-detectors are trivially answerable.
+- **Deterministic facts in code, model for fuzzy judgment.** Never spend a Jev
+  call on something `grep` can answer. Keyword counts, byte sizes, tag presence
+  — all code. Jev only interprets.
+- **The battery is the unit, not the question.** Every question is evaluated in
+  parallel and in isolation, so six cost about what one costs and there is no
+  context rot between them. One question is a demo.
 
 ## The gauntlet loop
 
@@ -91,54 +126,35 @@ python3 marketing/aeo/gauntlet.py \
 
 ```
 generate   N variants x 3 OpenRouter model families   (costs money)
-gate       blocking accuracy check                    (free, runs FIRST)
-score      4 AEO rubrics                              (free)
+gate       blocking accuracy check                    (runs FIRST)
+score      4 AEO rubrics                              (~$0.00003/candidate)
 select     rank; winners seed the next round
 ```
 
-The gate is **not a tiebreaker**. A variant claiming on-chain scores is deleted
-regardless of how good the copy is. The blocking rules are also injected into
-the generation prompt, so violations are prevented as well as caught — which
-means a clean run showing `blocked: 0` is the system working, not the gate
-being untested. Use `--self-test` to test the gate.
+The gate is **not a tiebreaker** — a variant claiming on-chain scores is
+deleted regardless of how good the copy is. The blocking rules are also
+injected into the generation prompt, so violations are prevented as well as
+caught; a run showing `blocked: 0` is the system working, not the gate being
+untested. Use `--self-test` to test the gate.
 
-### How this differs from `model-gauntlet`
+### vs `model-gauntlet`
 
-`model-gauntlet` has models argue in prose and a human reads the argument —
-high quality per judgement, expensive, so it runs on one idea a few times. This
-runs cheap numeric judging over dozens of candidates. **They are for different
-jobs:** use `model-gauntlet` for a strategic decision that is expensive to get
-wrong; use this for choosing among many pieces of copy.
+`model-gauntlet` has models argue in prose and a human reads it — high quality
+per judgement, expensive, so it runs on one idea a few times. This runs cheap
+calibrated judging over dozens of candidates. **Deciding *what to do* →
+`model-gauntlet`. Deciding *which wording ships* → here.**
 
-## Honest limits — read before quoting a score
+## Honest limits
 
-- **Jev is explicitly not calibrated.** Upstream says the distributions "are
-  not calibrated probabilities of correctness" and "a valid response structure
-  does not guarantee a correct decision." A score ranks candidates against each
-  other. It is not a probability of anything.
 - **A win here does not predict citation.** Nothing in this loop measures AI
   visibility. Only `probe.py` does. Ship the winner, then measure.
-- **The rubrics are tuned for prose passages, not short-form copy.** Measured:
-  taglines score 0.84–1.65 / 3.00 because a 120-character line cannot be
-  "self-contained" or "evidence-dense." For taglines, compare variants against
-  each other and ignore the absolute number; do not conclude the copy is bad.
-- **It is a free demo endpoint.** It can change or vanish. The self-test is the
-  canary. To de-risk permanently, `hf-server/` in the upstream repo runs the
-  same API locally.
-
-## Where the three sources actually landed
-
-| Source | Verdict |
-|---|---|
-| `featherless-ai/simple-jev` | **Adopted.** Demo API works with no key; the technique is what `jev.py` wraps. |
-| `browser-use/jev-ultrafast` | **Not adopted — needs a key we do not have.** A browser agent using TypeSafe's hosted Jev (`TYPESAFE_API_KEY`) for decisions plus an OpenRouter model for text. Genuinely fast (Zürich→London flight search in 7.1s). Revisit if a TypeSafe key is ever bought; the useful idea is its indexed action space, not its SEO relevance. |
-| `connector.get-ryze.ai/mcp` | **Blocked.** OAuth `authorization_code` + `refresh_token` only — **no device-code grant**, so it cannot be authorised headlessly. Same wall as Searchata (see `connector-onboarding`). Needs the user to connect it in claude.ai connector settings or an interactive session. |
-
-**"Jev on OpenRouter" does not exist.** Checked the full catalogue: 446 models,
-zero matching `jev`, zero matching `featherless`. In `jev-ultrafast` the
-OpenRouter key fills the `TEXT_MODEL_API_KEY` slot — the *small text writer* —
-while Jev itself is a separate TypeSafe API. Our OpenRouter key is a generator
-here, never the judge.
+- **Rubrics are tuned for prose, not short-form.** Taglines score 0.84–1.65 /
+  3.00 because a 120-character line cannot be "self-contained" or
+  "evidence-dense". Compare variants against each other; ignore the absolute.
+- **Calibration is ours, not universal.** Brier 0.0146 is on 14 cases of *this
+  project's* copy. It says nothing about unrelated text.
+- **Jev cannot chain dependent judgements in one call.** Questions are isolated
+  by design; a judgement that depends on another answer is a second request.
 
 ## When this hands off
 
@@ -149,4 +165,3 @@ here, never the judge.
 | Authoring the page around the copy | `aeo-ai-discoverability` |
 | Is the live site even crawlable | `seo-smokegame-ship` |
 | Outreach targets for the copy | `backlink-building` |
-| Connecting Ryze once OAuth is sorted | `connector-onboarding` |
