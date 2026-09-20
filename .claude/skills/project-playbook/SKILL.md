@@ -67,6 +67,7 @@ defect on this project.
 | Which model to use next; closing a session | `model-selection` |
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
+| Choosing among many pieces of copy; accuracy-gating text before it ships | `jev-gauntlet` |
 
 **Building and assets**
 
@@ -99,10 +100,17 @@ defect on this project.
   quality gate). Do not report AI-visibility progress from the first without a
   reading from the second; "we added structured data" is an action, not a
   result.
-- **`model-council` vs `model-gauntlet`** — council for width (variants, a
-  quick second read). Gauntlet for depth (a plan that is expensive to get
-  wrong). The gauntlet costs ~6-10x and takes 10-20 minutes; do not use it to
-  pick a headline.
+- **`model-council` vs `model-gauntlet` vs `jev-gauntlet`** — council for
+  width (variants, a quick second read). `model-gauntlet` for depth (a plan
+  that is expensive to get wrong); it costs ~6-10x and takes 10-20 minutes, so
+  do not use it to pick a headline. **`jev-gauntlet` is what to use for the
+  headline** — numeric, free judging over dozens of candidates, so selection
+  pressure is affordable. Rule of thumb: deciding *what to do* → model-gauntlet;
+  deciding *which wording ships* → jev-gauntlet.
+- **`jev-gauntlet`'s accuracy gate is not optional.** Any public-facing text
+  can be gated in about a second for free
+  (`python3 marketing/aeo/jev.py --gate <file>`). This project has shipped a
+  false on-chain claim three times; run it before anything goes out.
 
 ## Workflows that chain skills
 
