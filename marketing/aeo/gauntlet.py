@@ -92,9 +92,16 @@ def generate(model: str, brief: str, seeds: list[str], n: int,
                  "Content-Type": "application/json"}, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            txt = json.load(r)["choices"][0]["message"]["content"]
+            msg = json.load(r)["choices"][0]["message"]
+        # Reasoning models sometimes return content: null with the text in a
+        # separate reasoning field, and an over-length reply can come back
+        # empty. Either way this is a dead variant, not a crash.
+        txt = msg.get("content") or msg.get("reasoning") or ""
     except Exception as e:  # noqa: BLE001
         print(f"  ! {model}: {type(e).__name__}: {str(e)[:120]}", file=sys.stderr)
+        return []
+    if not txt.strip():
+        print(f"  ! {model}: empty reply", file=sys.stderr)
         return []
     start, end = txt.find("["), txt.rfind("]")
     if start < 0 or end < 0:

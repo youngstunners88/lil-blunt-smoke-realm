@@ -149,30 +149,48 @@ BATTERIES: dict[str, dict] = {
 def passages(raw: str, min_chars: int = 120) -> list[str]:
     """Split into candidate passages the way a retriever would chunk a page.
 
-    JSON-LD is stripped here, unlike in the accuracy gate which deliberately
-    keeps it. A schema block is markup, not prose: it can never be quoted as an
-    answer, and leaving it in produces junk passages that score near zero and
-    drag the page average down for no reason.
+    Block boundaries are respected. An earlier version stripped tags first and
+    then accumulated sentences blindly, which merged the end of one block with
+    the start of the next — it split the canonical list entry across two
+    passages on /faq/not-the-artist/ and scored neither of them as the entry.
+    Real retrievers chunk on document structure, so splitting on block-level
+    elements BEFORE flattening is both more faithful and the only way a
+    deliberately self-contained block gets measured as one.
+
+    JSON-LD is stripped, unlike in the accuracy gate which deliberately keeps
+    it. A schema block is markup, not prose: it can never be quoted as an
+    answer, and leaving it in produces junk passages that score near zero.
     """
     is_html = "<" in raw[:2000]
-    if is_html:
-        raw = re.sub(r"<script[^>]*application/ld\+json[^>]*>.*?</script>",
-                     " ", raw, flags=re.S | re.I)
-    text = jev.visible_text(raw) if is_html else raw
-    # visible_text collapses whitespace, so re-split on sentence-ish runs for
-    # HTML, and on real paragraph breaks for markdown/plain text.
-    if is_html:
-        parts, cur = [], ""
+    if not is_html:
+        return [p.strip() for p in re.split(r"\n\s*\n", raw)
+                if len(p.strip()) >= min_chars]
+
+    raw = re.sub(r"<script[^>]*application/ld\+json[^>]*>.*?</script>",
+                 " ", raw, flags=re.S | re.I)
+    # Split on the close of any block-level container, keeping blocks whole.
+    blocks = re.split(r"</(?:div|section|article|aside|p|li|h[1-6]|blockquote|td)>",
+                      raw, flags=re.I)
+
+    out: list[str] = []
+    for b in blocks:
+        text = jev.visible_text(b)
+        if len(text) < min_chars:
+            continue
+        # A block longer than a retrieval window still needs splitting, but
+        # only within its own boundary.
+        if len(text) <= 700:
+            out.append(text)
+            continue
+        cur = ""
         for sent in re.split(r"(?<=[.!?])\s+", text):
             cur = f"{cur} {sent}".strip()
-            if len(cur) >= 280:
-                parts.append(cur)
+            if len(cur) >= 320:
+                out.append(cur)
                 cur = ""
-        if cur:
-            parts.append(cur)
-    else:
-        parts = re.split(r"\n\s*\n", text)
-    return [p.strip() for p in parts if len(p.strip()) >= min_chars]
+        if len(cur) >= min_chars:
+            out.append(cur)
+    return out
 
 
 def score_passage(text: str, battery: str, backend: str) -> dict | None:

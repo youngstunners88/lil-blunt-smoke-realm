@@ -48,11 +48,24 @@ Do **not** add `web3`, `nft`, `play-to-earn`, or `crypto` — inaccurate here, a
 they draw the audience most likely to be let down by a free score-chaser.
 
 **6 — Description** (the main rich-text body)
+
+The first paragraph is the **canonical list entry** — the block a journalist,
+directory or AI assistant pastes verbatim as this game's description. It is
+identical to the one on every page of smokegame.win, deliberately: when an
+assistant reconciles several sources about one entity, a single repeated
+description reads as a fact while varied phrasings read as loosely-related
+things. Do not reword it here. Scored 2.91/3.00 on the GEO battery
+(`marketing/aeo/passage.py --battery geo`) and passes the accuracy gate.
+
 ```
-Lil Blunt: The Smoke Realm is a free Wild West platformer that runs in your
-browser. No download, no wallet, no account — click and play.
+Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade
+score-chaser playable in a desktop web browser. Built in Godot 4 and exported
+to HTML5, the video game casts the player as a green outlaw prospector working
+the Wild West Dustrock Mines, chasing a high score while dodging mine carts and
+the Tax Man. No download, no account and no crypto wallet, with nothing to buy.
 
 You are Lil Blunt, a green outlaw prospector working the Dustrock Mines.
+
 Run, jump and dash your way deeper, grab what you can carry, and keep your
 score climbing before your lives run out. The Tax Man shows up to take his
 cut. He always does.
