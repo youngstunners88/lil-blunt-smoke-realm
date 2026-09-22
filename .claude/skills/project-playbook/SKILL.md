@@ -67,6 +67,7 @@ defect on this project.
 | Which model to use next; closing a session | `model-selection` |
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
+| **Start of any session; "where do we stand"; before planning or claiming progress** | **`rapid-assessment`** |
 | Choosing among many pieces of copy; accuracy-gating text before it ships | `jev-gauntlet` |
 | Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
 | Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |

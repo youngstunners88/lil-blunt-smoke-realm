@@ -157,3 +157,28 @@ shape rather than by a fixed number.
 **Evidence.** src/backend/mixins/game-data-api.mo and src/backend/types/game-data.mo, read 2026-08-30. The header comment states the swap-in intent explicitly.
 
 **What it changes.** The route to a real leaderboard is implementing the repository in lib/game-data.mo and dispatching through Caffeine, not adding a database on another platform with its own credentials and deploy path. Evaluate any new datastore against this backend first. Polygres would earn its place only for something the canister genuinely cannot do — vector or hybrid retrieval over a corpus large enough that grep stops working — which is not true of 26 skills and a 149-line ledger.
+
+## 2026-09-22 — a verification method that failed silently, twice
+
+**Belief:** grepping a page for a topic keyword proves the page is real.
+
+**Wrong.** The homepage is a long SPA page containing "burst dash", "no wallet"
+and "music artist". Grepping `/faq/controls/` for "burst dash" matched *the
+homepage being served in its place*. The 2026-09-09 audit built on this method
+reported **2 phantoms when there were 5**, and separately condemned
+`/troubleshooting/`, which is fine.
+
+**What works:** compare the served `<h1>` to the homepage's `<h1>`. A phantom
+IS the homepage, so it cannot carry another page's heading. No marker list to
+maintain — and the marker list was the bug.
+
+**Cost:** three AEO pages (`/faq/controls/`, `/faq/wallet/`,
+`/faq/not-the-artist/`) plus `/terms/` and `/accessibility/` were believed live
+for three weeks and were not. Work was layered on top of pages that did not
+exist, including a canonical list entry added to two of them.
+
+**Generalisation:** a verification that can match the *thing being served in
+place of* the target is not a verification. Prefer a check whose pass condition
+is impossible for the failure mode to satisfy.
+
+Codified in `marketing/aeo/assess.py` and the `rapid-assessment` skill.
