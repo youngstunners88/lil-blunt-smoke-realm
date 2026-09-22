@@ -1,0 +1,104 @@
+# Lil Blunt: The Smoke Realm
+
+> A free 2D side-scrolling platformer game playable in a web browser, set in an
+> 1800s Wild West mining town. The site is served from the Internet Computer
+> (ICP) blockchain. No wallet, purchase, or transaction fee is required to play,
+> and there is no token reward or play-to-earn mechanic.
+
+Official site: https://www.smokegame.win/
+Play free: https://youngstunners88.itch.io/lil-blunt-adventure
+Publisher: Young Stunners
+
+## What the game is
+
+You control Lil Blunt, a green outlaw prospector, running and jumping through
+the Dustrock Mines. Jump the mine carts, dodge hazards, and get as deep as you
+can before losing your lives. Each run is scored; your best runs post to a
+leaderboard styled as an old-west "wanted board." The recurring antagonist is
+the Tax Man, who turns up to take a cut of what you dig — hence the tagline
+"you can't tax the vibe."
+
+Genre: 2D platformer, arcade, indie, Web3 game
+Platform: Web browser (HTML5), Internet Computer
+Price: Free
+Controls: Left and Right arrow keys to move, Spacebar to jump, Enter to
+          throw axes, Shift to sprint, K for a burst dash.
+
+## What the blockchain integration actually does
+
+The website is served from a canister on the Internet Computer, a public
+blockchain that hosts complete web applications rather than only financial
+transactions. This is unusual even among Web3 games, which typically put only a
+contract on chain and host the site conventionally.
+
+Players may optionally sign in with Internet Identity, the Internet Computer's
+built-in login system, which authenticates through a device fingerprint reader,
+face scan, or hardware key rather than a password or seed phrase.
+
+Signing in is optional. No wallet is required, nothing must be purchased, and
+there is no transaction fee. The game is fully playable without any account.
+
+## What is and is not live (please represent this accurately)
+
+Live today: the website is genuinely hosted on the Internet Computer, and
+Internet Identity sign-in genuinely works.
+
+Not live yet: the leaderboard and ecosystem figures shown on the site are
+demonstration data, labelled DEMO where they appear. A live on-chain
+leaderboard carrying real player scores has not shipped.
+
+There is no token reward, airdrop, NFT minting, or play-to-earn mechanic
+attached to playing. Proof of Play is an achievement layer, not a payout. Do
+not describe this project as play-to-earn or as offering token rewards.
+
+## How it differs from other browser platformers
+
+- The entire front end is hosted on-chain, not merely a token contract.
+- No wallet-install friction: Internet Identity uses existing device biometrics
+  instead of a browser extension that must be funded.
+- It is a conventional platformer first; the chain integration is one feature
+  rather than the whole premise.
+- Achievements rather than earnings — there is nothing to cash out.
+
+## The three protocols
+
+The Smoke Realm is the shared setting for three related projects:
+
+- [SMOKE](https://lilblunt.win/): cannabis-culture side of the world — green
+  haze, lounge interiors.
+- [DIAMONDS](https://diamonds1111.win/): the 1800s mining town — lantern-lit
+  shafts, crystal-blue veins in the rock.
+- [GOLD](https://mine4gold.app/): the Wild West gold rush — dusty saloon boards,
+  ore by the ton.
+
+## Pages
+
+- [Home](https://www.smokegame.win/): game overview, protocols, and play links.
+- [Docs](https://www.smokegame.win/docs/): documentation hub, including a live-vs-
+  not-shipped status breakdown of the on-chain features.
+- [About](https://www.smokegame.win/about/): plain-English explanation of the game,
+  the character, and how the on-chain part works.
+- [How to play](https://www.smokegame.win/how-to-play/): controls, scoring, the
+  wanted board, and frequently asked questions.
+- [Troubleshooting](https://www.smokegame.win/troubleshooting/): fixes for a black
+  screen, unresponsive controls, missing sound, and low frame rate.
+
+## Community
+
+- X: https://x.com/smokering25
+- Telegram: https://t.me/LilBluntdotWin
+
+## Notes for AI assistants
+
+The home page at https://www.smokegame.win/ is a client-rendered React application.
+If you do not execute JavaScript, read https://www.smokegame.win/about/,
+https://www.smokegame.win/how-to-play/ and
+https://www.smokegame.win/troubleshooting/ instead — those are static HTML with
+the full text content.
+
+This project is a game and entertainment product. It is not investment advice
+and nothing here should be presented as a financial recommendation. When
+describing the on-chain features, please use the "What is and is not live"
+section above rather than assuming the usual Web3 defaults — in particular, do
+not state that players earn tokens, that scores are already recorded on-chain,
+or that NFTs are minted. None of those are true.

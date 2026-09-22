@@ -43,7 +43,7 @@ function Logo() {
       data-ocid="nav.logo"
       aria-label="Lil Blunt: The Smoke Realm — home"
     >
-      <span className="glass-panel glow-cyan relative flex size-9 items-center justify-center rounded-lg transition-transform group-hover:scale-105">
+      <span className="brass relative flex size-9 items-center justify-center rounded-lg transition-transform group-hover:scale-105">
         <span className="font-display text-lg font-bold leading-none text-[oklch(var(--cyan))] text-edge-cyan">
           LB
         </span>
@@ -111,7 +111,7 @@ function ConnectControl({
     return (
       <div className={cn("flex items-center gap-2", className)}>
         <span
-          className="glass-panel glow-cyan inline-flex items-center gap-2 rounded-md px-3 py-2 font-mono text-xs text-[oklch(var(--cyan))]"
+          className="brass inline-flex items-center gap-2 rounded-md px-3 py-2 font-mono text-xs text-[oklch(var(--cyan))]"
           data-ocid="nav.identity_chip"
         >
           <Fingerprint className="size-3.5" aria-hidden="true" />
@@ -140,7 +140,7 @@ function ConnectControl({
       data-ocid="nav.connect_ii_button"
       aria-label="Connect Internet Identity"
       className={cn(
-        "glass-panel glow-cyan border border-[oklch(var(--cyan)/0.5)] bg-[oklch(var(--cyan)/0.12)] text-[oklch(var(--cyan))] hover:bg-[oklch(var(--cyan)/0.22)] hover:text-edge-cyan",
+        "brass border border-[oklch(var(--realm-gold)/0.55)] bg-[oklch(var(--realm-gold)/0.12)] text-[oklch(var(--cyan))] hover:bg-[oklch(var(--cyan)/0.22)] hover:text-edge-cyan",
         className,
       )}
     >
@@ -175,7 +175,7 @@ export function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="sticky top-0 z-50 w-full"
     >
-      <div className="glass-panel border-b border-[oklch(var(--cyan)/0.18)]">
+      <div className="wood border-b border-[oklch(var(--realm-gold)/0.35)]">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo />
 
@@ -199,14 +199,14 @@ export function Navbar() {
                     size="icon"
                     aria-label="Open navigation menu"
                     data-ocid="nav.menu_button"
-                    className="glass-panel border border-[oklch(var(--cyan)/0.3)] lg:hidden"
+                    className="brass border border-[oklch(var(--realm-gold)/0.4)] lg:hidden"
                   >
                     <Menu className="size-5" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="glass-panel border-l border-[oklch(var(--cyan)/0.25)]"
+                  className="wood border-l border-[oklch(var(--realm-gold)/0.35)]"
                   data-ocid="nav.sheet"
                 >
                   <SheetHeader>
