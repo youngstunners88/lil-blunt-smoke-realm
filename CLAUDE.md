@@ -84,6 +84,18 @@ Added for this repo, where the deploy path has bitten before:
   which installs independently — prefer dependency-free solutions for anything
   that must run in the deployed site.
 
+## 6. Search semantically before searching broadly
+
+Before broad Grep/Glob on `src/`, run: `jg "<your question>" .`
+(e.g. `jg "how do we dominate SEO, AEO, GEO?" .`)
+
+Exact symbol search still uses Grep. `jg` retrieves by meaning, so it is for
+"where does X happen"; Grep is for "where is this exact identifier".
+
+Note the game code is **not in this repo** — no `.gd`/`.tscn` files — so `jg`
+cannot answer questions about stages, portals, or episodes here. That is the
+separate GM-GAME repo, not a `jg` failure.
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer
