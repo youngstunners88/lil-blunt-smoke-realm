@@ -72,6 +72,7 @@ defect on this project.
 | Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
 | Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |
 | Whether a page satisfies query intent; is this draft generic | `seo-intent-match` |
+| Ranking for more keywords; what words to add; a "short page, huge traffic" case study | `query-expansion` |
 
 **Building and assets**
 
