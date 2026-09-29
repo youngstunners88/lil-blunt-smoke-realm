@@ -207,3 +207,63 @@ distinctive phrases. Byte size and `<title>` both lie on this host, and
 `crawl_gate.py`'s sentinel check catches only paths matching the not-found
 signature — it does not catch a path that serves the *homepage*, which is how
 both phantoms above slipped past it.
+
+## 2026-09-29 — Version 40 promoted; the three-week gap explained
+
+**Root cause found, and it was neither of the theories.** Caffeine project
+metadata read through the MCP connector:
+
+```
+lastDeployedDraftId: 40      built and sitting on the draft URL since 2026-09-13
+liveDraftId:         39      what smokegame.win was actually serving
+```
+
+Draft 40 had been built and deployed **to the draft URL** for sixteen days and
+never promoted. That reconciles two Caffeine reports that looked contradictory:
+its first verification ("all four changes present") was true of the built app,
+and its second ("two look wrong, two unverifiable") was true of the live site.
+Both were accurate about different things. Neither was a silent Caffeine
+failure, and nothing needed rebuilding.
+
+**Lesson for every future dispatch:** "Caffeine verified it" means the draft.
+Compare `lastDeployedDraftId` against `liveDraftId` before believing a change
+is live. A build is not a deploy.
+
+**Promoted during this session.** Sending the dispatch through
+`caffeine_chat_send` triggered `go_live_start` → `go_live_success` for Version
+40 automatically. There is no publish tool in the connector surface, and
+Caffeine's own message said the button could not be pressed for us, so this was
+a side effect rather than an intended action — worth knowing before staging
+anything risky.
+
+**Now verified live** (Googlebot UA, cache-busted):
+
+| Item | State |
+|---|---|
+| CrawlConsole tracker | live, exact tag and key |
+| `signed on the Internet Computer` | absent — false claim off production |
+| `applicationCategory` | **`GameApplication`** (was `Game`) |
+| `/privacy/` Analytics | full section, Crawl Console Inc + policy link |
+| `/accessibility/` | live, own page, h1 "Accessibility" |
+| `/troubleshooting/` | unchanged, correct |
+
+`assess.py`: **4 red / 7 amber**, from 5 / 8.
+
+**Still phantom, being built now:** `/terms/`, `/faq/controls/`,
+`/faq/wallet/`, `/faq/not-the-artist/`. These were never in draft 40 — the
+dispatch it was built from carried the old two-page list, before the audit was
+corrected to five.
+
+**Prerender cache question answered.** Googlebot responses carry
+`x-pre-rendered: 1` with `cache-control: max-age≈953877` (~11 days), which
+looked like it would hide newly published pages from crawlers. It does not:
+`/accessibility/` was visible to a Googlebot UA immediately after Version 40
+went live. **Publishing invalidates the prerender cache.** No workaround needed.
+
+**One false alarm, retracted.** A grep for "does not set cookies" on `/privacy/`
+looked like a site-wide claim contradicted by the `ic_env` cookie in the
+response headers. Read in context the subject is CrawlConsole — "It does not
+collect personal data about human visitors and does not set cookies" — which is
+accurate, since the cookie comes from the IC boundary node. The correction was
+withdrawn before it weakened correct copy. **Do not judge a claim from a keyword
+match; read the sentence.**
