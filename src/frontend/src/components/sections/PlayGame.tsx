@@ -9,13 +9,13 @@ const PLAY_GAME_HREF = "https://youngstunners88.itch.io/lil-blunt-adventure";
 const GAMEPLAY_FACTS = [
   {
     icon: Pickaxe,
-    label: "Dig Deeper",
-    text: "Platform your way through Dustrock Mines — jump the carts, dodge the smoke, keep the score climbing.",
+    label: "Run Deeper",
+    text: "Platform your way through the Smoke Realm — dodge the hazards, beat the stage boss, keep the score climbing.",
   },
   {
     icon: Gem,
     label: "Stack Your Score",
-    text: "Every run is a fresh claim. Chase the high score and watch the tax man circle the board.",
+    text: "Every run is a fresh claim. Chase the high score and watch the Tax Collector circle the board.",
   },
   {
     icon: Trophy,

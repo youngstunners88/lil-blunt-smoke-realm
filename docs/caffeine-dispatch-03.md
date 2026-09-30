@@ -148,9 +148,7 @@ Computer.",
 Replace with:
 
 ```
-"description": "A Wild West 2D platformer. Dig through the Dustrock Mines,
-dodge the carts and the Tax Man, and chase a high score. Free to play in the
-browser, no wallet and no download.",
+"description": "A Wild West 2D platformer. Run and jump through the Smoke Realm, dodge the Tax Collector and chase a high score. Free to play in the browser, no wallet and no download.",
 ```
 
 ("signed on the Internet Computer" is inaccurate — scores are not written
@@ -257,9 +255,7 @@ The files all exist in the repo; they need to appear at their URLs:
 
 CHANGE 4 — In the homepage JSON-LD (<script type="application/ld+json">):
 a) In the VideoGame description, remove "signed on the Internet Computer."
-   New description: "A Wild West 2D platformer. Dig through the Dustrock Mines,
-   dodge the carts and the Tax Man, and chase a high score. Free to play in the
-   browser, no wallet and no download."
+   New description: "A Wild West 2D platformer. Run and jump through the Smoke Realm, dodge the Tax Collector and chase a high score. Free to play in the browser, no wallet and no download."
 b) Change "applicationCategory": "Game" to "applicationCategory": "GameApplication"
 
 CHANGE 5 — Sync these seven static pages from the repo exactly as they are:
@@ -272,7 +268,12 @@ the same everywhere:
 
 <div class="entry">
   <span class="entry-label">What this game is</span>
-  <p>Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade score-chaser playable in a web browser on desktop or mobile. Built in Godot 4 and exported to HTML5, the video game casts the player as a green outlaw prospector working the Wild West Dustrock Mines, chasing a high score while dodging mine carts and the Tax Man. No download, no account and no crypto wallet, with nothing to buy.</p>
+  <p>Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade
+score-chaser playable in a web browser on desktop or mobile. Built in Godot 4
+and exported to HTML5, the Wild West video game stars the mascot Lil Blunt,
+who throws axes and faces Tax Collector enemies across three stages, Smoke
+Realm, Crystal Caverns and Gold Rush, each ending in a boss. No download, no
+account and no crypto wallet, with nothing to buy.</p>
 </div>
 
 Each page's <style> block also needs:

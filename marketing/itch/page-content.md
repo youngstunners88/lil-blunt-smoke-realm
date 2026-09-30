@@ -59,15 +59,16 @@ things. Do not reword it here. Scored 2.91/3.00 on the GEO battery
 
 ```
 Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade
-score-chaser playable in a web browser on desktop or mobile. Built in Godot 4 and exported
-to HTML5, the video game casts the player as a green outlaw prospector working
-the Wild West Dustrock Mines, chasing a high score while dodging mine carts and
-the Tax Man. No download, no account and no crypto wallet, with nothing to buy.
+score-chaser playable in a web browser on desktop or mobile. Built in Godot 4
+and exported to HTML5, the Wild West video game stars the mascot Lil Blunt,
+who throws axes and faces Tax Collector enemies across three stages, Smoke
+Realm, Crystal Caverns and Gold Rush, each ending in a boss. No download, no
+account and no crypto wallet, with nothing to buy.
 
-You are Lil Blunt, a green outlaw prospector working the Dustrock Mines.
+You are Lil Blunt, a green leaf mascot working the Smoke Realm.
 
 Run, jump and dash your way deeper, grab what you can carry, and keep your
-score climbing before your lives run out. The Tax Man shows up to take his
+score climbing before your lives run out. The Tax Collector shows up to take his
 cut. He always does.
 
 CONTROLS
@@ -148,7 +149,7 @@ false claims:
 Free to play, no download: runs instantly in your browser. No install, no wait.
 No wallet, no account: start playing in one click.
 Tight platforming: classic run-and-jump with modern responsiveness.
-Hand-crafted levels: dig the Dustrock Mines and dodge the Tax Man.
+Three stages: the Smoke Realm, Crystal Caverns and Gold Rush, each ending in a boss.
 Built on the Internet Computer: the whole game is served from a public chain.
 ```
 
@@ -238,9 +239,9 @@ counters, still in progress — so nothing below implies anything accrues.
 Lil Blunt: The Smoke Realm is a free Wild West platformer that runs in your
 browser. No download, no wallet, no account — click and play.
 
-You are Lil Blunt, a green outlaw prospector working the Dustrock Mines.
+You are Lil Blunt, a green leaf mascot working the Smoke Realm.
 Run, jump and dash your way deeper, grab what you can carry, and keep your
-score climbing before your lives run out. The Tax Man shows up to take his
+score climbing before your lives run out. The Tax Collector shows up to take his
 cut. He always does.
 
 CONTROLS

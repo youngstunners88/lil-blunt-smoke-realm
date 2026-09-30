@@ -70,6 +70,9 @@ defect on this project.
 | Stress-testing a plan before committing to it | `model-gauntlet` |
 | **Start of any session; "where do we stand"; before planning or claiming progress** | **`rapid-assessment`** |
 | A vague or bundled request about to trigger substantial work; "was that a good prompt" | `prompt-interpreter` |
+| **Before writing ANY copy that describes the game; names, controls, stages, chains** | **`gm-game-sync`** |
+| What are we lacking vs winning pages; benchmark research; a research/gauntlet loop | `research-agent` |
+| Anything that could touch the background video or homepage styling | **`keep-the-video`** |
 | Choosing among many pieces of copy; accuracy-gating text before it ships | `jev-gauntlet` |
 | Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
 | Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |

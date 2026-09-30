@@ -63,10 +63,11 @@ HARD ACCURACY RULES — a variant breaking any of these is discarded unread:
   decentralised and has no headquarters.
 
 TRUE things worth using:
-- Free, no download, no wallet, no account, runs in a browser.
+- Free, no download, no wallet, no account, runs in a browser on desktop or mobile (on-screen touch controls exist).
 - Built in Godot 4; the whole site is served from the Internet Computer.
 - Wild West theme: the Dustrock Mines, the Tax Man, a green outlaw prospector.
-- Controls: arrows move, Space jumps, Enter throws axes, Shift sprints, K dashes.
+- Controls: A/D or arrows move, Space or W jumps, J or Enter throws axes, Shift sprints, K dashes.
+- Episode 2 is access-code gated and NOT public: never advertise or describe it.
 """
 
 
