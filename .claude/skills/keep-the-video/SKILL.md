@@ -23,6 +23,7 @@ background video"* or *"replace the video with X"*. Inference does not count:
 | "improve readability" | Fix the panel and text over the video; leave the video. |
 | "reduce the bundle / tidy components" | `SmokeBackground.tsx` is not dead code. |
 | A failing test | Fix the code. Never delete a guard test to get green. |
+| "Make it accessible" | Raise the pause-control idea with the founder. Do not re-add the reduced-motion gate they removed. |
 
 If a task seems to require touching the video, **stop and ask the founder.**
 
@@ -55,16 +56,32 @@ python3 marketing/aeo/assess.py --quick     # includes the live video check
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | Big play triangle, no motion | Autoplay blocked (Low Power Mode, data saver) | Already handled: first touch/click/key starts it. Confirm that build is live. |
-| Static still image, no play button | Reduced-motion is on, **by design** | Nothing. The video is deliberately not rendered then. |
+| Static still image, no play button, PC only | Was the reduced-motion gate hiding it | Already fixed live: the gate was removed in Version 39 at the founder's request. |
+| Still image while a content page (About, How to Play, Docs) is open | `ContentOverlay` draws an opaque full-screen layer over the video | Press Back or Esc. Not a bug. |
 | Video never loads on desktop | `/assets/video/*` served from the canister, which falls through to `index.html` | Sources must be the pinned jsDelivr URLs, not a relative path. |
 | Markers absent from the live bundle | Caffeine's copy lost the component | Real removal. Re-dispatch. |
 
-## The reduced-motion gate is intentional
+## Reduced motion: the founder already decided, and it is not ours to reverse
 
-`useReducedMotion()` stops the `<video>` rendering at all for people who asked
-their system for less motion. That is an accessibility requirement — see
-`accessibility-statement`. It is **not** the video being removed and must not be
-"fixed" to always render.
+**In the live site (Version 39 onward) the reduced-motion gate was removed at the
+founder's request: the video plays for everyone.** Caffeine's own record says so,
+and it matches the founder's earlier complaint that the video "plays only on the
+mobile": a PC with system animations switched off was hiding it.
+
+- **Do not re-add the gate.** Doing so silently undoes an explicit founder
+  command and brings the original complaint back.
+- **The repo disagrees with live.** `src/frontend/src/components/SmokeBackground.tsx`
+  still has `useReducedMotion()` and `{!reduce && (<video>…)}` (lines ~80, ~100).
+  The repo is not the deploy source, so this has not mattered, but **never
+  re-sync Caffeine from that file as it stands** or it will reintroduce the gate.
+  Bringing the repo in line is a one-line decision for the founder: say so and
+  it is done.
+- **It is a real tradeoff, and the founder should know it.** Auto-playing motion
+  that lasts over 5 seconds with no pause control conflicts with WCAG 2.2.2
+  (Pause, Stop, Hide), and people who set "reduce motion" do so because motion
+  makes them ill. A small "pause background" control would satisfy both without
+  removing the video. That is a suggestion, not something to do unprompted; see
+  `accessibility-statement`.
 
 ## Dispatch boilerplate
 
