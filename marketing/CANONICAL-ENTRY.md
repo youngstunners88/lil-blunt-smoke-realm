@@ -4,7 +4,7 @@
 
 ```
 Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade
-score-chaser playable in a desktop web browser. Built in Godot 4 and exported
+score-chaser playable in a web browser on desktop or mobile. Built in Godot 4 and exported
 to HTML5, the video game casts the player as a green outlaw prospector working
 the Wild West Dustrock Mines, chasing a high score while dodging mine carts and
 the Tax Man. No download, no account and no crypto wallet, with nothing to buy.

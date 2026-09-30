@@ -96,6 +96,14 @@ Note the game code is **not in this repo** — no `.gd`/`.tscn` files — so `jg
 cannot answer questions about stages, portals, or episodes here. That is the
 separate GM-GAME repo, not a `jg` failure.
 
+## 7. The background video is protected
+
+Never remove, replace, disable or restyle the background video (`SmokeBackground`)
+unless the founder explicitly says to, in words. Redesigns, performance work,
+readability fixes and cleanups are **not** permission. If a task seems to need
+touching it, stop and ask. `SmokeBackground.test.tsx` guards it; do not delete
+or weaken that test. See `.claude/skills/keep-the-video`.
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer

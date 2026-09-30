@@ -49,10 +49,10 @@ Concrete example of the move, from `/faq/not-the-artist/`, which scored 0.0035
 on the gzip quality gate until this rewrite took it to 0.0653:
 
 > before: the controls are simple and responsive
-> after:  Left and Right arrow keys move, Spacebar jumps, Enter throws axes,
->         Shift sprints, and K performs a burst dash. WASD is not bound, which
->         is the most common reason a first-time player reports the character
->         will not move.
+> after:  A and D or the arrow keys move, Spacebar or W jumps, J or Enter
+>         throws axes, Shift sprints, and K performs a burst dash. The most
+>         common reason the character will not move is that the game does
+>         not have keyboard focus; click it once.
 
 Same claim. One is quotable; the other is not.
 

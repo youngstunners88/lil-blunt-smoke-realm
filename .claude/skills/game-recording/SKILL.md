@@ -56,9 +56,13 @@ python3 marketing/recorder/compose_vertical.py --rec /tmp/rec \
 
 - **Godot 4 needs cross-origin isolation.** `python3 -m http.server` serves no
   COOP/COEP and the engine never starts. `serve_game.py` sets them.
-- **The controls are arrow keys, not WASD.** Left/Right move, Spacebar jumps,
-  Enter throws axes, Shift sprints, K is a burst dash. A WASD-driven script
-  produces a recording of a character standing still.
+- **Drive recordings with the arrow keys.** `project.godot` in GM-GAME binds
+  A/D/W as well (move_left A+Left, move_right D+Right, jump Space+W, attack
+  J+Enter, sprint Shift, dash K, interact E) — verified 2026-09-30. But a
+  WASD-driven script once produced a recording of a character standing still.
+  The cause was never isolated (it may be keyboard focus or how the synthetic
+  key events were sent, not an unbound key), so arrow keys stay the reliable
+  path for scripted capture. Do not tell players WASD does not work: it does.
 - **There is an email-capture modal after PLAY.** It must be dismissed (the
   SKIP button) or the run never reaches gameplay.
 - **SwiftShader is the renderer**, so capture lands around 5–7 fps. Compose

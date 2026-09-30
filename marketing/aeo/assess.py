@@ -98,8 +98,11 @@ SHIPPED = [
 RED, AMBER, GREEN = "RED", "AMBER", "GREEN"
 
 
-def fetch(path: str, timeout: int = 25) -> str:
-    req = urllib.request.Request(f"{SITE}/{path}", headers={"User-Agent": UA})
+BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+
+
+def fetch(path: str, timeout: int = 25, ua: str = UA) -> str:
+    req = urllib.request.Request(f"{SITE}/{path}", headers={"User-Agent": ua})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.read().decode(errors="replace")
@@ -141,6 +144,34 @@ def check_shipped() -> list[dict]:
                         "what": f"{label} absent from /{path}",
                         "detail": "in the repo, not on production — needs a Caffeine dispatch"})
     return out
+
+
+def check_video() -> list[dict]:
+    """The founder's background video must still be in the PRODUCTION bundle.
+
+    Checked against the live app bundle, not the repo: Caffeine builds from its
+    own copy, so a green repo proves nothing. See the keep-the-video skill. A
+    founder report that it was "removed" on 2026-09-30 was wrong — it was present
+    and the browser had blocked autoplay — which is exactly why this looks at
+    production before anyone assumes either way.
+    """
+    # Browser UA on purpose: crawlers are served a prerendered page that does
+    # not reference the app bundle, so a Googlebot fetch cannot find it.
+    home = fetch("", ua=BROWSER_UA)
+    m = re.search(r'src="(/assets/index-[^"]+\.js)"', home)
+    if not m:
+        return [{"level": AMBER, "area": "video",
+                 "what": "could not locate the app bundle to check the video"}]
+    bundle = fetch(m.group(1).lstrip("/"), timeout=60, ua=BROWSER_UA)
+    need = ["smoke-realm-background.mp4", "smoke-realm-background.webm",
+            "autoPlay", "playsInline"]
+    missing = [n for n in need if n not in bundle]
+    if missing:
+        return [{"level": RED, "area": "video",
+                 "what": "background video is MISSING from the live bundle",
+                 "detail": f"absent: {missing}. Protected — see keep-the-video."}]
+    return [{"level": GREEN, "area": "video",
+             "what": "background video present in the live bundle"}]
 
 
 def check_repo_vs_prod() -> list[dict]:
@@ -229,7 +260,8 @@ def main() -> int:
     a = ap.parse_args()
 
     findings: list[dict] = []
-    for fn in (check_pages, check_shipped, check_repo_vs_prod, check_probe_freshness):
+    for fn in (check_pages, check_shipped, check_video, check_repo_vs_prod,
+               check_probe_freshness):
         findings += fn()
     findings += check_accuracy(a.quick)
 

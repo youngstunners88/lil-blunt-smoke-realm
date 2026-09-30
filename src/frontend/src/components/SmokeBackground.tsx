@@ -128,11 +128,30 @@ export function SmokeBackground() {
       if (document.visibilityState === "visible" && video.paused) resume();
     }, 5000);
 
+    // Some browsers refuse muted autoplay outright: iOS in Low Power Mode, and
+    // data-saver modes. They show their own play button over the page and the
+    // video never starts, which reads as "the video was removed". The first
+    // touch, click or key press is always allowed to start playback, so ask for
+    // it then. One-shot: it removes itself once the video is actually playing.
+    const gestures = ["pointerdown", "touchstart", "keydown"] as const;
+    const onGesture = () => {
+      void video
+        .play()
+        .then(() => {
+          for (const g of gestures) window.removeEventListener(g, onGesture);
+        })
+        .catch(() => {});
+    };
+    for (const g of gestures) {
+      window.addEventListener(g, onGesture, { passive: true });
+    }
+
     return () => {
       video.removeEventListener("ended", onEnded);
       video.removeEventListener("pause", onPause);
       document.removeEventListener("visibilitychange", onVisibility);
       window.clearInterval(watchdog);
+      for (const g of gestures) window.removeEventListener(g, onGesture);
     };
   }, [reduce]);
 
