@@ -64,10 +64,12 @@ defect on this project.
 | Before planning; after a surprising result | `learning-loop` |
 | Before substantial work; "what am I missing?" | `blind-spots` |
 | Backlinks, outreach, link prospecting | `backlink-building` |
+| Linking sites/repos you own to each other; cross-property backlinks | `owned-property-links` |
 | Which model to use next; closing a session | `model-selection` |
 | A second opinion, creative variants | `model-council` |
 | Stress-testing a plan before committing to it | `model-gauntlet` |
 | **Start of any session; "where do we stand"; before planning or claiming progress** | **`rapid-assessment`** |
+| A vague or bundled request about to trigger substantial work; "was that a good prompt" | `prompt-interpreter` |
 | Choosing among many pieces of copy; accuracy-gating text before it ships | `jev-gauntlet` |
 | Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
 | Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |
