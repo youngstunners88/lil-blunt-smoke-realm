@@ -83,8 +83,7 @@ export function PlayGame() {
             className="mx-auto mt-4 max-w-2xl text-center font-body text-base font-light leading-relaxed text-muted-foreground sm:text-lg"
             data-ocid="showcase.tagline"
           >
-            Dig deeper, stack your score, and ride the wanted board — your runs
-            are signed on the Internet Computer.
+            Dig deeper, stack your score, and ride the wanted board.
           </motion.p>
         </div>
 

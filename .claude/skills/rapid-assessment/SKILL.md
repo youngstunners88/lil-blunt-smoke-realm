@@ -52,6 +52,31 @@ phantom   served h1 == homepage h1   the page does not exist
 drift     served h1 != repo h1       it exists, but Caffeine's copy is stale
 ```
 
+## Two views of every page: crawler and browser
+
+**A crawler-UA request to a canonical URL is answered from a prerender cache**
+(`x-pre-rendered: 1`, `cache-control: max-age` around 14 days). **A request with a
+query string such as `?cb=123` bypasses it.** They are different documents.
+
+| View | How to request | What it tells you |
+|---|---|---|
+| **Crawler** | Googlebot UA, plain URL, **no query string** | What search engines and AI crawlers receive. The one that matters for SEO/AEO. |
+| **Browser / app** | Browser UA, random `?cb=`, and the **JS bundle** | What a person sees. |
+
+- **Publishing does not refresh the prerender cache.** On 2026-09-30 `/`,
+  `/terms/` and `/faq/controls/` still served crawlers the old 127 KB snapshot,
+  false on-chain claim included, after Version 40 went live. An earlier note here
+  and a message to Caffeine said it did; both were wrong (see `LESSONS.md`).
+- **Never use a constant cache-buster.** The second request for the same key is
+  itself served a snapshot. Use a random value each time.
+- **Snapshots strip `<script>` tags.** The CrawlConsole tracker is structurally
+  absent from the crawler view. Do not assert it there.
+- **Search for a claim in the bundle, not only the HTML.** The app is
+  client-rendered; the visible copy lives in `/assets/index-*.js`. A claim
+  removed from JSON-LD can still be on screen.
+
+`verify_publish.py` checks both views. `assess.py` uses the crawler view.
+
 ## What "progress" means here, and does not
 
 `blind-spots` names this project's recurring failure as **mistaking output for

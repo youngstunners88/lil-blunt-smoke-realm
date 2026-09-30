@@ -182,3 +182,38 @@ place of* the target is not a verification. Prefer a check whose pass condition
 is impossible for the failure mode to satisfy.
 
 Codified in `marketing/aeo/assess.py` and the `rapid-assessment` skill.
+
+## 2026-09-30 — I verified the wrong view, and told the founder the claim was gone
+
+**Belief:** a publish refreshes the prerender cache, and the false on-chain claim
+is off production.
+
+**Wrong, twice over.**
+
+1. **Crawlers and browsers see different documents.** A crawler-UA request to a
+   canonical URL is answered from a prerender cache (`x-pre-rendered: 1`,
+   max-age about 14 days). A request with a query string (`?cb=123`) bypasses it.
+   Every "verified live" check I ran used a cache-buster, so I verified the
+   browser view and called it the crawler view. `/`, `/terms/` and
+   `/faq/controls/` still serve crawlers the old 127,552-byte snapshot. I also
+   told Caffeine its (correct) documentation was wrong, on the strength of that
+   flawed test.
+2. **I checked the wrong place for the claim.** "Signed on the Internet
+   Computer" was removed from the JSON-LD description, and I reported the claim
+   gone. The same sentence was still rendered as visible homepage copy
+   ("your runs are signed on the Internet Computer") in the live JS bundle and in
+   our own `PlayGame.tsx`. A claim has to be searched for everywhere a user or
+   crawler can meet it: head, JSON-LD, rendered body, bundle, and every page.
+
+A smaller trap inside the first: a constant cache-buster is not a bypass. The
+second request for the same key is served a snapshot.
+
+**What works:** check BOTH views and label them. Search the JS bundle as well as
+the HTML. Prerendered snapshots strip `<script>` tags, so never assert the
+tracker in the crawler view.
+
+**Generalisation:** when a check passes, ask what the failure mode would have had
+to look like for it to fail, and whether the test could have seen that. A
+verification that cannot distinguish "fixed" from "not looked at" is not one.
+
+Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
