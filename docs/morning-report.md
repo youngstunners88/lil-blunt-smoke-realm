@@ -267,3 +267,57 @@ collect personal data about human visitors and does not set cookies" — which i
 accurate, since the cookie comes from the IC boundary node. The correction was
 withdrawn before it weakened correct copy. **Do not judge a claim from a keyword
 match; read the sentence.**
+
+## 2026-09-30 — reading the game, correcting my own verification
+
+**What changed the picture: reading GM-GAME (read-only).** Checking our copy
+against the game's source found four claims I or the site had written that the
+game contradicts. All corrected in the repo; none is live until a Caffeine
+publish.
+
+| Claim on our pages | What the game has |
+|---|---|
+| "WASD is not bound" (and live `/troubleshooting/`: "Use the arrow keys, not WASD") | A/D, W/Space, J/Enter, Shift, K, E — `project.godot`. GM-GAME's own 1 Aug spec already lists WASD. |
+| "No on-screen touch controls; a phone cannot play" | Touch controls landed 2026-08-01 |
+| "Dustrock Mines", "Tax Man", "outlaw prospector" | In no GM-GAME file. Stages are Smoke Realm, Crystal Caverns, Gold Rush; the enemy is the Tax Collector. |
+| "dodging mine carts", a digging mechanic | Carts are boardable platforms; no digging |
+
+**Two on-chain claims were still live, and I had reported the claim gone.** I
+removed "signed on the Internet Computer" from the JSON-LD description and said
+so. The same sentence was still visible homepage copy ("your runs are signed on
+the Internet Computer") in the live bundle and in our own `PlayGame.tsx`, and the
+leaderboard eyebrow said "On-chain" over a demo table. `AGENTS.md` lists scores
+recorded on-chain as blocking-false.
+
+**My publish verification was wrong, and so was a message I sent Caffeine.**
+Crawlers and browsers get different documents. A crawler-UA request to a
+canonical URL is answered from a prerender cache (`x-pre-rendered: 1`, ~14 days).
+`?cb=` query strings bypass it, which is all I had tested. Publishing does NOT
+refresh it: `/`, `/terms/`, `/faq/controls/` still serve the old 127 KB snapshot,
+false claim included. Caffeine's documentation said so and I talked it out of it.
+
+**The video was never removed.** It is in the live bundle and in Caffeine's
+code; the play triangle in the screenshot is the browser's autoplay-blocked
+button. Four-layer protection added (`keep-the-video`, a 6-test guard, a live
+bundle check in `assess.py`, CLAUDE.md §7), plus a tap-to-start fallback. My skill
+first said the reduced-motion gate was intentional; the founder had already
+removed it in Version 39. Corrected.
+
+**Built:** `research_agent.py` (+ fact-check against the game source),
+`gm-game-sync`, `research-agent`, `keep-the-video`; `verify_publish.py` checks
+both views. DIAMONDS and DIAMONDS-II updated and live (Smoke game section,
+accessibility and readability facelift, keyboard access to DIAMONDS-II's play
+button).
+
+**Round 2 dispatched to Caffeine** (About-section readability, the two on-chain
+claims, names, control claims, tap-to-start). Draft only. Baseline before
+publish: `python3 marketing/aeo/verify_publish.py` → 21/34, 13 real failures.
+
+### Open decisions (yours)
+1. Was "Dustrock Mines" deliberate branding? Replaced with verified names; one
+   revert restores it.
+2. Reduced motion: video now plays for everyone. A pause control would satisfy
+   WCAG 2.2.2 without removing it. Repo still has the old gate.
+3. `FIRECRAWL_API_KEY` in this environment is dead (401). Paste the new one.
+4. Also flagged, not touched: "On-Chain Points" nav label; `Gold.tsx` copy
+   ("earn while the mine works", "audited, on-chain, and binding").
