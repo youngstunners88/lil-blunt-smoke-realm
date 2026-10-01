@@ -237,3 +237,23 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** Transcript 2026-10-01: no jev.py invocation before the claim; the corruption test was an inline toy snippet; surface_audit then printed 'pass' for unfetchable itch/LinkedIn/X
 
 **What it changes.** A card is not done until its acceptance test runs the shipped script on a fixture; unfetchable surfaces report UNCHECKED, never pass; use the existing itch pack, which is already gated, instead of new unrun copy
+
+---
+
+## 2026-10-01 — The weakest-scoring passages on our static pages are mostly chunker and boilerpl
+
+**Claim.** The weakest-scoring passages on our static pages are mostly chunker and boilerplate artifacts (breadcrumb run-ins, footer text, audio-troubleshooting tips, a tokenomics disclaimer), not liftable content; rewriting them to raise geo.category_anchored would be keyword stuffing
+
+**Evidence.** passage.py --battery geo on 7 static pages 2026-10-01: weakest passages score 0.34-1.2, e.g. 'If it is still silent afterwards, check whether the browser tab itself is muted' (category_anchored 0.1). Benchmark gaps unchanged since 09-30 (+0.63 category, +0.54 entity)
+
+**What it changes.** Card 4 must target only passages meant to be quoted (list entry, FAQ answers); never rewrite a how-to or troubleshooting paragraph for a rubric score. Page means are the wrong metric, as CANONICAL-ENTRY.md already warned
+
+---
+
+## 2026-10-01 — The itch URL slug is load-bearing: Hero.tsx and PlayGame.tsx Play buttons, JSON-
+
+**Claim.** The itch URL slug is load-bearing: Hero.tsx and PlayGame.tsx Play buttons, JSON-LD sameAs, the noscript link, llms.txt and 11 static pages all point at youngstunners88.itch.io/lil-blunt-adventure
+
+**Evidence.** grep 2026-10-01: 15 hits in src/frontend plus 3 on the live homepage; founder screenshot showed the slug being changed to 'smokerealm'. Whether itch redirects a renamed slug is unverified (itch is Cloudflare-blocked from this host)
+
+**What it changes.** Do not change the itch slug without a Caffeine round that updates every link in one publish and a browser test of the old URL; title changes are free, slug changes are not
