@@ -321,3 +321,8 @@ publish: `python3 marketing/aeo/verify_publish.py` → 21/34, 13 real failures.
 3. `FIRECRAWL_API_KEY` in this environment is dead (401). Paste the new one.
 4. Also flagged, not touched: "On-Chain Points" nav label; `Gold.tsx` copy
    ("earn while the mine works", "audited, on-chain, and binding").
+
+## Queued: Round 4 (after Version 45 is live)
+- Add a "Watch the gameplay demo" link to https://x.com/smokering25/status/2105394557865374145 on the homepage Play section. It is nofollow, so it helps entity recognition and readers, not rankings.
+- Real backlink from X needs the founder to put https://www.smokegame.win/ in the post's reply or the account bio. The post text itself contains no smokegame.win link.
+- Do not add the post to JSON-LD sameAs (profiles only).
