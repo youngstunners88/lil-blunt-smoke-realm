@@ -115,7 +115,8 @@ def get_ua(path: str, ua: str) -> str:
         return ""
 
 
-bm = re.search(r'src="(/assets/index-[^"]+\.js)"', get_ua("", BROWSER_UA))
+# random cache-buster: a plain request can return a stale page naming the OLD bundle
+bm = re.search(r'src="(/assets/index-[^"]+\.js)"', get_ua(f"?cb={random.randrange(10**9)}", BROWSER_UA))
 bundle = get_ua(bm.group(1).lstrip("/"), BROWSER_UA) if bm else ""
 check(bool(bundle), "app bundle located")
 

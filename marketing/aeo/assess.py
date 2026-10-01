@@ -157,7 +157,8 @@ def check_video() -> list[dict]:
     """
     # Browser UA on purpose: crawlers are served a prerendered page that does
     # not reference the app bundle, so a Googlebot fetch cannot find it.
-    home = fetch("", ua=BROWSER_UA)
+    import random
+    home = fetch(f"?cb={random.randrange(10**9)}", ua=BROWSER_UA)  # cache-bust: stale HTML names the old bundle
     m = re.search(r'src="(/assets/index-[^"]+\.js)"', home)
     if not m:
         return [{"level": AMBER, "area": "video",
