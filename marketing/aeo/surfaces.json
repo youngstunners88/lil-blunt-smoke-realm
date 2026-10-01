@@ -110,17 +110,16 @@
     },
     {
       "id": "itch_page",
-      "url": "https://itch.io/games/lil-blunt-adventure",
+      "url": "https://youngstunners88.itch.io/smokerealm",
       "owner": "founder",
       "description": "itch.io project page (body text, HTML)",
       "fetch_method": "html",
       "editable": true,
-      "note": "As of 2026-10-01: contains false on-chain and NFT claims",
       "describes_game": true
     },
     {
       "id": "itch_json_ld",
-      "url": "https://itch.io/games/lil-blunt-adventure",
+      "url": "https://youngstunners88.itch.io/smokerealm",
       "owner": "founder",
       "description": "itch.io JSON-LD metadata",
       "fetch_method": "html",

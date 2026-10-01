@@ -55,6 +55,21 @@ This bit once already: AEO pages were published claiming scores were written
 on-chain. Check the `doNotBuild` note before writing on-chain claims, and if a
 feature has since shipped, update the pages and this section together.
 
+## Standing rules from the founder
+
+- **llms.txt is never visible on the website. Ever.** No link, nav item, footer
+  entry, sitemap entry or rendered copy of its text on any page, in the app or
+  in the static HTML. The file exists only at `/llms.txt` for crawlers, and
+  `marketing/aeo/verify_publish.py` fails if a served page links to it. Do not
+  add a "for AI" link to it even when an AEO guide suggests one.
+- **The itch page is `https://youngstunners88.itch.io/smokerealm`** (founder
+  set the slug 2026-10-01; the old `lil-blunt-adventure` URL 302-redirects). Do
+  not change the slug again. Every link in the site must use the new one.
+- **On-chain features are on the founder's roadmap, not shipped.** Roadmap
+  wording ("planned", "coming") is allowed. Present-tense claims (own your
+  progress, on-chain saves, NFT collectibles, connect your wallet) stay blocked
+  until the feature ships; update this file and the pages in the same commit.
+
 ## Learnings
 
 [No learnings yet]

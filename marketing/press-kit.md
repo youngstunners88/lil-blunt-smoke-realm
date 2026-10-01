@@ -17,7 +17,7 @@ Everything here is factual — do not add claims not backed by the shipped game.
 | **Price** | Free |
 | **Engine** | Godot 4.3 |
 | **Official site** | https://smokegame.win/ |
-| **Play** | https://youngstunners88.itch.io/lil-blunt-adventure |
+| **Play** | https://youngstunners88.itch.io/smokerealm |
 | **X** | https://x.com/smokering25 |
 | **Telegram** | https://t.me/LilBluntdotWin |
 

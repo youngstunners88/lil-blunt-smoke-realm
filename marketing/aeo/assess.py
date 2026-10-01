@@ -230,8 +230,8 @@ def check_accuracy(quick: bool) -> list[dict]:
     # one that has carried a false claim longest.
     try:
         with urllib.request.urlopen(urllib.request.Request(
-                "https://youngstunners88.itch.io/lil-blunt-adventure",
-                headers={"User-Agent": UA}), timeout=25) as r:
+                "https://youngstunners88.itch.io/smokerealm",
+                headers={"User-Agent": BROWSER_UA}), timeout=25) as r:
             itch = r.read().decode(errors="replace")
         g = jev.gate(itch)
         if not g["passed"]:

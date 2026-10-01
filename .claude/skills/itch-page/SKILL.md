@@ -95,7 +95,7 @@ still bind:
 `butler` is not installed here. When it is needed:
 
 ```bash
-butler push <dir> youngstunners88/lil-blunt-adventure:html5
+butler push <dir> youngstunners88/smokerealm:html5
 ```
 
 That pushes files only. It cannot set any page field, so it never removes the

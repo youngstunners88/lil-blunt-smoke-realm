@@ -224,7 +224,7 @@ draft to two different prospect types.
 > download, no wallet, no account — click and play. The whole site is
 > actually served from the Internet Computer, which is the unusual bit if
 > that's relevant to your readers. Here's the link if useful:
-> https://youngstunners88.itch.io/lil-blunt-adventure — no worries either way,
+> https://youngstunners88.itch.io/smokerealm — no worries either way,
 > just thought it was a fit.
 
 **2. Devlog / technical reference** — for a Godot or ICP-hosting audience:

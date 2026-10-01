@@ -4,7 +4,7 @@ The itch.io API is **read-only**: six endpoints, no PATCH or PUT, nothing that
 edits page metadata. No MCP server can change any of this, because there is no
 endpoint behind it. So this pack exists to turn the form into a paste job.
 
-Edit at: https://youngstunners88.itch.io/lil-blunt-adventure/edit
+Edit at: https://youngstunners88.itch.io/smokerealm/edit
 
 Run `python3 marketing/itch/audit.py` afterwards to confirm the blocking
 fields are populated.
@@ -23,8 +23,9 @@ below).**
 ```
 Lil Blunt: The Smoke Realm
 ```
-(Leave the URL slug as `lil-blunt-adventure`. Changing a live slug breaks every
-existing link.)
+(Slug is now `smokerealm`, set by the founder 2026-10-01. The old
+`lil-blunt-adventure` URL 302-redirects to it. Do not change the slug again: a
+second rename may break that redirect for links we do not control.)
 
 **2 — Short description / tagline** (the line under the title; ~120-char limit)
 ```
@@ -180,9 +181,9 @@ The page says **"Lil Blunt Adventure"**. The website brands it **"Lil Blunt:
 The Smoke Realm"**. Two names for one game split recognition across both, and
 neither accumulates.
 
-Recommendation: rename the page to `Lil Blunt: The Smoke Realm`. The URL slug
-can stay `lil-blunt-adventure` — changing a live slug breaks every existing
-link, and 273 views' worth of referrals is not worth resetting.
+Done by the founder 2026-10-01: title is live (the founder's version was "The Smoke Realm"; the
+canonical form `Lil Blunt: The Smoke Realm` keeps the entity name and avoids the music-artist collision) and the
+slug is `smokerealm`.
 
 ---
 

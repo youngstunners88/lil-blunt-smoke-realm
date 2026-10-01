@@ -6,7 +6,7 @@ import { Gamepad2, Triangle, Wallet } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 
-const PLAY_GAME_HREF = "https://youngstunners88.itch.io/lil-blunt-adventure";
+const PLAY_GAME_HREF = "https://youngstunners88.itch.io/smokerealm";
 
 function smoothScroll(href: string) {
   const el = document.querySelector(href);

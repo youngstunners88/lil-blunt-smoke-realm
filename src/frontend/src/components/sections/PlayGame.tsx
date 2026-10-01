@@ -3,7 +3,7 @@ import { trackPlayClick } from "@/lib/analytics";
 import { Gamepad2, Gem, Pickaxe, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
-const PLAY_GAME_HREF = "https://youngstunners88.itch.io/lil-blunt-adventure";
+const PLAY_GAME_HREF = "https://youngstunners88.itch.io/smokerealm";
 
 /** Gameplay facts — confident frontier copy, no invented token mechanics. */
 const GAMEPLAY_FACTS = [

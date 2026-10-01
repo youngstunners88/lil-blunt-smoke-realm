@@ -19,17 +19,22 @@ BANNED_CLAIMS = ["WASD is not bound", "not WASD", "no on-screen touch controls",
     "cannot play the game properly", "signed on the Internet Computer",
     "collect on-chain blunts", "own your character upgrades", "your progress is truly yours",
     "on-chain saves", "nft collectibles", "play-to-earn", "earn tokens", "airdrop",
-    "own your progress on-chain"]
+    "own your progress on-chain", "connect your wallet", "trade rare items",
+    "web3 version", "collect blunts", "arrow keys / wasd", "wasd to move"]
 NEGATION = re.compile(r"\b(no|not|never|nor|without|isn't|aren't|doesn't|does not|don't|cannot|zero)\b", re.I)
 CATEGORY = ["free", "browser", "platformer"]
 UA = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) Chrome/124 Safari/537.36"
 
-def fetch(url):
+def fetch(url, ua=UA):
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=30) as r:
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": ua}), timeout=30) as r:
             return r.read().decode(errors="replace")
     except Exception:
         return ""
+
+def blocked(html):
+    return not html or ("Attention Required" in html[:600] and "Cloudflare" in html[:600])
 
 def plain(html):
     html = re.sub(r"<(script|style).*?</\1>", " ", html, flags=re.S | re.I)
@@ -60,8 +65,10 @@ def audit(s):
     html, src = ("", "")
     if s.get("fetch_method") != "unfetchable":
         html = fetch(s["url"]); src = "live"
-        if html and "Attention Required" in html[:600] and "Cloudflare" in html[:600]:
-            html = ""
+        if blocked(html):  # itch's Cloudflare rejects crawler UAs; a browser UA reads the same public page
+            html = fetch(s["url"], BROWSER_UA); src = "live (browser UA)"
+            if blocked(html):
+                html = ""
     if not html and snap.exists():
         html, src = snap.read_text(), "manual snapshot"
     if not html:

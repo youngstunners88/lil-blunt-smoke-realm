@@ -157,6 +157,15 @@ for soft in ("llms-full.txt", ".well-known/llms.txt"):
     check("<html" not in get_canonical(soft)[:400].lower(),
           f"/{soft} is not a soft-404 (HTML app shell served as 200)")
 
+# ---- Founder rule (2026-10-01): llms.txt is never visible on the website ----------
+for p in ["", "about/", "how-to-play/", "docs/", "troubleshooting/", "faq/controls/",
+          "faq/wallet/", "faq/not-the-artist/", "privacy/", "terms/", "accessibility/"]:
+    page = get_canonical(p).lower()
+    check("llms" not in page, f"/{p} has no link to or text of llms.txt (founder rule)")
+check("llms" not in get_canonical("sitemap.xml").lower(), "sitemap.xml does not list llms.txt")
+check("youngstunners88.itch.io/lil-blunt-adventure" not in home,
+      "app view of /: Play links use the current itch slug (smokerealm), not the old one")
+
 fails = 0
 print(f"\n  PUBLISH CHECK — {SITE}\n")
 for ok, label in results:

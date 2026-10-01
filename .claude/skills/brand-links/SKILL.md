@@ -17,7 +17,7 @@ path or an external URL in a component — import it from there.
 | SMOKE     | `https://lilblunt.win/`                          |
 | DIAMONDS  | `https://diamonds1111.win/`                      |
 | GOLD      | `https://mine4gold.app/`                         |
-| Game      | `https://youngstunners88.itch.io/lil-blunt-adventure` |
+| Game      | `https://youngstunners88.itch.io/smokerealm` |
 | Site      | `https://smokegame.win/`                         |
 
 X and Telegram are the `$SMOKE` token's and the website's official accounts.

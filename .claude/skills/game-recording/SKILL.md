@@ -36,7 +36,7 @@ Both feed the same composer:
 
 ```bash
 # 1. Get the build (once). The embed URL is in the itch.io page HTML.
-curl -sSL https://youngstunners88.itch.io/lil-blunt-adventure -o /tmp/itch.html
+curl -sSL https://youngstunners88.itch.io/smokerealm -o /tmp/itch.html
 grep -oE 'html-classic\.itch\.zone/html/[0-9-]+/index\.html' /tmp/itch.html
 # then fetch index.html, index.js, index.wasm, index.pck, index.png,
 # index.audio.worklet.js, web3.js from that base into /tmp/game

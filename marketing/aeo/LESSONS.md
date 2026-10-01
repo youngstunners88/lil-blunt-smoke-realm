@@ -257,3 +257,23 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** grep 2026-10-01: 15 hits in src/frontend plus 3 on the live homepage; founder screenshot showed the slug being changed to 'smokerealm'. Whether itch redirects a renamed slug is unverified (itch is Cloudflare-blocked from this host)
 
 **What it changes.** Do not change the itch slug without a Caffeine round that updates every link in one publish and a browser test of the old URL; title changes are free, slug changes are not
+
+---
+
+## 2026-10-01 — itch.io is readable from this host with a browser User-Agent; only crawler UAs g
+
+**Claim.** itch.io is readable from this host with a browser User-Agent; only crawler UAs get the Cloudflare 403. My earlier statement that itch blocks this host was wrong, and assess.py plus the surface audit had the same blind spot, so the worst live violation stayed unchecked
+
+**Evidence.** 2026-10-01 curl: Googlebot UA -> 403 'Attention Required'; Chrome UA -> 200, 23KB, full body. Old slug lil-blunt-adventure -> 302 to /smokerealm; the itch API (api.itch.io/profile/games) also returns the current url and title
+
+**What it changes.** Fetch third-party pages with a browser UA when a crawler UA is blocked and label which UA was used; never write 'unfetchable' before trying the other UA. Use the itch API to confirm a rename before editing links
+
+---
+
+## 2026-10-01 — None of the 9 production-dependency advisories (lodash template injection, serov
+
+**Claim.** None of the 9 production-dependency advisories (lodash template injection, seroval, js-cookie, quill, fflate) reach the shipped browser bundle; the 2 critical and 13 high findings are transitive template packages or build and test tooling
+
+**Evidence.** pnpm audit 2026-10-01: 30 findings, 9 in prod deps via react-quill-new, recharts, react-use, @tanstack/react-router, @react-three/drei. Built bundle (1.87MB) has 0 hits for templateSettings, seroval, Quill, js-cookie, unzipSync, recharts, WebGLRenderer
+
+**What it changes.** Do not bump dependencies here: Caffeine installs independently and CLAUDE.md warns it can break the build. Re-check the bundle markers after any dependency change; ask Caffeine to drop the unused template packages only if the founder wants a smaller attack surface
