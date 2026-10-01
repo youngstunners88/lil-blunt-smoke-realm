@@ -73,11 +73,13 @@ score climbing before your lives run out. The Tax Collector shows up to take his
 cut. He always does.
 
 CONTROLS
-  Left / Right arrow   move
-  Spacebar             jump
-  Enter                throw axes
-  Shift                sprint
-  K                    burst dash
+  A / D or Left / Right arrow   move
+  Spacebar or W                 jump
+  J or Enter                    throw axes
+  Shift                         sprint
+  K                             dash
+  E                             interact
+  On phones and tablets, on-screen touch controls appear.
 
 Click the game once so it has keyboard focus.
 
@@ -202,11 +204,13 @@ player thinks the controls are broken.
 
 ```
 Controls
-  Left / Right arrow   move
-  Spacebar             jump
-  Enter                throw axes
-  Shift                sprint
-  K                    burst dash
+  A / D or Left / Right arrow   move
+  Spacebar or W                 jump
+  J or Enter                    throw axes
+  Shift                         sprint
+  K                             dash
+  E                             interact
+  On phones and tablets, on-screen touch controls appear.
 
 Click the game once so it has keyboard focus.
 ```
@@ -246,11 +250,13 @@ score climbing before your lives run out. The Tax Collector shows up to take his
 cut. He always does.
 
 CONTROLS
-  Left / Right arrow   move
-  Spacebar             jump
-  Enter                throw axes
-  Shift                sprint
-  K                    burst dash
+  A / D or Left / Right arrow   move
+  Spacebar or W                 jump
+  J or Enter                    throw axes
+  Shift                         sprint
+  K                             dash
+  E                             interact
+  On phones and tablets, on-screen touch controls appear.
 
 Click the game once so it has keyboard focus.
 

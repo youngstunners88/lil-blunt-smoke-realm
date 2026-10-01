@@ -277,3 +277,53 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** pnpm audit 2026-10-01: 30 findings, 9 in prod deps via react-quill-new, recharts, react-use, @tanstack/react-router, @react-three/drei. Built bundle (1.87MB) has 0 hits for templateSettings, seroval, Quill, js-cookie, unzipSync, recharts, WebGLRenderer
 
 **What it changes.** Do not bump dependencies here: Caffeine installs independently and CLAUDE.md warns it can break the build. Re-check the bundle markers after any dependency change; ask Caffeine to drop the unused template packages only if the founder wants a smaller attack surface
+
+---
+
+## 2026-10-01 — The bare domain smokegame.win has no A or AAAA record, so it does not resolve, y
+
+**Claim.** The bare domain smokegame.win has no A or AAAA record, so it does not resolve, yet the live homepage text, the noscript text and the itch body all tell people to 'play at smokegame.win'
+
+**Evidence.** 2026-10-01 dns.google: apex A/AAAA NOERROR with no answers, NS ns1-3.dnsowl.com; NameSilo dnsListRecords shows only www CNAME, _canister-id.www, _acme-challenge.www, apex TXT google-site-verification; curl: Could not resolve host. TinyFish render of the homepage shows the sentence 'at smokegame.win.'
+
+**What it changes.** Fix the apex (founder, NameSilo) before any more content work: an answer engine that quotes our own sentence sends people to a dead address. Re-check with dns.google after the change; scope any URL forwarding to the apex only so the www CNAME survives
+
+---
+
+## 2026-10-01 — Live /faq/not-the-artist/ (Caffeine's copy, 1.1k chars, differs from our 4.2k-ch
+
+**Claim.** Live /faq/not-the-artist/ (Caffeine's copy, 1.1k chars, differs from our 4.2k-char repo page) says 'Is Lil Blunt a real recording artist? No.' and 'any similarity to a real person is coincidental'; a real artist exists (Memphis duo Indo G & Lil' Blunt) and a search for 'Lil Blunt' returns only that duo
+
+**Evidence.** 2026-10-01 live crawler-view text of the page; TinyFish search 'Lil Blunt game vs Lil Blunt rapper' top 10 all Indo G & Lil' Blunt (Wikipedia, Spotify, Apple Music); .claude/skills/geo-representation already states the artist exists
+
+**What it changes.** Disambiguate, never deny: say the game is unrelated to the real artist and name the full title. Round 5 draft is in marketing/aeo/outbox/round5-artist-faq.md; surface_audit.py now flags the false denial. Compare every Caffeine page to the repo copy, because its rewrites can be worse than ours
+
+---
+
+## 2026-10-01 — I wrongly called 'Arrow keys / WASD to move and jump' on the itch page a false c
+
+**Claim.** I wrongly called 'Arrow keys / WASD to move and jump' on the itch page a false claim and added it to the banned list; GM-GAME project.godot binds A/D and W (move A,D,Left,Right; jump Space,W; attack Enter,J; sprint Shift; dash K; interact E)
+
+**Evidence.** Read /home/user/youngstunners88/gm-game/project.godot [input] 2026-10-01 (clone head ef7931a) after the gm-game-sync skill table contradicted me
+
+**What it changes.** Read the game source before calling a gameplay claim false, even when it looks like the old WASD error; removed the two patterns from surface_audit.py; the real itch problems are on-chain, NFT, wallet-connect, 'trade rare items' and 'Neon Spore Forest'
+
+---
+
+## 2026-10-01 — GM-GAME contains an optional Web3 layer (main-menu CONNECT RABBY, victory-screen
+
+**Claim.** GM-GAME contains an optional Web3 layer (main-menu CONNECT RABBY, victory-screen claim-badge and submit-score, token-gated perks) but its shipped config.json leaves survivor_badge_erc721 and icp.leaderboard_canister_id empty, so no badge mint and no on-chain leaderboard can run today; token contracts for SMOKE, DIAMONDS and GOLDMINE exist separately
+
+**Evidence.** src/autoload/web3_bridge.gd (every method degrades gracefully), src/ui/main_menu.gd:231, src/ui/victory_screen.gd:1-51, config.json contracts and icp keys read 2026-10-01
+
+**What it changes.** Say 'no wallet required' (true), not 'no wallet' (the menu offers an optional one); keep NFT-badge and on-chain-leaderboard claims blocked until those config values are filled and the founder says it shipped
+
+---
+
+## 2026-10-01 — Caffeine's chat agent cannot read files, diffs or test logs, so it cannot verify
+
+**Claim.** Caffeine's chat agent cannot read files, diffs or test logs, so it cannot verify its own builds or explain a 'tests did not pass' notice; its answers about source are inference
+
+**Evidence.** Version 46 follow-up, chat index 505: 'I have no file access and no test logs in this session'; caffeine_show_project returns only version ids (live 45, draft 46)
+
+**What it changes.** To verify a draft use caffeine_local_setup (needs the founder's consent to install the CLI) or have the founder open the draft; otherwise publish and verify live with verify_publish.py and tech_audit.py

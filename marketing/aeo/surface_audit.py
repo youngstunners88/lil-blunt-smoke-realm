@@ -20,7 +20,11 @@ BANNED_CLAIMS = ["WASD is not bound", "not WASD", "no on-screen touch controls",
     "collect on-chain blunts", "own your character upgrades", "your progress is truly yours",
     "on-chain saves", "nft collectibles", "play-to-earn", "earn tokens", "airdrop",
     "own your progress on-chain", "connect your wallet", "trade rare items",
-    "web3 version", "collect blunts", "arrow keys / wasd", "wasd to move"]
+    "web3 version", "collect blunts"]
+# Denials the NEGATION filter would wrongly excuse: these are FALSE statements even though they contain "not"/"no".
+# A real artist exists (Memphis duo Indo G & Lil' Blunt); saying there is none is a factual error.
+FALSE_DENIALS = ["not a real-world recording artist", "not a real recording artist",
+    "real recording artist? no", "recording artist? no", "similarity in name or style to a real person is coincidental"]
 NEGATION = re.compile(r"\b(no|not|never|nor|without|isn't|aren't|doesn't|does not|don't|cannot|zero)\b", re.I)
 CATEGORY = ["free", "browser", "platformer"]
 UA = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
@@ -53,6 +57,7 @@ def checks(text, describes):
     out = []
     out += [f"banned claim: '{c}'" for c in BANNED_CLAIMS if affirmed(text, c)]
     out += [f"banned name: '{n}'" for n in BANNED_NAMES if n in text]
+    out += [f"false denial: '{d}'" for d in FALSE_DENIALS if d in text.lower()]
     if describes:
         if CANON not in text:
             out.append("canonical name missing")
@@ -63,7 +68,9 @@ def checks(text, describes):
 def audit(s):
     snap = HERE / "surface_text" / f"{s['id']}.txt"
     html, src = ("", "")
-    if s.get("fetch_method") != "unfetchable":
+    if s.get("file") and Path(s["file"]).exists():
+        html, src = Path(s["file"]).read_text(errors="replace"), "repo file"
+    elif s.get("fetch_method") != "unfetchable":
         html = fetch(s["url"]); src = "live"
         if blocked(html):  # itch's Cloudflare rejects crawler UAs; a browser UA reads the same public page
             html = fetch(s["url"], BROWSER_UA); src = "live (browser UA)"

@@ -1,5 +1,21 @@
 # Founder Decision Sheet — 2026-10-01
 
+## START HERE: decisions from the deep-dive audit (`docs/audit-2026-10-01-deep-dive.md`)
+
+1. **Fix the bare domain `smokegame.win` (dead; our own homepage text tells people to type it).** NameSilo: add a 301 URL forward from the apex to `https://www.smokegame.win/`, scoped to the apex only, then tell me and I verify `www` still serves. (Y / do it differently)
+2. **Version 46 (draft) is unverified: Caffeine reports failed tests and sent no file list.** (a) You open the draft, check `/llms.txt`, the Play button and `/about/`, then Go live; (b) you consent to me installing the Caffeine CLI (`caffeine_local_setup`) to download and diff the source; (c) discard it. Recommendation: (b).
+3. **Send Round 5 (fix the false "not a real recording artist" page)?** Draft and Jev result are in `marketing/aeo/outbox/round5-artist-faq.md`. Held until 46 is resolved, because drafts stack. (Y / edit first)
+4. **Edit the itch body now.** Paste block 6 of `marketing/itch/page-content.md` over the description (removes on-chain, NFT, wallet-connect, "trade rare items" and "Neon Spore Forest"; adds the verified controls). (done / not yet)
+5. **Search Console:** a `google-site-verification` TXT already exists on smokegame.win, so a property exists under some Google account. Which account, so we can connect it? (account, or "none")
+6. **Homepage button "Connect Wallet"** (it opens Internet Identity sign-in; search snippets show the label). Rename to "Sign in"? (Y / keep)
+7. **Wording:** use "no wallet required" instead of "no wallet" everywhere, because the game's main menu has an optional wallet button. (Y / keep)
+8. **Security headers (CSP etc.)** missing at the platform edge. May I ask Caffeine whether it can set them? (Y / skip)
+
+Done this session without asking (your earlier yes): both DIAMONDS repos now link `youngstunners88.itch.io/smokerealm` (commits 3c0fdf2, d376698 on main).
+
+---
+
+
 **All decisions below are answerable in one line.** This sheet consolidates findings from Cards 1 and 3.
 
 ---
