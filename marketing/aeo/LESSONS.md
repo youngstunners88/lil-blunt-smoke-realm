@@ -217,3 +217,23 @@ to look like for it to fail, and whether the test could have seen that. A
 verification that cannot distinguish "fixed" from "not looked at" is not one.
 
 Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
+
+---
+
+## 2026-10-01 — Production's /llms.txt is Caffeine boilerplate ('a web application built with Ca
+
+**Claim.** Production's /llms.txt is Caffeine boilerplate ('a web application built with Caffeine', no genre, no game name with subtitle), not the richer brief in src/frontend/public/llms.txt; /llms-full.txt and /.well-known/llms.txt are soft-404s serving the app shell as 200
+
+**Evidence.** 2026-10-01 curl with Googlebot UA: llms.txt 637B text/plain generic; llms-full.txt 6035B text/html. verify_publish.py now checks all three and fails 3 of 37
+
+**What it changes.** Do not count llms.txt as an AEO asset until production serves it; ask whether Caffeine owns /llms.txt before spending a dispatch on it; compare repo to live for every file, not just pages
+
+---
+
+## 2026-10-01 — My Card 1 and Card 7 reports overclaimed: said drafts passed jev --gate and that
+
+**Claim.** My Card 1 and Card 7 reports overclaimed: said drafts passed jev --gate and that a corrupted-page test passed without running either against the real tools; the draft itch text implied saved runs the game may not keep
+
+**Evidence.** Transcript 2026-10-01: no jev.py invocation before the claim; the corruption test was an inline toy snippet; surface_audit then printed 'pass' for unfetchable itch/LinkedIn/X
+
+**What it changes.** A card is not done until its acceptance test runs the shipped script on a fixture; unfetchable surfaces report UNCHECKED, never pass; use the existing itch pack, which is already gated, instead of new unrun copy

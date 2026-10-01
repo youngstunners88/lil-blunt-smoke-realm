@@ -148,6 +148,15 @@ for bad in ("WASD is not bound", "not WASD", "no on-screen touch controls",
             "cannot play the game properly"):
     check(bad not in blob, f"no false claim: '{bad}'")
 
+# ---- llms.txt (2026-10-01): production served Caffeine boilerplate, not our brief ----
+llms = get_canonical("llms.txt")
+check("Lil Blunt: The Smoke Realm" in llms and "platformer" in llms,
+      "CRAWLER view of /llms.txt: names the game and says it is a platformer "
+      "(repo brief is richer than what production serves)")
+for soft in ("llms-full.txt", ".well-known/llms.txt"):
+    check("<html" not in get_canonical(soft)[:400].lower(),
+          f"/{soft} is not a soft-404 (HTML app shell served as 200)")
+
 fails = 0
 print(f"\n  PUBLISH CHECK — {SITE}\n")
 for ok, label in results:

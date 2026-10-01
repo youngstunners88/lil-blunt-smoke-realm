@@ -174,7 +174,7 @@ already sends the most qualified traffic. See the Tags block below.
 
 ---
 
-## Title — decide before editing
+## Title — founder renamed the page 2026-10-01 (not verified by this host; itch is Cloudflare-blocked)
 
 The page says **"Lil Blunt Adventure"**. The website brands it **"Lil Blunt:
 The Smoke Realm"**. Two names for one game split recognition across both, and

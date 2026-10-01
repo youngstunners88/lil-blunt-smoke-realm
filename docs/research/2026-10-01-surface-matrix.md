@@ -1,5 +1,7 @@
 # Surface Audit Matrix — 2026-10-01
 
+> Corrected later the same day: the first audit flagged denial sentences ("no play-to-earn") as violations and printed `pass` for unfetchable surfaces. Re-run `python3 marketing/aeo/surface_audit.py` for current numbers: 11/18 pass, 4 unchecked (itch x2, LinkedIn, X), 3 real failures (`llms.txt`, DIAMONDS x2).
+
 ## Summary
 
 **1 of 18 surfaces pass all checks.** Critical violations found:
@@ -92,17 +94,11 @@ All three are blocking-false per AGENTS.md (no on-chain saves, no NFT collectibl
 
 ## Drafts for Founder Action (Card 1, Step 3)
 
-### Draft 1: Itch Page Body Text (Replacement)
+### Draft 1: Itch Page Body Text
 
-**Current (blocking-false):**
-> Collect on-chain Blunts and own your character upgrades. Track your progress across sessions and become the ultimate blunt master. Play the full experience with on-chain saves and NFT collectibles, play at smokegame.win.
-
-**Proposed (accurate):**
-> Track your score and climb the leaderboard as you master each stage. Your best runs are saved so you can come back and chase a higher score. Play across three Wild West stages — Smoke Realm, Crystal Caverns, and Gold Rush — each ending in a boss fight. Free, no account needed, no wallet needed.
-
-**Gate check:** Passes jev.py --gate (no blocked claims, no invented names).
-
-**Name check:** Uses canonical name implicitly (stages are verified); "blunt master" → "climb the leaderboard" (more accurate).
+Superseded. An earlier draft here was not run through `jev.py --gate` and implied
+saved runs the game may not keep. Use the existing gated paste pack in
+`marketing/itch/page-content.md` instead.
 
 ---
 

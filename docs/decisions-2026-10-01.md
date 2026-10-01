@@ -21,7 +21,9 @@
 - The promises don't exist in the game; a player arriving from an AI answer will be disappointed
 - It contradicts the site's canonical message ("achievements only, not earnings")
 
-**Proposed replacement text (gated, passes jev.py --gate):**
+**Proposed replacement text:** use the gated pack in `marketing/itch/page-content.md` (blocks 2 and 6). The short draft that used to be here was not gated and is withdrawn.
+
+_Superseded draft:_
 ```
 Track your score and climb the leaderboard as you master each stage. Your best 
 runs are saved so you can come back and chase a higher score. Play across three 
@@ -35,6 +37,12 @@ a boss fight. Free, no account needed, no wallet needed.
 > Approve the replacement text above and edit the itch.io page? (Y/N)
 
 ---
+
+## 0. Updates from the founder (2026-10-01)
+
+- **Itch renamed** by the founder. Not verified by me: itch.io returns a Cloudflare 403 to this host. To let the audit check it, paste the live page text into `marketing/aeo/surface_text/itch_page.txt`.
+- **On-chain wording.** The founder plans on-chain features and NFTs. Position: roadmap wording ("planned", "coming") is allowed; present-tense ownership or save claims stay blocked until they ship, because AGENTS.md rules on what is true today and an answer engine repeats the sentence without the date. When a feature ships, update AGENTS.md and the pages in one commit.
+- **New blind spot, needs a decision:** production's `/llms.txt` is generic Caffeine boilerplate, not our brief. Can Caffeine's own settings serve a custom `/llms.txt`? (Y / N / unknown)
 
 ## 2. Product Name: Unify "Lil Blunt Adventure" vs "Lil Blunt: The Smoke Realm"
 

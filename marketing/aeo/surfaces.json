@@ -6,7 +6,8 @@
       "owner": "repo",
       "description": "Caffeine site homepage",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "site_about",
@@ -14,7 +15,8 @@
       "owner": "repo",
       "description": "About page",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "site_how_to_play",
@@ -22,7 +24,8 @@
       "owner": "repo",
       "description": "How to play page",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "site_faq_controls",
@@ -30,7 +33,8 @@
       "owner": "repo",
       "description": "FAQ: Controls",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_faq_wallet",
@@ -38,7 +42,8 @@
       "owner": "repo",
       "description": "FAQ: Wallet",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_faq_not_artist",
@@ -46,7 +51,8 @@
       "owner": "repo",
       "description": "FAQ: Not the artist",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_accessibility",
@@ -54,7 +60,8 @@
       "owner": "repo",
       "description": "Accessibility statement",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_terms",
@@ -62,7 +69,8 @@
       "owner": "repo",
       "description": "Terms",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_privacy",
@@ -70,7 +78,8 @@
       "owner": "repo",
       "description": "Privacy policy",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_troubleshooting",
@@ -78,7 +87,8 @@
       "owner": "repo",
       "description": "Troubleshooting page",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_docs",
@@ -86,7 +96,8 @@
       "owner": "repo",
       "description": "Docs page",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": false
     },
     {
       "id": "site_llms_txt",
@@ -94,7 +105,8 @@
       "owner": "repo",
       "description": "LLM discovery file",
       "fetch_method": "crawler_ua",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "itch_page",
@@ -103,7 +115,8 @@
       "description": "itch.io project page (body text, HTML)",
       "fetch_method": "html",
       "editable": true,
-      "note": "As of 2026-10-01: contains false on-chain and NFT claims"
+      "note": "As of 2026-10-01: contains false on-chain and NFT claims",
+      "describes_game": true
     },
     {
       "id": "itch_json_ld",
@@ -112,7 +125,8 @@
       "description": "itch.io JSON-LD metadata",
       "fetch_method": "html",
       "editable": false,
-      "note": "Embedded in itch page HTML; likely auto-generated from project metadata"
+      "note": "Embedded in itch page HTML; likely auto-generated from project metadata",
+      "describes_game": false
     },
     {
       "id": "diamonds_github",
@@ -120,7 +134,8 @@
       "owner": "repo",
       "description": "DIAMONDS portfolio project page",
       "fetch_method": "github",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "diamonds_ii_github",
@@ -128,7 +143,8 @@
       "owner": "repo",
       "description": "DIAMONDS-II portfolio project page",
       "fetch_method": "github",
-      "editable": true
+      "editable": true,
+      "describes_game": true
     },
     {
       "id": "linkedin_post",
@@ -137,7 +153,8 @@
       "description": "LinkedIn post mentioning the game (link required)",
       "fetch_method": "unfetchable",
       "editable": true,
-      "note": "Requires authentication; record public text manually"
+      "note": "Requires authentication; record public text manually",
+      "describes_game": true
     },
     {
       "id": "x_post",
@@ -146,7 +163,8 @@
       "description": "X/Twitter @smokering25 profile and demo video",
       "fetch_method": "html",
       "editable": true,
-      "note": "Video link: https://x.com/smokering25/status/2105394557865374145"
+      "note": "Video link: https://x.com/smokering25/status/2105394557865374145",
+      "describes_game": true
     }
   ]
 }
