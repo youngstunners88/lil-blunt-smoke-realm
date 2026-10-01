@@ -77,6 +77,9 @@ defect on this project.
 | Which passage an AI would actually quote; why a good page isn't cited | `aeo-quotability` |
 | Whether generated text describes the game correctly; the artist collision; listing copy | `geo-representation` |
 | Whether a page satisfies query intent; is this draft generic | `seo-intent-match` |
+| Sending ANY change to the live site through Caffeine; Caffeine says tests failed | **`caffeine-dispatch`** |
+| Full audit of the site; "is it healthy"; after a publish | **`site-audit`** |
+| Turning an audit finding into a verified fix; vulnerability or bug fixing | **`fix-gauntlet`** |
 | Ranking for more keywords; what words to add; a "short page, huge traffic" case study | `query-expansion` |
 
 **Building and assets**
