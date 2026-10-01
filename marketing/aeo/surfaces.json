@@ -1,0 +1,152 @@
+{
+  "surfaces": [
+    {
+      "id": "site_home",
+      "url": "https://www.smokegame.win/",
+      "owner": "repo",
+      "description": "Caffeine site homepage",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_about",
+      "url": "https://www.smokegame.win/about/",
+      "owner": "repo",
+      "description": "About page",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_how_to_play",
+      "url": "https://www.smokegame.win/how-to-play/",
+      "owner": "repo",
+      "description": "How to play page",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_faq_controls",
+      "url": "https://www.smokegame.win/faq/controls/",
+      "owner": "repo",
+      "description": "FAQ: Controls",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_faq_wallet",
+      "url": "https://www.smokegame.win/faq/wallet/",
+      "owner": "repo",
+      "description": "FAQ: Wallet",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_faq_not_artist",
+      "url": "https://www.smokegame.win/faq/not-the-artist/",
+      "owner": "repo",
+      "description": "FAQ: Not the artist",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_accessibility",
+      "url": "https://www.smokegame.win/accessibility/",
+      "owner": "repo",
+      "description": "Accessibility statement",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_terms",
+      "url": "https://www.smokegame.win/terms/",
+      "owner": "repo",
+      "description": "Terms",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_privacy",
+      "url": "https://www.smokegame.win/privacy/",
+      "owner": "repo",
+      "description": "Privacy policy",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_troubleshooting",
+      "url": "https://www.smokegame.win/troubleshooting/",
+      "owner": "repo",
+      "description": "Troubleshooting page",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_docs",
+      "url": "https://www.smokegame.win/docs/",
+      "owner": "repo",
+      "description": "Docs page",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "site_llms_txt",
+      "url": "https://www.smokegame.win/llms.txt",
+      "owner": "repo",
+      "description": "LLM discovery file",
+      "fetch_method": "crawler_ua",
+      "editable": true
+    },
+    {
+      "id": "itch_page",
+      "url": "https://itch.io/games/lil-blunt-adventure",
+      "owner": "founder",
+      "description": "itch.io project page (body text, HTML)",
+      "fetch_method": "html",
+      "editable": true,
+      "note": "As of 2026-10-01: contains false on-chain and NFT claims"
+    },
+    {
+      "id": "itch_json_ld",
+      "url": "https://itch.io/games/lil-blunt-adventure",
+      "owner": "founder",
+      "description": "itch.io JSON-LD metadata",
+      "fetch_method": "html",
+      "editable": false,
+      "note": "Embedded in itch page HTML; likely auto-generated from project metadata"
+    },
+    {
+      "id": "diamonds_github",
+      "url": "https://github.com/youngstunners88/DIAMONDS",
+      "owner": "repo",
+      "description": "DIAMONDS portfolio project page",
+      "fetch_method": "github",
+      "editable": true
+    },
+    {
+      "id": "diamonds_ii_github",
+      "url": "https://github.com/youngstunners88/DIAMONDS-II",
+      "owner": "repo",
+      "description": "DIAMONDS-II portfolio project page",
+      "fetch_method": "github",
+      "editable": true
+    },
+    {
+      "id": "linkedin_post",
+      "url": "https://linkedin.com/",
+      "owner": "founder",
+      "description": "LinkedIn post mentioning the game (link required)",
+      "fetch_method": "unfetchable",
+      "editable": true,
+      "note": "Requires authentication; record public text manually"
+    },
+    {
+      "id": "x_post",
+      "url": "https://x.com/smokering25",
+      "owner": "founder",
+      "description": "X/Twitter @smokering25 profile and demo video",
+      "fetch_method": "html",
+      "editable": true,
+      "note": "Video link: https://x.com/smokering25/status/2105394557865374145"
+    }
+  ]
+}
