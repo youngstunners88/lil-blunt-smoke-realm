@@ -327,3 +327,23 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** Version 46 follow-up, chat index 505: 'I have no file access and no test logs in this session'; caffeine_show_project returns only version ids (live 45, draft 46)
 
 **What it changes.** To verify a draft use caffeine_local_setup (needs the founder's consent to install the CLI) or have the founder open the draft; otherwise publish and verify live with verify_publish.py and tech_audit.py
+
+---
+
+## 2026-10-01 — The live homepage loads two third-party analytics scripts, CrawlConsole and Caff
+
+**Claim.** The live homepage loads two third-party analytics scripts, CrawlConsole and Caffeine's Umami (cdn.caffeine.ai/scripts/umami-script.js), but the live /privacy/ page names only CrawlConsole; the repo's analytics.ts (PostHog) is not in the live bundle at all
+
+**Evidence.** 2026-10-01 app-view HTML script srcs; live bundle index-Dh8BhmvR.js 1,861,985B has 0 hits for posthog, i/v0/e, sr_did; live /privacy/ Analytics section text
+
+**What it changes.** Privacy text must name every tracker the deployed build loads; ask Caffeine or the founder to confirm Umami's data handling, then add one sentence via a dispatch. Treat repo frontend code as a draft, not production: verify any reviewer claim about runtime behaviour against the live bundle
+
+---
+
+## 2026-10-01 — Reviewer agents mixed repo and production: one flagged PostHog consent on code t
+
+**Claim.** Reviewer agents mixed repo and production: one flagged PostHog consent on code the live bundle does not contain, another reported 'about' page on-chain wording that only exists in the repo copy
+
+**Evidence.** Frontend reviewer F7 vs live bundle grep (0 PostHog hits); static-page reviewer S1 marked 'Live: NOT present'
+
+**What it changes.** Brief reviewers to state for every finding whether production shows it, and verify high and medium findings against the live site or bundle before they enter a report

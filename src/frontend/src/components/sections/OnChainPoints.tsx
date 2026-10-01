@@ -1,3 +1,4 @@
+import { DemoBadge } from "@/components/ui/DemoBadge";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { StatCard } from "@/components/ui/StatCard";
 import {
@@ -69,26 +70,29 @@ export function OnChainPoints() {
         className="iron mx-auto mt-6 max-w-5xl rounded-2xl p-6 sm:p-8"
         data-ocid="on_chain_points.stat_panel"
       >
+        <div className="mb-4 flex justify-center">
+          <DemoBadge label="DEMO DATA" data-ocid="on_chain_points.demo_badge" />
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
           <StatCard
             label="Top Score"
             value={topScoreLabel}
             accent="gold"
-            tooltip="Highest score on the leaderboard"
+            tooltip="Highest score in the demo data"
             data-ocid="on_chain_points.stat.top_score"
           />
           <StatCard
             label="Total Runs"
             value={totalRuns.toLocaleString()}
             accent="blue"
-            tooltip="Number of runs recorded in the ecosystem"
+            tooltip="Number of runs in the demo data"
             data-ocid="on_chain_points.stat.total_runs"
           />
           <StatCard
             label="Achievements"
             value={achievementCount.toLocaleString()}
             accent="smoke"
-            tooltip="Proof of Play achievements in the data"
+            tooltip="Proof of Play achievements in the demo data"
             data-ocid="on_chain_points.stat.achievements"
           />
         </div>
@@ -126,7 +130,7 @@ export function OnChainPoints() {
               <>
                 <NeonButton
                   variant="blue"
-                  onClick={login}
+                  onClick={() => login()}
                   data-ocid="on_chain_points.ii_signin_button"
                 >
                   {isLoggingIn

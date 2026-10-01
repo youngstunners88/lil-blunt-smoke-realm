@@ -11,6 +11,15 @@
 7. **Wording:** use "no wallet required" instead of "no wallet" everywhere, because the game's main menu has an optional wallet button. (Y / keep)
 8. **Security headers (CSP etc.)** missing at the platform edge. May I ask Caffeine whether it can set them? (Y / skip)
 
+**Your answers so far:** apex fix "yes, later" (steps below when you are ready), Version 46 option (b) tried but the CLI cannot log in here (needs a keychain; it must run on your own machine), Round 5 sent (draft building), itch body not yet edited.
+
+9. **Privacy wording.** The live site also loads Caffeine's Umami analytics script; `/privacy/` only names CrawlConsole. May I send a round adding one accurate sentence (needs Caffeine to confirm what Umami collects)? (Y / skip)
+10. **Turn on minification** (Caffeine build setting `minify: false` in vite.config.js): measured bundle 1.87 MB to 0.82 MB, gzip 396 KB to 260 KB, faster first load. (Y, ask Caffeine / skip)
+11. **Autoplay video has no pause button** (an accessibility rule for moving content over 5 seconds) and its first-paint image is a 3.4 MB PNG when a 204 KB one already exists. Both touch the protected background video, so I will not touch them without your words. (leave / change, tell me exactly what)
+12. **Round 6 (code fixes)**: error boundary so a crash shows a message not a blank page, focus handling for the About/Docs overlay, a DEMO badge on the figures. Tested in the repo (41 tests). Held until Version 47 is published and verified. (Y after 47 / skip)
+
+**Apex fix, in plain steps (item 1, for later):** log in to NameSilo, open smokegame.win, go to URL Forwarding, add a forward from `smokegame.win` to `https://www.smokegame.win/` (301, permanent), apply it to the main domain only and not to `www`. Then tell me; I check that `www` still works and that `smokegame.win` now lands there.
+
 Done this session without asking (your earlier yes): both DIAMONDS repos now link `youngstunners88.itch.io/smokerealm` (commits 3c0fdf2, d376698 on main).
 
 ---

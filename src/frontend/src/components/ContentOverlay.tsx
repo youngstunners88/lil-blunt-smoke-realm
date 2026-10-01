@@ -1,5 +1,5 @@
 import { JointBackIcon } from "@/components/icons/JointBackIcon";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface ContentOverlayProps {
   /** Path of the static page to show (e.g. "/about/"), or null when closed. */
@@ -24,6 +24,17 @@ interface ContentOverlayProps {
  * on browser chrome.
  */
 export function ContentOverlay({ src, title, onClose }: ContentOverlayProps) {
+  const backRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!src) return;
+    const opener = document.activeElement as HTMLElement | null;
+    backRef.current?.focus();
+    return () => {
+      if (opener?.isConnected) opener.focus();
+    };
+  }, [src]);
+
   useEffect(() => {
     if (!src) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -51,6 +62,7 @@ export function ContentOverlay({ src, title, onClose }: ContentOverlayProps) {
     >
       <div className="wood flex items-center gap-3 border-b border-[oklch(var(--realm-gold)/0.35)] px-4 py-3">
         <button
+          ref={backRef}
           type="button"
           onClick={onClose}
           data-ocid="content_overlay.back"
