@@ -43,7 +43,10 @@ settles all three.
 ## Gates run
 
 `pnpm fix`, `pnpm typecheck`, `pnpm test --run` (41 tests, up from 29), production build, `dist/` reverted. Jev accuracy
-gate PASS on the changed page copy. Independent attacker review: see the verdict recorded below.
+gate PASS on the changed page copy. Independent attacker review: **SHIP, no blockers.** Its minor points: the copy guard did not cover static HTML
+(fixed: it now scans `public/**/*.html` and `index.html`, and was shown to fail when the old wording is reinstated, 42
+tests); the overlay still has no full focus trap (not part of the defect, left); the boundary does not catch event-handler
+or async errors (by design); DemoBadge test is a source scan, not a render (accepted).
 
 ## Delivery route
 
