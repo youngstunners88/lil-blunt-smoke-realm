@@ -160,10 +160,10 @@
       "url": "https://x.com/smokering25",
       "owner": "founder",
       "description": "X/Twitter @smokering25 profile and demo video",
-      "fetch_method": "html",
+      "fetch_method": "unfetchable",
       "editable": true,
-      "note": "Video link: https://x.com/smokering25/status/2105394557865374145",
-      "describes_game": true
+      "note": "X serves a JS shell with no post text to a plain fetch; paste the post text into surface_text/x_post.txt to audit it",
+      "describes_game": false
     }
   ]
 }
