@@ -357,3 +357,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-02 link_sweep.py: live homepage JSON-LD and footer, /about/, /how-to-play/ (incl. the 'Where can I play?' answer), both Play buttons in the live bundle; live is Version 45, drafts 46 and 47 unpublished; founder screenshot of the old URL
 
 **What it changes.** Use STAGED / DRAFT / LIVE words, lead every report with the live hit count, run link_sweep.py for any URL change, and treat Go live as the only thing that makes a site change true (skill link-change)
+
+---
+
+## 2026-10-02 — Caffeine overwrites /llms.txt with its own boilerplate at publish even when publ
+
+**Claim.** Caffeine overwrites /llms.txt with its own boilerplate at publish even when public/llms.txt is ours, but copies other public/ files unchanged (llms-full.txt served our brief); after Go live of Version 48 the app view was fully current while the crawler view still served old snapshots for /, /about/ and /how-to-play/
+
+**Evidence.** 2026-10-02 after Version 48 live: link_sweep app view 0 hits, crawler view 8 hits; random-cache-buster browser fetch of the same pages 0 old-slug lines; /llms.txt?cb= returned the Caffeine boilerplate, /llms-full.txt?cb= returned '# Lil Blunt: The Smoke Realm'
+
+**What it changes.** Serve the AI brief at /llms-full.txt, stop expecting /llms.txt; after any publish report visitors (app view) and crawlers (plain URL) separately and re-check until the snapshot refreshes

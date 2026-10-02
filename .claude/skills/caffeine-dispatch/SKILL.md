@@ -38,6 +38,14 @@ Do not trust a reply that describes file contents; trust the live site after pub
   `python3 marketing/aeo/verify_publish.py`, `python3 marketing/aeo/tech_audit.py`, `python3 marketing/aeo/surface_audit.py`.
 - The prerender cache can serve a stale crawler snapshot after a publish (max-age about 14 days, no purge). Query-string requests bypass it, so a cache-busted pass proves the app, not the crawler view.
 
+## Facts proved by use (2026-10-02)
+
+- Files in `public/` are copied to production unchanged (`llms-full.txt` came through byte for byte).
+- **`/llms.txt` is platform-owned**: Caffeine serves its own boilerplate there even when `public/llms.txt` is ours. Our brief lives at `/llms-full.txt`. Do not spend another round fixing `/llms.txt`; ask Caffeine support if it matters.
+- After Go live the app view is current at once, but the **crawler view keeps an old prerender snapshot** (no purge). Prove it by comparing the plain URL (Googlebot UA) with the same URL plus a random `?cb=` (browser UA), and report both: "live for visitors, stale for crawlers until the cache refreshes".
+- Caffeine's source grep (read-only message) is the only way to see what a draft contains; ask for exact grep results with file and line.
+- A draft preview can expire; ask for a fresh draft before the founder tries to publish.
+
 ## Stop and ask the founder when
 
 A reply says tests failed and you cannot see why; a change touches the homepage layout or video; a round needs a secret; the founder has not said Go live was acceptable for the content.
