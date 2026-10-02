@@ -1,5 +1,9 @@
 # Founder Decision Sheet — 2026-10-01
 
+## FIRST: the old itch link is still LIVE in 12 places
+
+Live is Version 45. Caffeine's source (draft 47) has the new `smokerealm` link in every real place, confirmed by its own read-only grep. Nothing changes for visitors until you press **Go live** on the newest draft. Round 6 is rebuilding a fresh draft now (47's preview expired); publish that one, then tell me and I run `link_sweep.py` and `verify_publish.py` to prove the LIVE count is 0.
+
 ## START HERE: decisions from the deep-dive audit (`docs/audit-2026-10-01-deep-dive.md`)
 
 1. **Fix the bare domain `smokegame.win` (dead; our own homepage text tells people to type it).** NameSilo: add a 301 URL forward from the apex to `https://www.smokegame.win/`, scoped to the apex only, then tell me and I verify `www` still serves. (Y / do it differently)

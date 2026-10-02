@@ -22,7 +22,7 @@ Q: Is Lil Blunt the game the same as the rapper Lil' Blunt?
 A: No. Lil Blunt: The Smoke Realm is a free video game that you play in a web browser. Its mascot, Lil Blunt, is a fictional game character who exists only in the game. A separate rap artist, Lil' Blunt of the Memphis duo Indo G & Lil' Blunt, shares the name, and this game has no connection to him.
 
 Q: Is this game made by, endorsed by, or affiliated with any real musician?
-A: No. It is not made by, endorsed by, or affiliated with Lil' Blunt, Indo G, or any other recording artist. The shared name is a coincidence.
+A: No. It is not made by, endorsed by, or affiliated with Lil' Blunt, Indo G, or any other recording artist.
 
 Q: How do I find the game and not the music?
 A: Search for the full title, "Lil Blunt: The Smoke Realm", or go straight to https://www.smokegame.win/. It is a video game, not an album or a song.
@@ -32,3 +32,6 @@ Then, directly below the Q&A and above the footer, add one more section with the
 Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade score-chaser playable in a web browser on desktop or mobile. Built in Godot 4 and exported to HTML5, the Wild West video game stars the mascot Lil Blunt, who throws axes and faces Tax Collector enemies across three stages, Smoke Realm, Crystal Caverns and Gold Rush, each ending in a boss. No download, no account and no crypto wallet, with nothing to buy.
 
 Keep the existing sentence "There is no download, no wallet, and no account required to play." if it is already on the page. Do not mention llms.txt anywhere. Build one draft, do NOT go live, and list every file you changed.
+
+
+Note 2026-10-02: the sentence 'The shared name is a coincidence.' was removed in Round 6 because Caffeine's own project note forbids claiming the name is purely coincidental.
