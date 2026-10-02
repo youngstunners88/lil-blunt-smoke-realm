@@ -154,7 +154,7 @@ and reviewers annoyed, and AI systems penalize sources contradicted elsewhere.
 Add analytics before a push, or none of this is assessable. Plausible is the
 lighter-weight option; GA4 is free and more detailed. Register the site in
 Google Search Console and Bing Webmaster Tools and submit
-`https://smokegame.win/sitemap.xml`.
+`https://www.smokegame.win/sitemap.xml`.
 
 Watch: itch.io page views vs. plays (page problem vs. game problem), referral
 sources, and which channels convert rather than which merely deliver clicks.

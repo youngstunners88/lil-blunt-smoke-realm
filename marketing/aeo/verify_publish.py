@@ -163,8 +163,12 @@ for p in ["", "about/", "how-to-play/", "docs/", "troubleshooting/", "faq/contro
     page = get_canonical(p).lower()
     check("llms" not in page, f"/{p} has no link to or text of llms.txt (founder rule)")
 check("llms" not in get_canonical("sitemap.xml").lower(), "sitemap.xml does not list llms.txt")
-check("youngstunners88.itch.io/lil-blunt-adventure" not in home,
-      "app view of /: Play links use the current itch slug (smokerealm), not the old one")
+# Every location, not just the homepage (a link change is not done until all of them are clean).
+OLD_SLUG = "lil-blunt-adventure"
+for p in ["", "about/", "how-to-play/", "docs/", "troubleshooting/", "faq/controls/", "faq/wallet/",
+          "faq/not-the-artist/", "privacy/", "terms/", "accessibility/", "llms.txt"]:
+    check(OLD_SLUG not in get_canonical(p), f"CRAWLER view of /{p}: no old itch slug ({OLD_SLUG})")
+check(OLD_SLUG not in bundle, f"app bundle: no old itch slug ({OLD_SLUG}) in the Play-button links")
 
 fails = 0
 print(f"\n  PUBLISH CHECK — {SITE}\n")

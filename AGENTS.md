@@ -65,6 +65,9 @@ feature has since shipped, update the pages and this section together.
 - **The itch page is `https://youngstunners88.itch.io/smokerealm`** (founder
   set the slug 2026-10-01; the old `lil-blunt-adventure` URL 302-redirects). Do
   not change the slug again. Every link in the site must use the new one.
+  Canonical links live in `marketing/aeo/canonical_links.json`; `link_sweep.py` checks
+  every location and `verify_publish.py` fails while the old form is LIVE. Never say a
+  link is "updated" until the LIVE rows are clean (skill `link-change`).
 - **On-chain features are on the founder's roadmap, not shipped.** Roadmap
   wording ("planned", "coming") is allowed. Present-tense claims (own your
   progress, on-chain saves, NFT collectibles, connect your wallet) stay blocked

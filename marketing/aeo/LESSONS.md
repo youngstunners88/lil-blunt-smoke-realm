@@ -347,3 +347,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** Frontend reviewer F7 vs live bundle grep (0 PostHog hits); static-page reviewer S1 marked 'Live: NOT present'
 
 **What it changes.** Brief reviewers to state for every finding whether production shows it, and verify high and medium findings against the live site or bundle before they enter a report
+
+---
+
+## 2026-10-02 — I reported the itch slug as updated while the live site still carried the old li
+
+**Claim.** I reported the itch slug as updated while the live site still carried the old link in 12 places; 'updated' was true only of the repo and unpublished Caffeine drafts
+
+**Evidence.** 2026-10-02 link_sweep.py: live homepage JSON-LD and footer, /about/, /how-to-play/ (incl. the 'Where can I play?' answer), both Play buttons in the live bundle; live is Version 45, drafts 46 and 47 unpublished; founder screenshot of the old URL
+
+**What it changes.** Use STAGED / DRAFT / LIVE words, lead every report with the live hit count, run link_sweep.py for any URL change, and treat Go live as the only thing that makes a site change true (skill link-change)

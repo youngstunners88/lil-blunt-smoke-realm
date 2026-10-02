@@ -5,7 +5,7 @@ description: Apply Google Search Central SEO best practices to this site — tit
 
 # SEO for Lil Blunt: The Smoke Realm
 
-Canonical host: `https://smokegame.win/`. Single-route React SPA — everything
+Canonical host: `https://www.smokegame.win/`. Single-route React SPA — everything
 below lives in `src/frontend/index.html` and `src/frontend/public/` unless a
 second route is added.
 

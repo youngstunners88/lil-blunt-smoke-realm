@@ -131,9 +131,9 @@ grep -c noscript dist/index.html
 Then, to see the site as an AI crawler does:
 
 ```bash
-curl -sL https://smokegame.win/ | grep -v '<script' | wc -c   # near-empty = bad
-curl -sL https://smokegame.win/about/ | wc -c                  # should be substantial
-curl -sL https://smokegame.win/llms.txt
+curl -sL https://www.smokegame.win/ | grep -v '<script' | wc -c   # near-empty = bad
+curl -sL https://www.smokegame.win/about/ | wc -c                  # should be substantial
+curl -sL https://www.smokegame.win/llms.txt
 ```
 
 Validate structured data with Google's Rich Results Test and schema.org's

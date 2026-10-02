@@ -18,7 +18,7 @@ path or an external URL in a component — import it from there.
 | DIAMONDS  | `https://diamonds1111.win/`                      |
 | GOLD      | `https://mine4gold.app/`                         |
 | Game      | `https://youngstunners88.itch.io/smokerealm` |
-| Site      | `https://smokegame.win/`                         |
+| Site      | `https://www.smokegame.win/`                         |
 
 X and Telegram are the `$SMOKE` token's and the website's official accounts.
 There is no official GitHub channel — do not invent one.

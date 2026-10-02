@@ -80,6 +80,7 @@ defect on this project.
 | Sending ANY change to the live site through Caffeine; Caffeine says tests failed | **`caffeine-dispatch`** |
 | Full audit of the site; "is it healthy"; after a publish | **`site-audit`** |
 | Turning an audit finding into a verified fix; vulnerability or bug fixing | **`fix-gauntlet`** |
+| **Any URL, slug, domain, handle or name change; "update it everywhere"; before saying a link is updated** | **`link-change`** |
 | Ranking for more keywords; what words to add; a "short page, huge traffic" case study | `query-expansion` |
 
 **Building and assets**
