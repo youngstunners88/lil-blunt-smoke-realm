@@ -42,7 +42,7 @@ Do not trust a reply that describes file contents; trust the live site after pub
 
 - Files in `public/` are copied to production unchanged (`llms-full.txt` came through byte for byte).
 - **`/llms.txt` is platform-owned**: Caffeine serves its own boilerplate there even when `public/llms.txt` is ours. Our brief lives at `/llms-full.txt`. Do not spend another round fixing `/llms.txt`; ask Caffeine support if it matters.
-- After Go live the app view is current at once, but the **crawler view keeps an old prerender snapshot** (no purge). Prove it by comparing the plain URL (Googlebot UA) with the same URL plus a random `?cb=` (browser UA), and report both: "live for visitors, stale for crawlers until the cache refreshes".
+- After Go live the app view is current at once; the **crawler view lagged by minutes** after Version 48 (plain URL still old, then current about 10 to 20 minutes later). Earlier publishes were slower, so never assume: compare the plain URL (Googlebot UA) with the same URL plus a random `?cb=` (browser UA), report both, and re-check before calling crawlers fixed.
 - Caffeine's source grep (read-only message) is the only way to see what a draft contains; ask for exact grep results with file and line.
 - A draft preview can expire; ask for a fresh draft before the founder tries to publish.
 

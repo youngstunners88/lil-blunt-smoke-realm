@@ -362,8 +362,20 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 
 ## 2026-10-02 — Caffeine overwrites /llms.txt with its own boilerplate at publish even when publ
 
+**SUPERSEDED 2026-10-02** — see "Caffeine overwrites /llms.txt with its own boilerplate at publish even when publ" below.
+
 **Claim.** Caffeine overwrites /llms.txt with its own boilerplate at publish even when public/llms.txt is ours, but copies other public/ files unchanged (llms-full.txt served our brief); after Go live of Version 48 the app view was fully current while the crawler view still served old snapshots for /, /about/ and /how-to-play/
 
 **Evidence.** 2026-10-02 after Version 48 live: link_sweep app view 0 hits, crawler view 8 hits; random-cache-buster browser fetch of the same pages 0 old-slug lines; /llms.txt?cb= returned the Caffeine boilerplate, /llms-full.txt?cb= returned '# Lil Blunt: The Smoke Realm'
 
 **What it changes.** Serve the AI brief at /llms-full.txt, stop expecting /llms.txt; after any publish report visitors (app view) and crawlers (plain URL) separately and re-check until the snapshot refreshes
+
+---
+
+## 2026-10-02 — Caffeine overwrites /llms.txt with its own boilerplate at publish even when publ
+
+**Claim.** Caffeine overwrites /llms.txt with its own boilerplate at publish even when public/llms.txt is ours, but copies other public/ files unchanged (llms-full.txt served our brief). After Go live of Version 48 the prerender crawler snapshot lagged the app view by only minutes, then showed 0 old-slug hits and no false artist denial
+
+**Evidence.** 2026-10-02: link_sweep right after publish: crawler 8 hits, app 0; same checks about 15 minutes later: crawler 0, app 0, artist FAQ clean; /llms.txt?cb= is boilerplate, /llms-full.txt?cb= is our 4,761-byte brief
+
+**What it changes.** Serve the AI brief at /llms-full.txt, stop expecting /llms.txt; after a publish compare plain URL and cache-busted views and re-check after ten to twenty minutes before reporting stale or fixed
