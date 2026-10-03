@@ -1,0 +1,13 @@
+Browsers block audio playback until a page has received a user gesture. An
+audio element that calls play on load will have its promise rejected, and the
+rejection is silent unless it is explicitly caught. The reliable pattern is to
+start the element muted, which is permitted without a gesture, and to unmute on
+the first click or keypress.
+
+A listener that removes itself on the first gesture will fire before an
+asynchronous fetch completes if the track is loaded as a blob, leaving the
+element muted permanently. Guarding the removal behind a flag that is only set
+once playback has actually begun avoids that race.
+
+Looping is set on the element rather than by rescheduling playback on the ended
+event, because the ended handler introduces an audible gap on every repetition.
