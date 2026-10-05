@@ -1,0 +1,77 @@
+{
+  "_comment": "Action script for record_game.mjs. Coordinates are fractions of the viewport, read off a screenshot \u2014 the game is a single canvas so there is no DOM to query. Controls: Left/Right arrows to move, Spacebar to jump, Enter to throw axes, Shift to sprint, K for a burst dash.",
+  "steps": [
+    {
+      "do": "mark",
+      "label": "menu"
+    },
+    {
+      "do": "wait",
+      "ms": 2500
+    },
+    {
+      "do": "shot",
+      "name": "menu"
+    },
+    {
+      "do": "click",
+      "x": 0.5,
+      "y": 0.71,
+      "_": "PLAY LEVEL 1"
+    },
+    {
+      "do": "wait",
+      "ms": 2000
+    },
+    {
+      "do": "click",
+      "x": 0.62,
+      "y": 0.75,
+      "_": "SKIP the email-capture modal"
+    },
+    {
+      "do": "wait",
+      "ms": 2500
+    },
+    {
+      "do": "shot",
+      "name": "after-skip"
+    },
+    {
+      "do": "tap",
+      "key": "enter"
+    },
+    {
+      "do": "wait",
+      "ms": 3000
+    },
+    {
+      "do": "mark",
+      "label": "stage1_start"
+    },
+    {
+      "do": "shot",
+      "name": "stage1"
+    },
+    {
+      "do": "run",
+      "key": "right",
+      "jumps": 20,
+      "every": 600,
+      "jump": "space",
+      "attack": true
+    },
+    {
+      "do": "mark",
+      "label": "stage1_end"
+    },
+    {
+      "do": "wait",
+      "ms": 1500
+    },
+    {
+      "do": "shot",
+      "name": "stage1-end"
+    }
+  ]
+}

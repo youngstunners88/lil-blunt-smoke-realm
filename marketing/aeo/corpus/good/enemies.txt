@@ -1,0 +1,15 @@
+Enemies in the first area are introduced one mechanic at a time. The walking
+grunt moves on a fixed patrol and turns at ledges, so it can be safely ignored
+by staying airborne. The shooter is stationary and fires on a fixed interval
+regardless of player position, which makes its pattern learnable rather than
+reactive. TitanX is the first enemy that changes behaviour based on distance,
+closing when the player is far and backing off when adjacent.
+
+Contact damage applies on any overlap, including from above, so jumping onto an
+enemy is not a stomp attack and will cost health. The attack bound to J has a
+short forward reach and no hitbox behind the character, meaning a turn is
+required before striking an enemy that has moved past.
+
+Health is displayed in the HUD and does not regenerate over time. There are no
+healing pickups in the current build, so the practical difficulty ceiling of a
+run is set by accumulated chip damage rather than by any single encounter.

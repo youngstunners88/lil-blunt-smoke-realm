@@ -1,0 +1,61 @@
+{
+  "_comment": "Single source of truth for URLs that must be identical everywhere. Change a link HERE first, then run link_sweep.py. A change is not done until the sweep is clean in every location, including LIVE.",
+  "links": [
+    {
+      "id": "itch",
+      "canonical": "https://youngstunners88.itch.io/smokerealm",
+      "forbidden_regex": [
+        "lil-blunt-adventure"
+      ],
+      "note": "Founder renamed the itch page 2026-10-01; the old slug only 302-redirects. Do not change again."
+    },
+    {
+      "id": "site_host",
+      "canonical": "https://www.smokegame.win/",
+      "forbidden_regex": [
+        "https?://smokegame\\.win"
+      ],
+      "note": "www is the canonical host; the bare domain has no DNS yet."
+    }
+  ],
+  "allow_paths": [
+    "AGENTS.md",
+    "marketing/aeo/LESSONS.md",
+    "marketing/aeo/canonical_links.json",
+    "marketing/aeo/link_sweep.py",
+    "marketing/aeo/verify_publish.py",
+    "marketing/aeo/tech_audit.py",
+    "marketing/aeo/surface_audit.py",
+    "marketing/aeo/assess.py",
+    "docs/",
+    "reports/",
+    "src/frontend/src/seo-urls-characterize.test.ts",
+    "src/frontend/src/seo-canonical.test.ts",
+    ".claude/skills/link-change/",
+    "marketing/aeo/outbox/",
+    ".claude/skills/dns-apex-fix/",
+    ".claude/skills/search-ranking-strategy/",
+    "marketing/itch/page-content.md"
+  ],
+  "live_pages": [
+    "",
+    "about/",
+    "how-to-play/",
+    "docs/",
+    "troubleshooting/",
+    "faq/controls/",
+    "faq/wallet/",
+    "faq/not-the-artist/",
+    "privacy/",
+    "terms/",
+    "accessibility/",
+    "llms.txt",
+    "llms-full.txt",
+    "sitemap.xml",
+    "robots.txt"
+  ],
+  "owned_files": [
+    "/home/user/diamonds/index.html",
+    "/home/user/diamonds-ii/index.html"
+  ]
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "keyword": "western platformer",
+    "volume": 0,
+    "difficulty": null,
+    "traffic_potential": null,
+    "intents": null,
+    "cpc": 0
+  },
+  {
+    "keyword": "gold rush game online",
+    "volume": 70,
+    "difficulty": 15,
+    "traffic_potential": 90,
+    "intents": {
+      "informational": true,
+      "navigational": false,
+      "commercial": false,
+      "transactional": false,
+      "branded": true,
+      "local": false
+    },
+    "cpc": 120
+  },
+  {
+    "keyword": "godot browser game",
+    "volume": 0,
+    "difficulty": null,
+    "traffic_potential": null,
+    "intents": {},
+    "cpc": null
+  },
+  {
+    "keyword": "2d platformer online free",
+    "volume": 0,
+    "difficulty": null,
+    "traffic_potential": null,
+    "intents": null,
+    "cpc": 0
+  },
+  {
+    "keyword": "wild west browser game",
+    "volume": 0,
+    "difficulty": null,
+    "traffic_potential": null,
+    "intents": {
+      "informational": true,
+      "navigational": false,
+      "commercial": false,
+      "transactional": false,
+      "branded": false,
+      "local": false
+    },
+    "cpc": null
+  },
+  {
+    "keyword": "cowboy game online free",
+    "volume": 10,
+    "difficulty": 5,
+    "traffic_potential": 62000,
+    "intents": {
+      "informational": true,
+      "navigational": false,
+      "commercial": false,
+      "transactional": false,
+      "branded": true,
+      "local": false
+    },
+    "cpc": 40
+  }
+]

@@ -1,0 +1,198 @@
+---
+name: search-ranking-strategy
+description: What Lil Blunt can realistically rank for on Google and in what order — indexation first, winnable query tiers, the brand-name collision, and the content that actually earns rankings. Use when asked about ranking, "going #1 on Google", keyword strategy, organic traffic growth, or what content to write for search.
+---
+
+# Search Ranking Strategy
+
+`seo-optimization` covers on-page mechanics (titles, JSON-LD, sitemaps) and
+`aeo-ai-discoverability` covers answer engines. This skill covers the part
+neither does: **what is actually winnable, and in what order.** The mechanics
+are already done; they are not what is holding rankings back.
+
+## Start here: is it even indexed?
+
+As of August 2026 the site did not surface for any query — including its own
+brand name. A cause was found and fixed: every canonical tag, `og:url` and
+sitemap entry pointed at `https://smokegame.win/`, which has **no DNS record**.
+Only `www.smokegame.win` resolves. A canonical pointing at an unreachable host
+suppresses indexing of the page carrying it.
+
+Before diagnosing anything else about rankings, confirm the basics in order:
+
+1. **Is `www.smokegame.win` the only host that resolves?** If the apex is
+   given a record later, add a 301 to www and keep one canonical form. Never
+   let both serve content — that splits every ranking signal you earn.
+2. **Is Search Console connected?** It was not, which means no index coverage
+   data, no query data, and no way to request indexing. This is the single
+   highest-value unblocked setup task. Verify the property, submit
+   `https://www.smokegame.win/sitemap.xml`, then use URL Inspection → Request
+   Indexing on the four real pages.
+3. **Only then** ask questions about rankings. "We don't rank" and "we aren't
+   indexed" look identical from outside and have completely different fixes.
+
+## Measured 2026-08-29: the category terms have no volume
+
+Before chasing any category query, know this. Ahrefs data via
+`marketing/aeo/market.py` (US):
+
+| term | volume/mo | KD |
+|---|---|---|
+| wild west browser game | 0 | — |
+| western platformer | 0 | — |
+| godot browser game | 0 | — |
+| 2d platformer online free | 0 | — |
+| gold rush game online | 70 | 15 |
+| cowboy game online free | 10 | 5 |
+
+Control: "free online games" returns 176,000/mo at KD 93, so the zeros are real
+readings rather than a broken endpoint.
+
+**Ranking #1 for the best available term is roughly 20 visits a month.** The
+constraint is not difficulty — several of these are trivially winnable. It is
+that winning pays almost nothing.
+
+This does not make the work pointless; it relocates it. Growth here comes from
+**brand search** (created elsewhere, then captured), **recommendation surfaces**
+(`aeo-measurement`), and **distribution** (`game-distribution`) — none of which
+depend on category search volume. Check volume with `search-intelligence` before
+commissioning any page aimed at a category term.
+
+## The brand-name collision
+
+"Lil Blunt" is an established music artist (releases on Amazon Music, YouTube).
+Ranking for the bare name means competing with an entity Google already has a
+strong entity graph for. Consequences:
+
+- **Always target `lil blunt smoke realm`**, never `lil blunt` alone. The
+  three-word form is winnable and is what an interested person actually types.
+- The site should *own* every branded variant: "smoke realm game", "lil blunt
+  game", "smokegame". These convert best and are the cheapest to win.
+- Do not measure success on "lil blunt" position. It is the wrong target and
+  will read as failure forever.
+
+## Query tiers — what to chase, in order
+
+**Tier 1 — branded (win these first, they are yours).**
+`lil blunt smoke realm`, `smoke realm game`, `smokegame win`. Near-zero
+competition. If you do not rank for these, something is technically broken —
+go back to indexation.
+
+**Tier 2 — long-tail intent (the realistic growth engine).**
+Specific, low-volume, low-competition, high-intent:
+- `free wild west browser game no download`
+- `cannabis themed platformer browser game`
+- `web3 browser game no wallet needed`
+- `internet computer browser game`
+Each brings few visitors; twenty of them compound into real traffic. This is
+where the effort goes for the first six months.
+
+**Tier 3 — developer/technical (the underrated one).**
+Genuinely the most winnable *valuable* content this project has, because the
+competition is thin and the authors are few:
+- `deploy godot game to internet computer`
+- `caffeine ai review`
+- `godot 4 html5 export icp`
+- `build web3 game without wallet`
+Developer queries have far lower domain-authority requirements than consumer
+game queries, and the audience is worth more per visitor. You have genuinely
+novel first-hand experience here — that is the rarest SEO asset there is.
+
+**Tier 0 — do not chase.**
+`free browser game`, `browser games`, `free online games`. Owned by Poki,
+CrazyGames and Miniclip with years of authority and enormous link profiles. A
+new domain does not win these, and pursuing them burns months. Anyone
+promising "#1 for free browser games" is selling something.
+
+## The actual constraint: there is no content
+
+A single-page game site plus three thin static pages cannot rank for much,
+because there is nothing on it worth ranking. Google ranks pages that answer
+questions; a landing page answers one.
+
+The fix is a content engine, ordered by effort-to-value:
+
+1. **Devlog posts** on building the game — Godot 4.3, the ICP deployment, what
+   Caffeine got right and wrong. Real experience, thin competition, and it
+   feeds Tier 3.
+2. **Guides** that answer the long-tail questions directly — one page per
+   query family in Tier 2.
+3. **A proper /docs/ expansion** — the page exists; make it genuinely useful.
+
+Each new page needs a sitemap entry, a canonical on the www host, and internal
+links from the pages that already exist. Orphan pages do not rank.
+
+## Measuring honestly
+
+- **Rank position is a vanity metric without traffic.** #1 for a query nobody
+  searches is worth nothing. Track clicks in Search Console, not positions.
+- **SEO compounds on a 3–6 month lag.** Nothing written today shows results
+  this week. Judging it weekly guarantees abandoning it right before it works.
+- Cross-reference with `marketing/report.py` — organic visitors land with no
+  UTMs, so they appear as `(direct)`. To attribute properly, tag outbound
+  links you control; anything untagged in that column is a mix of organic and
+  true direct.
+
+## The operating loop — two phases, and never run them at once
+
+Stress-tested through `model-gauntlet`; full transcript and rejected
+alternatives in `marketing/out/seo-gauntlet.md`.
+
+The single most common way to waste months here is running Phase B work while
+Phase A is unfinished. They look similar and only one of them can pay off.
+
+**Phase A — until the homepage is indexed on Google.**
+
+Nothing else matters, because an unindexed page is never in any answer engine's
+grounding pool. Work only these, in order:
+
+1. **Gate 0: is the raw HTML real?** `curl` the homepage and strip `<script>`.
+   If what remains does not contain the identity sentence, the access claim and
+   a real `<title>`, the site is a JS shell and every later step is wasted. This
+   is the only thing worth fixing that week.
+2. Verify Search Console by DNS, then Request Indexing on `/`.
+3. Verify Bing Webmaster Tools. ChatGPT grounds on Bing, so this is not
+   optional despite Google's share.
+4. Rewrite the itch.io page — it is already indexed and can pass discovery
+   through.
+5. Wait. Days to ~2 weeks. **If 21 days pass with no indexation, the HTML is
+   still a shell or robots is blocking — do not respond by writing more
+   content.**
+
+**Phase A has exactly one win condition:** the homepage flips to indexed in
+Search Console. Not traffic, not a mention, not a good feeling about a page.
+
+**Phase B — after that flip.** Probe, pick *one* on-page change a week, ship it,
+measure. See `aeo-measurement` for the instruments and thresholds.
+
+**At most one on-page change per week.** With near-zero traffic there is no way
+to attribute two simultaneous changes, so a second one does not double the
+learning — it destroys both readings.
+
+## The deploy constraint that shapes everything
+
+**A git push does not deploy.** Production is built by Caffeine from a separate
+codebase; this repo is the source of record, not the deployment path. So the
+real artifact of an SEO change is a **dispatch** — an exact, minimal instruction
+to paste into Caffeine — not a commit.
+
+Three rules for any such dispatch, because a broken build costs far more than
+the change gains:
+
+- **No SSR/SSG conversion, no npm additions, no React Router pages.** Each has a
+  real chance of breaking a build that currently works.
+- **Change the raw HTML of the existing page** rather than adding routes. Extra
+  URLs served by an SPA fallback are the same page wearing a hat; a crawler sees
+  duplicates, not new documents.
+- **Specify exactly what to insert and say "change nothing else."**
+
+Before believing a new URL is a real page, fetch it and compare its body hash to
+the homepage's. Identical hash means the SPA fallback served it and the "page"
+does not exist.
+
+## The honest ceiling
+
+SEO brings qualified traffic to a free game. Traffic multiplied by a free
+product is still zero revenue. Ranking work is worth doing — it is durable and
+compounding, unlike ads — but it does not produce income on its own. See
+`revenue-paths` for what would have to exist first.

@@ -41,7 +41,7 @@ describe("Hero", () => {
     expect(play).toBeInTheDocument();
     expect(play).toHaveAttribute(
       "href",
-      "https://youngstunners88.itch.io/lil-blunt-adventure",
+      "https://youngstunners88.itch.io/smokerealm",
     );
     expect(play).toHaveAttribute("target", "_blank");
 
