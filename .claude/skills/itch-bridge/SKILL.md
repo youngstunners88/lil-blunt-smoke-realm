@@ -30,7 +30,11 @@ Tests: `python3 marketing/itch/bridge/test_bridge.py` (7, includes a real MCP ha
    - Never: a session cookie or password pasted into chat or env (full account access including payouts), and never edit the Project URL.
 6. `itch_verify` after the edit; it re-reads the public page and must report `verified: true`. Report in `link-change` wording (STAGED / LIVE).
 
-## TinyFish write path (set up 2026-10-05)
+## TinyFish write path: TRIED 2026-10-05, BLOCKED BY CLOUDFLARE
+
+Result: both the profile-capture browser and an automated stealth run were stopped by itch.io's Cloudflare "Verify you are human" check (the checkbox just re-presents the same check; run `4fa737cf` ended after 9 steps reporting the CAPTCHA, cost about 15 cents). Profile `prof_baa9750698df416f` exists but holds no login. **Do not retry TinyFish for itch** unless TinyFish changes how it reaches sites. Working routes, in order: (1) founder pastes the gated values from `itch_apply_plan` (about 2 minutes); (2) a browser on the founder's own machine where Cloudflare already trusts them (Claude in Chrome or the Claude desktop browser tools) using their logged-in session. The notes below are kept for the record.
+
+## TinyFish write path (set up 2026-10-05, blocked, see above)
 
 - Account: wallet about $10.60; rates: agent $0.016 per step, browser $0.002 per minute. An itch edit is roughly 15 steps.
 - Tools: `run_web_automation` (and `_async` with `get_run`) with `use_profile=true`, optional `profile_id`. There is **no tool to create a profile or vault entry**: the founder creates a Browser Context Profile in the TinyFish dashboard and logs into itch inside it once (steps in `docs/founder-checklist-2026-10-03.md`). Prior runs show `profile_attached: false`, so no profile existed before this.

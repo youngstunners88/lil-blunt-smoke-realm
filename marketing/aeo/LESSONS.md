@@ -439,3 +439,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: TinyFish MCP exposes run_web_automation, create_browser_session, get_wallet, list_runs but no profile or vault creation tool; list_runs shows profile_attached false and profile_id null for every run
 
 **What it changes.** Founder logs into itch inside a default TinyFish profile once; run the read-only access_check_goal first; never enable use_vault without the founder asking; gate and verify every edit with itch-bridge
+
+---
+
+## 2026-10-05 — TinyFish cannot reach itch.io: Cloudflare's 'Verify you are human' check re-pres
+
+**Claim.** TinyFish cannot reach itch.io: Cloudflare's 'Verify you are human' check re-presents itself in the TinyFish profile-capture browser and stops the stealth automation run before any page loads, so a saved-login profile cannot be created for itch
+
+**Evidence.** 2026-10-05: founder clicked the checkbox repeatedly in the 'Capturing session' window with the same result; run 4fa737cf-37c7-45a8-87ff-b600317a9587 ended after 9 steps with notes 'Cloudflare CAPTCHA / security verification page ... blocking access' (profile prof_baa9750698df416f attached, no login saved); cost about 15 cents
+
+**What it changes.** Do not retry TinyFish for itch; paste the gated values from itch_apply_plan or use a browser on the founder's own machine; keep using the bridge for read, audit, gate, diff and verify; never ask for a session cookie or password

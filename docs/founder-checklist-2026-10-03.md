@@ -1,4 +1,6 @@
-# TinyFish setup so Claude can always edit your itch page (do this once, about 5 minutes)
+# (Blocked 2026-10-05, do not redo) TinyFish setup: itch's Cloudflare human check refuses the TinyFish browser. Use the paste in the chat reply, or a browser on your own machine.
+
+## Original TinyFish setup, kept for the record
 
 Your TinyFish account is ready ($10.60 balance; one itch edit costs roughly 25 cents). It has never used a saved login, so this is the only part I cannot do for you.
 
