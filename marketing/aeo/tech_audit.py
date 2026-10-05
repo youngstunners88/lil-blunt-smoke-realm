@@ -69,8 +69,8 @@ www_a = dns("www.smokegame.win", "A") or []
 www_cname = dns("www.smokegame.win", "CNAME") or []
 if FORWARDER_IPS & set(www_a):
     row("FAIL", "dns", f"www points at NameSilo forwarder IPs {sorted(FORWARDER_IPS & set(www_a))}: the site redirects to itself in a loop. Delete those www A records and restore CNAME www -> www.smokegame.win.icp1.io")
-elif any("icp1.io" in c for c in www_cname):
-    row("PASS", "dns", f"www CNAME -> {www_cname[0]}")
+elif any("icp1.io" in c for c in www_cname + www_a):
+    row("PASS", "dns", "www resolves through the ICP CNAME (www.smokegame.win.icp1.io)")
 else:
     row("WARN", "dns", f"www records unexpected: A={www_a} CNAME={www_cname}")
 

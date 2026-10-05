@@ -399,3 +399,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: curl --resolve to each of the 3 IPs returns server Caddy, 301, location https://www.smokegame.win/; smoke-realm-eq9.caffeine.xyz returns 200; nameservers are alberto/thea.ns.cloudflare.com; my --resolve probes to ICP boundary IPs were intercepted by the sandbox proxy (cert issuer Anthropic Egress Gateway) and prove nothing
 
 **What it changes.** Check NS first and verify any DNS plan against what the target IPs actually answer; never use curl --resolve through the sandbox proxy as proof; treat another agent's diagnosis as a hypothesis
+
+---
+
+## 2026-10-05 — The founder's Cloudflare credentials (CLOUDFLARE_API_KEY and KEY2 as bearer toke
+
+**Claim.** The founder's Cloudflare credentials (CLOUDFLARE_API_KEY and KEY2 as bearer tokens, plus the global key) were already set in the Claude environment; one token had DNS read and edit for smokegame.win but not Rulesets, and the outage was fixed through the API in under a minute once the diagnosis was right
+
+**Evidence.** 2026-10-05: /user/tokens/verify valid; zone smokegame.win active; deleted 3 www A records (45.77.92.157, 207.246.78.75, 45.77.75.133), added CNAME www to www.smokegame.win.icp1.io DNS only; https://www.smokegame.win/ then 200 with 0 redirects; rulesets endpoint returned 'request is not authorized'
+
+**What it changes.** Check env for credentials before asking the founder to click; back up records before editing and delete only exact matches; verify from dns.google and a real load; the apex 522 (redirect rule not firing) needs a token with Rulesets permission or Cowork

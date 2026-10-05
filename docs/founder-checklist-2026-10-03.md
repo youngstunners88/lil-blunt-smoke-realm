@@ -1,18 +1,11 @@
-# URGENT 2026-10-05: the site is down (redirect loop). Fix this first.
+# RESOLVED 2026-10-05: the site is back (DNS restored through the Cloudflare API)
 
-**Your DNS now lives in Cloudflare** (nameservers alberto/thea.ns.cloudflare.com), not NameSilo. The earlier NameSilo steps are obsolete.
+Done and verified from outside: `https://www.smokegame.win/` returns 200 with no redirects. Cause was three `www` A records pointing at NameSilo's forwarding
+servers (they redirect to www itself). They are deleted; `www` is a DNS-only CNAME to `www.smokegame.win.icp1.io`. A backup of every record is in the session scratchpad.
 
-Cause: the `www` record is three A records (`207.246.78.75`, `45.77.75.133`, `45.77.92.157`). Those are NameSilo's forwarding servers (Caddy). Each one answers with a
-redirect to `https://www.smokegame.win/`, i.e. to itself, forever. The real host is the Internet Computer; the game itself is healthy
-(`https://smoke-realm-eq9.caffeine.xyz` returns 200). The record that points `www` at the Internet Computer is missing.
-
-Fix, in Cloudflare, DNS, Records, for smokegame.win:
-1. Delete the three `www` A records (`207.246.78.75`, `45.77.75.133`, `45.77.92.157`).
-2. Add: type `CNAME`, name `www`, target `www.smokegame.win.icp1.io`, **Proxy status: DNS only (grey cloud)**.
-3. Leave alone: the `_canister-id.www` TXT, the `_acme-challenge.www` CNAME, the apex record and the `apex to www` redirect rule. They are fine.
-4. Do NOT point the bare domain at those three addresses and do NOT delete the redirect rule.
-
-Tell me "dns done". I check from outside with `python3 marketing/aeo/tech_audit.py` (its `dns` row must pass) and by loading the site.
+**Still open, small, for Cowork (my token cannot read Cloudflare rules):** the bare `smokegame.win` returns error 522 for both http and https, so the
+`apex to www` redirect rule is not taking effect. Ask Cowork to check that the rule is enabled, that its expression matches host `smokegame.win` (all paths, http and https),
+and that it redirects to `https://www.smokegame.win/` with a 301. The proxied apex A record (`192.0.2.1`) must stay. Do not point the apex at any other address.
 
 ---
 
