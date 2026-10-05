@@ -59,6 +59,7 @@ defect on this project.
 | Measuring whether AI search knows us; content quality gate | `aeo-measurement` |
 | Off-site copy — itch.io, Reddit, directories, outreach | `game-distribution` |
 | The itch.io store page itself — audit, cover, fields | `itch-page` |
+| **Reading, auditing, gating or verifying the live itch page; "connect to itch"; before and after any itch edit** | **`itch-bridge`** |
 | Paid data/research on a budget | `monid-research` |
 | Keyword volume, competitor gaps, real SERP data | `search-intelligence` |
 | Before planning; after a surprising result | `learning-loop` |

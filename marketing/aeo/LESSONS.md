@@ -419,3 +419,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: GET .../rulesets/phases/http_request_dynamic_redirect/entrypoint returned rules: 0; after POST of the rule, http and https smokegame.win return 301 to https://www.smokegame.win/ with path and query kept, and a followed request ends at 200 with 1 redirect; rejections named 160.79.106.129, .135, .143
 
 **What it changes.** Read the actual rule list before trusting another agent's description of it; use CLAUDECLOUDFLARE_API (scoped, no IP filter) and the CURRENT SETUP section in dns-apex-fix; roll or delete the old pasted token
+
+---
+
+## 2026-10-05 — The itch.io API cannot edit a page: profile/games has no description-body field,
+
+**Claim.** The itch.io API cannot edit a page: profile/games has no description-body field, there is no write endpoint, and the edit screen redirects an API key to /login; a bridge can read, audit, diff, gate, score and verify but the Save needs a logged-in session (TinyFish Browser Context Profile or the founder)
+
+**Evidence.** 2026-10-05: itch docs list profile and wharf reads only; GET /profile/games keys: classification, cover_url, embed, id, min_price, published, short_text, title, traits, type, url, user, counts; GET itch.io/game/edit/4769976 with the API key returns 302 to /login; marketing/itch/bridge built with 7 passing tests
+
+**What it changes.** Use itch-bridge for everything except the Save; do not ask for session cookies or passwords; for automation use a TinyFish logged-in profile the founder sets up, with a gated plan and itch_verify afterwards

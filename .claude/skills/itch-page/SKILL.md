@@ -3,6 +3,8 @@ name: itch-page
 description: Audit and fill out the itch.io store page — what the read-only API can and cannot do, the fields that actually drive visibility there, and the paste-ready content pack. Use when asked to update, fix, optimize or automate the itch.io page, upload a build, or improve discoverability on itch.
 ---
 
+> Live checking, gating, diffing and verifying are automated by the `itch-bridge` skill (`marketing/itch/bridge`); only the final Save needs a login.
+
 # The itch.io Page
 
 ## What can and cannot be automated — read this before promising anything
