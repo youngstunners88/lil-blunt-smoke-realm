@@ -53,6 +53,14 @@ curl -sI https://smokegame.win | head -5
 # Fix B: HTTP/2 301 Location: https://www.smokegame.win/
 ```
 
+## CURRENT SETUP (verified 2026-10-05): Cloudflare DNS, managed through the API
+
+- Nameservers: alberto/thea.ns.cloudflare.com. NameSilo is only the registrar; its DNS records and read-only key are irrelevant. Do not use NameSilo URL forwarding.
+- Records that must exist: `www` CNAME `www.smokegame.win.icp1.io` (DNS only), `_canister-id.www` TXT, `_acme-challenge.www` CNAME (DNS only), apex A `192.0.2.1` PROXIED (a placeholder so the redirect rule can run), two google-site-verification TXT.
+- Redirect rule `apex to www` (Single Redirect, phase http_request_dynamic_redirect): host `smokegame.win` to `concat("https://www.smokegame.win", http.request.uri.path)`, 301, query preserved. It did not exist on 2026-10-05 (the apex returned 522 until it was created).
+- Credentials: env var `CLAUDECLOUDFLARE_API` is a scoped token (zone read, DNS edit, redirect rules edit for smokegame.win; no IP restriction). Older `CLOUDFLARE_API_KEY` can edit DNS but not rules; `CLOUDFLARE_API_KEY2` is weaker; the global key needs an account email. A token with an IP allow-list is rejected from this sandbox because its egress address rotates in 160.79.106.x.
+- Before any edit: save `GET /zones/{id}/dns_records` to the scratchpad. Delete only exact matches. Verify with dns.google and a real load, not with `curl --resolve` through the sandbox proxy.
+
 ## FIRST: find out who hosts the DNS (2026-10-05)
 
 `curl -s "https://dns.google/resolve?name=smokegame.win&type=NS"`. On 2026-10-05 the nameservers were Cloudflare

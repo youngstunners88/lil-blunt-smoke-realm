@@ -3,7 +3,9 @@
 Done and verified from outside: `https://www.smokegame.win/` returns 200 with no redirects. Cause was three `www` A records pointing at NameSilo's forwarding
 servers (they redirect to www itself). They are deleted; `www` is a DNS-only CNAME to `www.smokegame.win.icp1.io`. A backup of every record is in the session scratchpad.
 
-**Still open, small, for Cowork (my token cannot read Cloudflare rules):** the bare `smokegame.win` returns error 522 for both http and https, so the
+**RESOLVED later 2026-10-05, no action needed:** the `apex to www` rule did not exist; I created it with the new scoped token, and `smokegame.win` now 301s to `https://www.smokegame.win/` (page and query kept). The old note follows for the record.
+
+**(old note) was open, for Cowork:** the bare `smokegame.win` returns error 522 for both http and https, so the
 `apex to www` redirect rule is not taking effect. Ask Cowork to check that the rule is enabled, that its expression matches host `smokegame.win` (all paths, http and https),
 and that it redirects to `https://www.smokegame.win/` with a 301. The proxied apex A record (`192.0.2.1`) must stay. Do not point the apex at any other address.
 

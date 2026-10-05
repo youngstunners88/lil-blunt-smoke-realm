@@ -409,3 +409,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: /user/tokens/verify valid; zone smokegame.win active; deleted 3 www A records (45.77.92.157, 207.246.78.75, 45.77.75.133), added CNAME www to www.smokegame.win.icp1.io DNS only; https://www.smokegame.win/ then 200 with 0 redirects; rulesets endpoint returned 'request is not authorized'
 
 **What it changes.** Check env for credentials before asking the founder to click; back up records before editing and delete only exact matches; verify from dns.google and a real load; the apex 522 (redirect rule not firing) needs a token with Rulesets permission or Cowork
+
+---
+
+## 2026-10-05 — The apex 522 had a different cause than assumed: the Cloudflare zone had zero re
+
+**Claim.** The apex 522 had a different cause than assumed: the Cloudflare zone had zero redirect rules (the 'apex to www' rule Cowork described did not exist), so smokegame.win went to the placeholder origin 192.0.2.1; creating a Single Redirect through the API fixed it. A token with an IP allow-list cannot be used from this sandbox because its egress IP rotates
+
+**Evidence.** 2026-10-05: GET .../rulesets/phases/http_request_dynamic_redirect/entrypoint returned rules: 0; after POST of the rule, http and https smokegame.win return 301 to https://www.smokegame.win/ with path and query kept, and a followed request ends at 200 with 1 redirect; rejections named 160.79.106.129, .135, .143
+
+**What it changes.** Read the actual rule list before trusting another agent's description of it; use CLAUDECLOUDFLARE_API (scoped, no IP filter) and the CURRENT SETUP section in dns-apex-fix; roll or delete the old pasted token
