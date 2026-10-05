@@ -53,6 +53,27 @@ def tag(html, pat):
     return m.group(1).strip() if m else ""
 
 
+# ---- 0. DNS: www must be the ICP CNAME, never NameSilo's forwarder addresses (loop) ----------
+FORWARDER_IPS = {"207.246.78.75", "45.77.75.133", "45.77.92.157"}
+
+
+def dns(name, rtype):
+    try:
+        with urllib.request.urlopen(f"https://dns.google/resolve?name={name}&type={rtype}", timeout=20) as r:
+            return [a["data"].rstrip(".") for a in json.load(r).get("Answer", [])]
+    except Exception:  # noqa: BLE001
+        return None
+
+
+www_a = dns("www.smokegame.win", "A") or []
+www_cname = dns("www.smokegame.win", "CNAME") or []
+if FORWARDER_IPS & set(www_a):
+    row("FAIL", "dns", f"www points at NameSilo forwarder IPs {sorted(FORWARDER_IPS & set(www_a))}: the site redirects to itself in a loop. Delete those www A records and restore CNAME www -> www.smokegame.win.icp1.io")
+elif any("icp1.io" in c for c in www_cname):
+    row("PASS", "dns", f"www CNAME -> {www_cname[0]}")
+else:
+    row("WARN", "dns", f"www records unexpected: A={www_a} CNAME={www_cname}")
+
 # ---- 1. host and protocol redirects ----------------------------------------------------
 for start in ["http://smokegame.win/", "https://smokegame.win/", "http://www.smokegame.win/"]:
     s, h, _, final = req(start, follow=False)

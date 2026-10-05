@@ -1,4 +1,19 @@
-# Your two jobs (about 5 minutes) - 2026-10-03
+# URGENT 2026-10-05: the site is down (redirect loop). Fix this first.
+
+Cause: the forward from Job 2 below replaced the `www` record in NameSilo with three NameSilo forwarding addresses, so
+`www.smokegame.win` sends visitors back to itself forever. Same thing happened in August. The ICP record that serves the game was removed.
+
+Fix, in NameSilo, Domain Manager, smokegame.win:
+1. **URL Forwarding:** delete the forward completely (do not just edit it).
+2. **DNS Records:** delete the three `www` A records: `207.246.78.75`, `45.77.75.133`, `45.77.92.157`. (Leave the `@` records, the `_canister-id.www` TXT and the `_acme-challenge.www` CNAME.)
+3. **DNS Records:** add `CNAME`, host `www`, value `www.smokegame.win.icp1.io`, TTL 3600.
+4. Tell me "dns done". I check at once; the site returns within minutes to about an hour as the old record expires (it was cached with a 1 hour life).
+
+**Do not redo Job 2 below until we have a safer plan.** The bare domain stays unfixed for now; that is better than a dead site.
+
+---
+
+# Your two jobs (about 5 minutes) - 2026-10-03 (Job 2 is on hold, see above)
 
 Both checked today: the itch page still has the old text, and `smokegame.win` still has no address. `www.smokegame.win` is fine.
 After each job, tell me. I check it from the outside and report LIVE or not.

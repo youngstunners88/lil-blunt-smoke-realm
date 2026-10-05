@@ -53,6 +53,14 @@ curl -sI https://smokegame.win | head -5
 # Fix B: HTTP/2 301 Location: https://www.smokegame.win/
 ```
 
+## HAPPENED AGAIN 2026-10-05: the founder added the apex forward and www looped within days
+
+The checklist said "apply to the main domain only" and NameSilo still replaced `www` with the three forwarder A records
+(207.246.78.75, 45.77.75.133, 45.77.92.157) and made `https://www.smokegame.win/` 301 to itself. **Treat URL forwarding as unsafe
+on this domain.** If it must be used: do it with the assistant watching, and immediately open DNS Records and confirm `www` is still
+`CNAME www.smokegame.win.icp1.io` with no `www` A records. `python3 marketing/aeo/tech_audit.py` now fails the `dns` row at once.
+Safer alternative: Fix A (apex on ICP) once the apex is added as a custom domain in Caffeine.
+
 ## Gotcha: URL forwarding clobbers the www CNAME (redirect loop)
 
 Observed 2026-08-29. Enabling NameSilo **URL Forwarding** to redirect the apex

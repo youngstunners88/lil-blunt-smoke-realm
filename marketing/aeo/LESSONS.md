@@ -379,3 +379,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-02: link_sweep right after publish: crawler 8 hits, app 0; same checks about 15 minutes later: crawler 0, app 0, artist FAQ clean; /llms.txt?cb= is boilerplate, /llms-full.txt?cb= is our 4,761-byte brief
 
 **What it changes.** Serve the AI brief at /llms-full.txt, stop expecting /llms.txt; after a publish compare plain URL and cache-busted views and re-check after ten to twenty minutes before reporting stale or fixed
+
+---
+
+## 2026-10-05 — NameSilo URL forwarding for the apex replaced the www CNAME with its three forwa
+
+**Claim.** NameSilo URL forwarding for the apex replaced the www CNAME with its three forwarder A records again (second time), so www.smokegame.win 301-redirects to itself and the whole site is down, even though the instructions said to apply the forward to the main domain only
+
+**Evidence.** 2026-10-05: dns.google www A = 45.77.92.157, 207.246.78.75, 45.77.75.133; NameSilo dnsListRecords shows www A x3 and no www CNAME; curl -L ends after 8 redirects at 301; same signature as 2026-08-29 in dns-apex-fix
+
+**What it changes.** Do not offer URL forwarding as a founder job without watching DNS; tech_audit.py now fails on forwarder IPs; recovery is delete the forward, delete the three www A records, re-add CNAME www -> www.smokegame.win.icp1.io. Prefer apex-on-ICP (Fix A) over forwarding
