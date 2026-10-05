@@ -53,6 +53,15 @@ curl -sI https://smokegame.win | head -5
 # Fix B: HTTP/2 301 Location: https://www.smokegame.win/
 ```
 
+## FIRST: find out who hosts the DNS (2026-10-05)
+
+`curl -s "https://dns.google/resolve?name=smokegame.win&type=NS"`. On 2026-10-05 the nameservers were Cloudflare
+(alberto/thea.ns.cloudflare.com); NameSilo's record list was stale and its API key is read-only anyway. Edits go in Cloudflare
+(`www` must be a DNS-only CNAME to `www.smokegame.win.icp1.io`; keep the proxied apex record and its redirect rule).
+Do not trust a probe that uses `curl --resolve` through the sandbox proxy: the proxy re-resolves by name and presents its own
+certificate (issuer "Anthropic Egress Gateway"), so it never reaches the IP you named.
+The three forwarder IPs run Caddy and redirect to `https://www.smokegame.win/`; they are not the game host.
+
 ## HAPPENED AGAIN 2026-10-05: the founder added the apex forward and www looped within days
 
 The checklist said "apply to the main domain only" and NameSilo still replaced `www` with the three forwarder A records

@@ -1,15 +1,18 @@
 # URGENT 2026-10-05: the site is down (redirect loop). Fix this first.
 
-Cause: the forward from Job 2 below replaced the `www` record in NameSilo with three NameSilo forwarding addresses, so
-`www.smokegame.win` sends visitors back to itself forever. Same thing happened in August. The ICP record that serves the game was removed.
+**Your DNS now lives in Cloudflare** (nameservers alberto/thea.ns.cloudflare.com), not NameSilo. The earlier NameSilo steps are obsolete.
 
-Fix, in NameSilo, Domain Manager, smokegame.win:
-1. **URL Forwarding:** delete the forward completely (do not just edit it).
-2. **DNS Records:** delete the three `www` A records: `207.246.78.75`, `45.77.75.133`, `45.77.92.157`. (Leave the `@` records, the `_canister-id.www` TXT and the `_acme-challenge.www` CNAME.)
-3. **DNS Records:** add `CNAME`, host `www`, value `www.smokegame.win.icp1.io`, TTL 3600.
-4. Tell me "dns done". I check at once; the site returns within minutes to about an hour as the old record expires (it was cached with a 1 hour life).
+Cause: the `www` record is three A records (`207.246.78.75`, `45.77.75.133`, `45.77.92.157`). Those are NameSilo's forwarding servers (Caddy). Each one answers with a
+redirect to `https://www.smokegame.win/`, i.e. to itself, forever. The real host is the Internet Computer; the game itself is healthy
+(`https://smoke-realm-eq9.caffeine.xyz` returns 200). The record that points `www` at the Internet Computer is missing.
 
-**Do not redo Job 2 below until we have a safer plan.** The bare domain stays unfixed for now; that is better than a dead site.
+Fix, in Cloudflare, DNS, Records, for smokegame.win:
+1. Delete the three `www` A records (`207.246.78.75`, `45.77.75.133`, `45.77.92.157`).
+2. Add: type `CNAME`, name `www`, target `www.smokegame.win.icp1.io`, **Proxy status: DNS only (grey cloud)**.
+3. Leave alone: the `_canister-id.www` TXT, the `_acme-challenge.www` CNAME, the apex record and the `apex to www` redirect rule. They are fine.
+4. Do NOT point the bare domain at those three addresses and do NOT delete the redirect rule.
+
+Tell me "dns done". I check from outside with `python3 marketing/aeo/tech_audit.py` (its `dns` row must pass) and by loading the site.
 
 ---
 

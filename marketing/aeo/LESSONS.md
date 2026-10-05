@@ -389,3 +389,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: dns.google www A = 45.77.92.157, 207.246.78.75, 45.77.75.133; NameSilo dnsListRecords shows www A x3 and no www CNAME; curl -L ends after 8 redirects at 301; same signature as 2026-08-29 in dns-apex-fix
 
 **What it changes.** Do not offer URL forwarding as a founder job without watching DNS; tech_audit.py now fails on forwarder IPs; recovery is delete the forward, delete the three www A records, re-add CNAME www -> www.smokegame.win.icp1.io. Prefer apex-on-ICP (Fix A) over forwarding
+
+---
+
+## 2026-10-05 — Another assistant (Claude Cowork, with Cloudflare access) diagnosed the www loop
+
+**Claim.** Another assistant (Claude Cowork, with Cloudflare access) diagnosed the www loop as the three IPs redirecting to the bare domain and advised pointing the apex at those same IPs and deleting the apex redirect rule; the IPs are NameSilo forwarder servers that redirect to https://www.smokegame.win/, so that plan would leave www looping and loop the apex too. The real fix is a DNS-only CNAME www to www.smokegame.win.icp1.io
+
+**Evidence.** 2026-10-05: curl --resolve to each of the 3 IPs returns server Caddy, 301, location https://www.smokegame.win/; smoke-realm-eq9.caffeine.xyz returns 200; nameservers are alberto/thea.ns.cloudflare.com; my --resolve probes to ICP boundary IPs were intercepted by the sandbox proxy (cert issuer Anthropic Egress Gateway) and prove nothing
+
+**What it changes.** Check NS first and verify any DNS plan against what the target IPs actually answer; never use curl --resolve through the sandbox proxy as proof; treat another agent's diagnosis as a hypothesis
