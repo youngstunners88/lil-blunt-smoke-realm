@@ -429,3 +429,13 @@ Codified in `marketing/aeo/verify_publish.py` and the `rapid-assessment` skill.
 **Evidence.** 2026-10-05: itch docs list profile and wharf reads only; GET /profile/games keys: classification, cover_url, embed, id, min_price, published, short_text, title, traits, type, url, user, counts; GET itch.io/game/edit/4769976 with the API key returns 302 to /login; marketing/itch/bridge built with 7 passing tests
 
 **What it changes.** Use itch-bridge for everything except the Save; do not ask for session cookies or passwords; for automation use a TinyFish logged-in profile the founder sets up, with a gated plan and itch_verify afterwards
+
+---
+
+## 2026-10-05 — TinyFish can drive the itch edit form with a saved Browser Context Profile, but 
+
+**Claim.** TinyFish can drive the itch edit form with a saved Browser Context Profile, but profiles and the credential vault can only be created in the TinyFish dashboard; the account (wallet 10.60 USD, agent 0.016 per step) has never attached a profile to a run
+
+**Evidence.** 2026-10-05: TinyFish MCP exposes run_web_automation, create_browser_session, get_wallet, list_runs but no profile or vault creation tool; list_runs shows profile_attached false and profile_id null for every run
+
+**What it changes.** Founder logs into itch inside a default TinyFish profile once; run the read-only access_check_goal first; never enable use_vault without the founder asking; gate and verify every edit with itch-bridge

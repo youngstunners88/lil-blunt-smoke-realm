@@ -61,6 +61,19 @@ class Plan(unittest.TestCase):
         self.assertIn("tagline", plan["blocked"])
 
 
+class Goal(unittest.TestCase):
+    def test_goals_are_safe(self):
+        ok = {"title": "Lil Blunt: The Smoke Realm", "tagline": "Free platformer in your browser.", "tags": ["2d"], "description": "Lil Blunt: The Smoke Realm is a free 2D platformer you play in your browser."}
+        st = {"title": "x", "tagline": "y", "description": "z", "tags": [], "genre": [], "api": {"id": 4769976}}
+        plan = core.apply_plan(pack=ok, state=st)
+        self.assertTrue(plan["ready"], plan["blocked"])
+        for g in (plan["automation_goal"], plan["access_check_goal"]):
+            self.assertIn("STOP", g)
+        self.assertIn("never touch the Project URL", plan["automation_goal"])
+        self.assertIn("Do NOT change or save anything", plan["access_check_goal"])
+        self.assertTrue(plan["edit_url"].endswith("/4769976"))
+
+
 class Protocol(unittest.TestCase):
     def rpc(self, *msgs):
         p = subprocess.run([sys.executable, str(HERE / "server.py")], input="\n".join(json.dumps(m) for m in msgs) + "\n", capture_output=True, text=True, timeout=120)

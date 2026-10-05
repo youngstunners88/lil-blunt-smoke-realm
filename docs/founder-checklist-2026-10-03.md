@@ -1,3 +1,20 @@
+# TinyFish setup so Claude can always edit your itch page (do this once, about 5 minutes)
+
+Your TinyFish account is ready ($10.60 balance; one itch edit costs roughly 25 cents). It has never used a saved login, so this is the only part I cannot do for you.
+
+1. Open your TinyFish dashboard and find **Browser Context Profiles** (the saved-login feature). Create a profile named `itch-lilblunt` and set it as your **default** profile.
+2. Open that profile's live browser, go to https://itch.io/login and **log in yourself** (including any two-factor step or captcha). I never see your password.
+3. In that browser, open https://itch.io/game/edit/4769976 once to confirm you land on the edit page, then close it so the login is saved.
+4. Tell me "tinyfish ready". If the dashboard shows a profile ID that starts with `prof_`, send me that too (it is not a secret).
+
+What happens next:
+- I run a **read-only access test** first (open the edit page, change nothing, report the username and current fields).
+- Then I run the gated edit: new title `Lil Blunt: The Smoke Realm`, the new tagline, the approved description. I verify the result against the live page with the bridge and tell you LIVE or not.
+- Edits happen only after you say yes for that edit. The Project URL (`smokerealm`) is never touched.
+- If itch ever logs the profile out, the run stops and tells me. Re-do steps 2 and 3. (TinyFish can also keep your itch login in a "vault" for automatic re-login. That puts your password with a third party, so I recommend leaving it off.)
+
+---
+
 # RESOLVED 2026-10-05: the site is back (DNS restored through the Cloudflare API)
 
 Done and verified from outside: `https://www.smokegame.win/` returns 200 with no redirects. Cause was three `www` A records pointing at NameSilo's forwarding

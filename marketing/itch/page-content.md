@@ -29,7 +29,7 @@ second rename may break that redirect for links we do not control.)
 
 **2 — Short description / tagline** (the line under the title; ~120-char limit)
 ```
-Free browser platformer. No download, no wallet, no account — just play.
+Lil Blunt: The Smoke Realm — a free 2D Wild West platformer you play in your browser. No download.
 ```
 
 **3 — Classification** → Kind of project: **HTML** · Genre: **Platformer**

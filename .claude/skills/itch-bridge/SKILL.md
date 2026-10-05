@@ -30,6 +30,14 @@ Tests: `python3 marketing/itch/bridge/test_bridge.py` (7, includes a real MCP ha
    - Never: a session cookie or password pasted into chat or env (full account access including payouts), and never edit the Project URL.
 6. `itch_verify` after the edit; it re-reads the public page and must report `verified: true`. Report in `link-change` wording (STAGED / LIVE).
 
+## TinyFish write path (set up 2026-10-05)
+
+- Account: wallet about $10.60; rates: agent $0.016 per step, browser $0.002 per minute. An itch edit is roughly 15 steps.
+- Tools: `run_web_automation` (and `_async` with `get_run`) with `use_profile=true`, optional `profile_id`. There is **no tool to create a profile or vault entry**: the founder creates a Browser Context Profile in the TinyFish dashboard and logs into itch inside it once (steps in `docs/founder-checklist-2026-10-03.md`). Prior runs show `profile_attached: false`, so no profile existed before this.
+- Protocol, every time: (1) `itch_apply_plan`; (2) first run of a session = `plan.access_check_goal` (read-only, reports username and fields); (3) founder says yes to the specific edit; (4) run `plan.automation_goal`; (5) `itch_verify` on the public page; (6) report STAGED vs LIVE.
+- If the run reports a login, captcha or 2FA page: stop, tell the founder to log into the profile again. Do not enable `use_vault` unless the founder asks (it stores their password with a third party).
+- Use a fresh UUID v4 `session_id` per call. A timed-out call may still be running: check `list_runs` or `get_run` before retrying. The write is an edit to a live commercial page, so never retry a Save blindly; verify first.
+
 ## Rules
 
 - Roadmap wording is fine, present-tense on-chain, NFT, wallet-connect or "trade items" claims are not (AGENTS.md).

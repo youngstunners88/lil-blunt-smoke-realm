@@ -140,10 +140,18 @@ def apply_plan(pack=None, state=None):
     plan = {"ready": not blocked, "blocked": blocked, "changes": changes, "edit_url": "https://itch.io/game/edit/%s" % (state.get("api") or {}).get("id", "<game id>"),
             "do_not_touch": ["Project URL (slug) must stay 'smokerealm'", "pricing", "uploads"]}
     plan["automation_goal"] = (
-        "Open the edit page for this itch.io project (already logged in). Set ONLY these fields to exactly the given text, "
-        "change nothing else, do not touch the Project URL: " + json.dumps(changes, ensure_ascii=False) +
-        " Then click Save and report the saved values.") if changes and not blocked else None
+        "You are already logged in to itch.io through a saved browser profile. If you ever see a login, captcha or two-factor page, STOP and report that; "
+        "never try to log in or create an account. Open the edit page for the project. Set ONLY these fields to exactly the given text, change nothing else, "
+        "never touch the Project URL (slug), pricing or uploads: " + json.dumps(changes, ensure_ascii=False) +
+        " Click Save. Then reload the edit page and report the saved Title, Short description, Tags and the first 200 characters of the Description, "
+        "and the Project URL (it must still end in /smokerealm).") if changes and not blocked else None
+    plan["access_check_goal"] = access_check_goal(plan["edit_url"])
     return plan
+
+
+def access_check_goal(edit_url):
+    return ("You are already logged in to itch.io through a saved browser profile. If you see a login, captcha or two-factor page, STOP and report exactly that. "
+            f"Open {edit_url}. Do NOT change or save anything. Report the logged-in username and the current values of Title, Short description, Tags and the Project URL.")
 
 
 def verify(pack=None):
