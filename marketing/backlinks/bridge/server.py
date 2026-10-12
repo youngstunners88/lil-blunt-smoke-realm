@@ -17,6 +17,8 @@ TOOLS = {
     "bl_gate": ("Gate proposed listing text against banned claims; deep=true adds the Jev accuracy gate.", {"text": "string", "deep": "boolean"}, lambda a: core.gate(a["text"], bool(a.get("deep"))), ["text"]),
     "bl_record": ("Log a founder action: status submitted|rejected|withdrawn. Cannot set live.", {"id": "string", "status": "string", "listing_url": "string", "note": "string"}, lambda a: core.record(a["id"], a["status"], a.get("listing_url", ""), a.get("note", "")), ["id", "status"]),
     "bl_verify": ("Fetch a listing page and confirm an anchor to the game exists (reports rel=nofollow). Only this marks a link live.", {"id": "string", "listing_url": "string"}, lambda a: core.verify(a["id"], a["listing_url"]), ["id", "listing_url"]),
+    "bl_submit_plan": ("Gated browser-automation goal to submit one target (never submits itself). Refuses tier C, captcha, paid steps, copy that fails the gate. Pass email for this plan only; it is not stored.", {"id": "string", "email": "string"}, lambda a: core.submit_plan(a["id"], a.get("email", "")), ["id"]),
+    "bl_recheck": ("Re-fetch every verified-live listing and report any that lost the link.", {}, lambda a: core.recheck(), []),
     "bl_report": ("Headline and lists: live verified, submitted unverified, rejected, tier A not started.", {}, lambda a: core.report(), []),
 }
 T = {"string": {"type": "string"}, "boolean": {"type": "boolean"}}

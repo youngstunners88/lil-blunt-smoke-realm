@@ -155,3 +155,60 @@ def report():
     return {"live": by("live"), "submitted_unverified": by("submitted"), "rejected": by("rejected"),
             "tierA_not_started": [t["id"] for t in rows if t["tier"] == "A" and st[t["id"]] == "not_submitted"],
             "headline": f"{len(by('live'))} LIVE verified links of {len(rows)} researched sites; {len(by('submitted'))} submitted, unverified"}
+
+
+FORM_FIELDS = {  # observed 2026-10-12; sites not listed get a generic goal
+    "viesearch": {"url": "url", "title": "title", "description": "description", "category": "category_slug", "email": "email"},
+}
+DESC = ("Lil Blunt: The Smoke Realm is a free 2D Wild West platformer and arcade score-chaser that plays in your web browser "
+        "on desktop or mobile. Throw axes at Tax Collector enemies across three stages. No download, no account, nothing to buy.")  # Jev geo 2.93, tied best of 5
+TITLE = "Lil Blunt: The Smoke Realm - free browser platformer"
+
+
+def submit_plan(tid, email=""):
+    """Everything needed to submit, only if the target and copy pass. Never submits; returns a browser-automation goal.
+    The contact email is supplied by the caller for this one plan and is never stored."""
+    t = target(tid)
+    if t["tier"] == "C":
+        return {"ok": False, "reason": f"tier C, do not submit: {t['why']}"}
+    if not t["submit"]:
+        return {"ok": False, "reason": "no submit URL on record; probe first"}
+    if current_status(tid)["status"] in ("submitted", "live"):
+        return {"ok": False, "reason": f"already {current_status(tid)['status']}"}
+    pr = probe(tid)
+    if not pr.get("reachable"):
+        return {"ok": False, "reason": f"submit page unreachable: {pr}"}
+    if pr.get("captcha"):
+        return {"ok": False, "reason": "captcha present; a human must do this one"}
+    g = {k: gate(v) for k, v in (("title", TITLE), ("description", DESC))}
+    if not all(x["passed"] for x in g.values()):
+        return {"ok": False, "reason": "copy failed the gate", "gate": g}
+    fields = FORM_FIELDS.get(tid)
+    site = "https://www.smokegame.win/"
+    lines = [f"Go to {t['submit']}.", "Fill the submission form with exactly these values and change nothing:",
+             f"- website URL: {site}", f"- title: {TITLE}", f"- description: {DESC}",
+             "- category: the closest Games / Video Games / Browser Games entry under Arts and Entertainment; never create a new category"]
+    if email:
+        lines.append(f"- email: {email}")
+    lines += ["Do not buy, upgrade or pick any paid plan. Do not tick any newsletter box. If a captcha, payment step or login wall",
+              "appears that you cannot pass with a free account created from the email above, stop and report exactly what blocked you.",
+              "After submitting, report the confirmation text and the final page URL."]
+    return {"ok": True, "id": tid, "fields": fields, "needs_email": bool(fields and "email" in fields) and not email,
+            "automation_goal": "\n".join(lines), "after": "bl_record(id, submitted, listing_url), then bl_verify once the listing is public"}
+
+
+def recheck():
+    """CI: re-fetch every verified-live listing and report any that lost the link."""
+    lost, ok = [], []
+    state = {}
+    for r in ledger():
+        state[r["id"]] = r
+    for tid, r in state.items():
+        if r["status"] != "live" or not r.get("listing_url"):
+            continue
+        try:
+            _, html = _get(r["listing_url"])
+            (ok if find_links(html) else lost).append(tid)
+        except Exception:  # noqa: BLE001
+            lost.append(tid)
+    return {"checked": len(ok) + len(lost), "still_live": ok, "lost": lost}

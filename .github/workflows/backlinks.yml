@@ -1,0 +1,22 @@
+name: backlinks
+
+on:
+  push:
+    paths: ["marketing/backlinks/**", "marketing/aeo/surface_audit.py", "marketing/itch/page-content.md"]
+  schedule:
+    - cron: "17 6 * * 1"   # weekly: re-verify live listings still link to us
+  workflow_dispatch:
+
+jobs:
+  bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline checks (tests, claim gate on submission copy)
+        run: python3 marketing/backlinks/bridge/ci.py
+      - name: Live checks (only on schedule or manual run)
+        if: github.event_name != 'push'
+        run: python3 marketing/backlinks/bridge/ci.py --live

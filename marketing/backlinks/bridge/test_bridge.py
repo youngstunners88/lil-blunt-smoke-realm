@@ -42,13 +42,31 @@ class T(unittest.TestCase):
     def test_gate_catches_banned_claim(self):
         self.assertFalse(core.gate("Lil Blunt: The Smoke Realm lets you earn tokens while you play.")["passed"])
 
+    def test_submit_plan_refuses_tier_c_and_captcha(self):
+        self.assertFalse(core.submit_plan("g2")["ok"])
+        core.probe = lambda tid: {"reachable": True, "captcha": True}
+        self.assertIn("captcha", core.submit_plan("viesearch")["reason"])
+
+    def test_submit_plan_ok_and_email_not_stored(self):
+        core.probe = lambda tid: {"reachable": True, "captcha": False}
+        p = core.submit_plan("viesearch", "a@b.co")
+        self.assertTrue(p["ok"])
+        self.assertIn("a@b.co", p["automation_goal"])
+        self.assertNotIn("a@b.co", core.LEDGER.read_text() if core.LEDGER.exists() else "")
+        self.assertIn("never create a new category", p["automation_goal"])
+
+    def test_recheck_flags_lost_link(self):
+        core.LEDGER.write_text(json.dumps({"id": "fazier", "status": "live", "listing_url": "https://x/"}) + "\n")
+        core._get = lambda u, timeout=25: (200, "<p>gone</p>")
+        self.assertEqual(core.recheck()["lost"], ["fazier"])
+
     def test_mcp_roundtrip(self):
         msgs = [{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}},
                 {"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
                 {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "bl_report", "arguments": {}}}]
         out = subprocess.run([sys.executable, str(Path(__file__).parent / "server.py")], input="\n".join(map(json.dumps, msgs)),
                              capture_output=True, text=True, timeout=30).stdout.splitlines()
-        self.assertEqual(len(json.loads(out[1])["result"]["tools"]), 7)
+        self.assertEqual(len(json.loads(out[1])["result"]["tools"]), 9)
         self.assertIn("LIVE verified", json.loads(out[2])["result"]["content"][0]["text"])
 
 

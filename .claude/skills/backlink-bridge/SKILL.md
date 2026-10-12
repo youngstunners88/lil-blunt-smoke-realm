@@ -19,3 +19,14 @@ Ledger: `marketing/backlinks/ledger.jsonl` (append-only).
 - Report as: `N LIVE verified of 30 researched; M submitted, unverified`.
 - Copy comes from `marketing/itch/page-content.md` and `claims.json`; the itch slug is `smokerealm`. Run `bl_gate` on any hand-written text.
 - Follow claims ("do-follow") are the site's own words, not verified.
+
+## Doing the submission (the founder authorised it 2026-10-12)
+`bl_submit_plan(id, email)` returns a gated automation goal; run it with the TinyFish `run_web_automation` tool, then `bl_record` and `bl_verify`.
+It refuses tier C, pages with a captcha, and copy that fails the gate; the goal forbids paid plans and new categories.
+Never use the founder's email unless they named it for this purpose; pass it per plan, it is not stored.
+If a captcha, payment or login wall appears, stop and hand that one site to the founder.
+Submission copy (`TITLE`, `DESC` in core.py) was Jev-scored against 4 rivals (geo 2.93, tied top); two rivals were BLOCKED by the gate.
+
+## CI
+`.github/workflows/backlinks.yml` runs `bridge/ci.py` on every push to marketing/backlinks (tests plus claim gate on the copy),
+and weekly with `--live` to re-fetch verified listings (`bl_recheck`) and fail if any lost the link.
