@@ -1,0 +1,275 @@
+{
+ "_comment": "The 30 sites in the founder's 'Backlinks SEO' Google Doc, probed 2026-10-12 and tiered by one question: would a person browsing here click through and play a free browser platformer? Tier A = honest fit. B = generic product-launch site, weak fit, free. C = do not submit (category mismatch or low quality). Probe facts are observed; 'follow' is the site's own claim, not verified.",
+ "targets": [
+  {
+   "id": "hashnode",
+   "domain": "hashnode.com",
+   "tier": "A",
+   "submit": "https://hashnode.com/",
+   "kind": "own-content",
+   "why": "Not a directory. Publishing the devlog (marketing/devlog/) on a Hashnode blog earns a real link from a developer audience. Needs account.",
+   "follow": "links in posts are normal editorial links"
+  },
+  {
+   "id": "startupfa_me",
+   "domain": "startupfa.me",
+   "tier": "B",
+   "submit": "https://startupfa.me/pricing",
+   "kind": "directory",
+   "why": "For startups. Free 'Verified' listing requires a Startup Fame badge on our homepage (a reciprocal link on the protected hero page); the /s/submitator page is a review of another service, not a form. Skip unless founder wants it.",
+   "follow": "claims do-follow"
+  },
+  {
+   "id": "linkcentre",
+   "domain": "linkcentre.com",
+   "tier": "A",
+   "submit": "https://www.linkcentre.com/",
+   "kind": "directory",
+   "why": "General web directory with a Games section. Old-school, low traffic, harmless.",
+   "follow": "nofollow seen on page"
+  },
+  {
+   "id": "viesearch",
+   "domain": "viesearch.com",
+   "tier": "A",
+   "submit": "https://www.viesearch.com/submit",
+   "kind": "directory",
+   "why": "Human-curated search engine; free URL submit; games category exists.",
+   "follow": "unknown"
+  },
+  {
+   "id": "sideprojectors",
+   "domain": "sideprojectors.com",
+   "tier": "A",
+   "submit": "https://sideprojectors.com/project/new",
+   "kind": "showcase",
+   "why": "Side-project showcase; a free game made by one person fits. Marketplace framing: list as showcase, not for sale.",
+   "follow": "nofollow seen on page"
+  },
+  {
+   "id": "code_market",
+   "domain": "code.market",
+   "tier": "B",
+   "submit": "https://code.market/",
+   "kind": "catalog",
+   "why": "Digital product catalog; page mentions games heavily but submission path unclear. Check before use.",
+   "follow": "unknown"
+  },
+  {
+   "id": "fazier",
+   "domain": "fazier.com",
+   "tier": "B",
+   "submit": "https://fazier.com/submit",
+   "kind": "launch",
+   "why": "Product-launch site; accepts any product. Audience is founders, not players. Needs account.",
+   "follow": "claims do-follow"
+  },
+  {
+   "id": "uneed",
+   "domain": "uneed.best",
+   "tier": "B",
+   "submit": "https://uneed.best/submit-a-tool",
+   "kind": "launch",
+   "why": "Daily launch site for tools; a game is a stretch.",
+   "follow": "nofollow seen on page"
+  },
+  {
+   "id": "microlaunch",
+   "domain": "microlaunch.net",
+   "tier": "B",
+   "submit": "https://microlaunch.net/",
+   "kind": "launch",
+   "why": "Tech-product launch site; weak fit. Needs account.",
+   "follow": "unknown"
+  },
+  {
+   "id": "twelve_tools",
+   "domain": "twelve.tools",
+   "tier": "B",
+   "submit": "https://twelve.tools/submit",
+   "kind": "directory",
+   "why": "Tools directory with a free do-follow tier; a game is off-category.",
+   "follow": "claims do-follow on free tier"
+  },
+  {
+   "id": "launchllama",
+   "domain": "tools.launchllama.co",
+   "tier": "B",
+   "submit": "https://tools.launchllama.co/submit",
+   "kind": "launch",
+   "why": "Takes startups or AI tools; a free game is off-category.",
+   "follow": "unknown"
+  },
+  {
+   "id": "feedmystartup",
+   "domain": "feedmystartup.com",
+   "tier": "B",
+   "submit": "https://feedmystartup.com/submit/",
+   "kind": "launch",
+   "why": "Startup news and listings; weak fit.",
+   "follow": "nofollow seen on page"
+  },
+  {
+   "id": "whatlaunched",
+   "domain": "whatlaunched.today",
+   "tier": "B",
+   "submit": "https://whatlaunched.today/",
+   "kind": "launch",
+   "why": "Timed out on probe 2026-10-12; recheck before use.",
+   "follow": "unknown"
+  },
+  {
+   "id": "startupstash",
+   "domain": "startupstash.com",
+   "tier": "C",
+   "submit": "https://startupstash.com/add-listing/",
+   "kind": "directory",
+   "why": "Tools for startups. A game is not a startup tool. Has captcha.",
+   "follow": "nofollow seen"
+  },
+  {
+   "id": "devhunt",
+   "domain": "devhunt.org",
+   "tier": "C",
+   "submit": "https://devhunt.org/",
+   "kind": "launch",
+   "why": "Dev tools only; unreachable on probe.",
+   "follow": "unknown"
+  },
+  {
+   "id": "toolify",
+   "domain": "toolify.ai",
+   "tier": "C",
+   "submit": "",
+   "kind": "directory",
+   "why": "AI tools directory; the game is not an AI tool. Returned 403 to probe.",
+   "follow": "unknown"
+  },
+  {
+   "id": "taaft",
+   "domain": "theresanaiforthat.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "directory",
+   "why": "AI tools directory; not an AI tool. 403 to probe.",
+   "follow": "unknown"
+  },
+  {
+   "id": "dang",
+   "domain": "dang.ai",
+   "tier": "C",
+   "submit": "",
+   "kind": "directory",
+   "why": "AI tools directory; not an AI tool.",
+   "follow": "unknown"
+  },
+  {
+   "id": "toolpilot",
+   "domain": "toolpilot.ai",
+   "tier": "C",
+   "submit": "https://toolpilot.ai/pages/submit-your-ai-tool",
+   "kind": "directory",
+   "why": "AI tools directory; not an AI tool.",
+   "follow": "unknown"
+  },
+  {
+   "id": "magicbox",
+   "domain": "magicbox.tools",
+   "tier": "C",
+   "submit": "https://magicbox.tools/submit",
+   "kind": "directory",
+   "why": "Form is titled 'Submit Your AI Tool'; has captcha.",
+   "follow": "mixed"
+  },
+  {
+   "id": "neilpatel_ai",
+   "domain": "aitools.neilpatel.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "marketplace",
+   "why": "SEO apps marketplace (Ubersuggest integrations). Not a game place.",
+   "follow": "n/a"
+  },
+  {
+   "id": "g2",
+   "domain": "g2.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "reviews",
+   "why": "Business software reviews; requires a software product. 403 to probe.",
+   "follow": "n/a"
+  },
+  {
+   "id": "stackshare",
+   "domain": "stackshare.io",
+   "tier": "C",
+   "submit": "",
+   "kind": "reviews",
+   "why": "Tech-stack reviews for software teams. 429 to probe.",
+   "follow": "n/a"
+  },
+  {
+   "id": "saashub",
+   "domain": "saashub.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "reviews",
+   "why": "SaaS alternatives site; not SaaS. 403 to probe.",
+   "follow": "n/a"
+  },
+  {
+   "id": "comparecamp",
+   "domain": "comparecamp.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "reviews",
+   "why": "B2B software comparison; not software for business.",
+   "follow": "n/a"
+  },
+  {
+   "id": "brownbook",
+   "domain": "brownbook.net",
+   "tier": "C",
+   "submit": "https://brownbook.net/add-business",
+   "kind": "business-listing",
+   "why": "Local business listing database; the game is not a business with an address.",
+   "follow": "unknown"
+  },
+  {
+   "id": "yourstory",
+   "domain": "yourstory.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "profiles",
+   "why": "Indian startup company profiles; not a match.",
+   "follow": "unknown"
+  },
+  {
+   "id": "sidebar",
+   "domain": "sidebar.io",
+   "tier": "C",
+   "submit": "https://sidebar.io/submit",
+   "kind": "newsletter",
+   "why": "Five design links a day; design articles only, needs login.",
+   "follow": "unknown"
+  },
+  {
+   "id": "ramen_tools",
+   "domain": "ramen.tools",
+   "tier": "C",
+   "submit": "",
+   "kind": "stats",
+   "why": "Shows what tools makers use; not a listing site.",
+   "follow": "n/a"
+  },
+  {
+   "id": "activesearch",
+   "domain": "activesearchresults.com",
+   "tier": "C",
+   "submit": "",
+   "kind": "directory",
+   "why": "Thin search-engine page, no clear submit path; low-quality.",
+   "follow": "unknown"
+  }
+ ]
+}

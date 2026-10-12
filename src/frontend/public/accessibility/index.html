@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accessibility Statement — Lil Blunt: The Smoke Realm</title>
+    <meta name="description" content="What has and hasn't been checked for accessibility on Lil Blunt: The Smoke Realm — a plain, honest statement, not a compliance claim." />
+    <link rel="canonical" href="https://www.smokegame.win/accessibility/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Accessibility Statement — Lil Blunt: The Smoke Realm" />
+    <meta property="og:description" content="What has and hasn't been checked for accessibility, stated plainly." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.smokegame.win/accessibility/" />
+    <meta property="og:image" content="https://www.smokegame.win/assets/brand/lil-blunt/lil-blunt-logo.jpeg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0; padding: 3rem 1.25rem 4rem;
+        background: #0b0f19; color: #e6e9f0;
+        font: 16px/1.7 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      main { max-width: 46rem; margin: 0 auto; }
+      h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; color: #fff; }
+      h2 { font-size: 1.25rem; margin: 2.5rem 0 .75rem; color: #7dd3a0; }
+      p, li { color: #c3c9d6; }
+      a { color: #6fd3e8; }
+      .lede { font-size: 1.1rem; color: #dfe4ee; }
+      .updated { font-size: .875rem; color: #8891a5; }
+      .callout { border-left: 3px solid #1c9c6b; padding: .25rem 0 .25rem 1rem; margin: 1.25rem 0; color: #dfe4ee; }
+      nav.crumbs { margin-bottom: 2rem; font-size: .875rem; }
+      footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #232838; font-size: .8125rem; color: #8891a5; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav class="crumbs"><a href="/">Lil Blunt: The Smoke Realm</a> → Accessibility</nav>
+
+      <h1>Accessibility Statement</h1>
+      <p class="updated">Last updated: 4 September 2026</p>
+
+      <p class="lede">
+        This page says plainly what has and hasn't been checked for
+        accessibility on this site. It is not a compliance claim — no formal
+        audit against a standard like WCAG has been performed, and this page
+        will say so honestly rather than assert a certification that doesn't
+        exist.
+      </p>
+
+      <h2>What this covers</h2>
+      <p>
+        This statement covers the <strong>website</strong> — this hub and its
+        static pages (About, How to Play, the FAQ pages, Terms, Privacy, and
+        this page). It does not cover the game itself, which has a different,
+        more limited accessibility surface — see below.
+      </p>
+
+      <h2>What has been checked</h2>
+      <p>
+        This was a source-code review of the site's components, not a
+        screen-reader walkthrough. Four things were verified directly against
+        the code:
+      </p>
+      <ul>
+        <li><strong>Image alternative text.</strong> Every <code>&lt;img&gt;</code>
+        element in the site's component source carries a populated,
+        descriptive <code>alt</code> attribute — for example the character
+        portrait's alt text names the character and describes the scene,
+        rather than repeating a filename or leaving the attribute empty.</li>
+        <li><strong>Icon-only controls.</strong> The background-music toggle
+        button has no visible text label, so it carries an
+        <code>aria-label</code> that switches between "Play background music"
+        and "Pause background music," plus an <code>aria-pressed</code>
+        attribute that tracks its current state for assistive technology.</li>
+        <li><strong>Keyboard operability.</strong> Interactive elements use
+        the CSS <code>:focus-visible</code> pseudo-class rather than
+        suppressing the outline entirely, so a keyboard user sees a ring
+        around whichever control currently has focus while a mouse click does
+        not trigger the same ring. The in-app content overlay attaches a
+        <code>keydown</code> listener for the Escape key and calls its close
+        handler when that key fires.</li>
+        <li><strong>Heading structure.</strong> Each static page uses a single
+        <code>h1</code> followed by <code>h2</code> section headings in
+        document order, rather than skipping levels or using styled paragraph
+        text to fake a heading.</li>
+      </ul>
+
+      <h2>What has not been checked</h2>
+      <p>
+        Named specifically, not summarized away, because a code review is not
+        the same evidence as using the site with assistive technology:
+      </p>
+      <ul>
+        <li>No manual pass with an actual screen reader — VoiceOver, NVDA, or
+        JAWS — has been performed on any page.</li>
+        <li>Color contrast has not been measured with a contrast-ratio tool
+        against every foreground/background color pairing the dark theme
+        uses.</li>
+        <li>The in-app content overlay does not currently trap keyboard focus
+        while it is open: a keyboard user can tab past the overlay's content
+        into the page sitting behind it. This was found during this review
+        and is listed here rather than fixed silently and left unmentioned.</li>
+        <li>No formal audit against WCAG 2.1, WCAG 2.2, or any other named
+        standard has been run, so no conformance level — A, AA, or otherwise
+        — is claimed anywhere on this site.</li>
+      </ul>
+
+      <h2>How the site is built, and why that matters here</h2>
+      <p>
+        The marketing hub is a React single-page application, but the pages
+        this statement lists by name — About, How to Play, the FAQ pages,
+        Terms, Privacy, and this page — are separate static HTML documents
+        served directly, not rendered by JavaScript after the fact. That
+        means a screen reader, a text browser, or a search crawler reading
+        this page gets the same markup a sighted browser user gets, with no
+        client-side rendering step in between. The React app layers an
+        in-app overlay on top of these same documents for users who click
+        through from the homepage, which is the overlay referenced above.
+      </p>
+
+      <h2>What would close the gaps above</h2>
+      <p>
+        In priority order, based on what this review found: add a focus trap
+        and an initial-focus target to the content overlay so keyboard focus
+        cannot leave it while open, and restore focus to the triggering
+        element on close; run an automated contrast check against the site's
+        dark color tokens and adjust any pairing that falls under a 4.5:1
+        ratio for body text; and complete one manual pass with a screen
+        reader across the homepage and the static pages before considering
+        any WCAG conformance claim. None of this has shipped yet — it is
+        listed here as the concrete next step, not as work already done.
+      </p>
+
+      <h2>The game itself</h2>
+      <p>
+        Lil Blunt: The Smoke Realm is a 2D platformer rendered to a canvas and
+        controlled entirely by keyboard — see <a href="/faq/controls/">the
+        controls FAQ</a>. Like the great majority of browser and console
+        platformers, it is <strong>not operable by screen reader</strong> and
+        requires a keyboard; there is no alternative input method in the
+        current build. This is a real limitation of the medium, not something
+        this statement will paper over.
+      </p>
+
+      <h2>Reporting a problem</h2>
+      <p>
+        If something on this site is hard to use with a keyboard, a screen
+        reader, or any assistive technology, say so — through the same
+        channels linked in the site footer (X or Telegram). This project has
+        no company, office, or postal address to list; those are the real,
+        checked channels the site already publishes.
+      </p>
+
+      <footer>
+        <p><a href="/">← Back to Lil Blunt: The Smoke Realm</a> · <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a></p>
+        <p>For entertainment purposes only. 21+. Not financial advice.</p>
+      </footer>
+    </main>
+  </body>
+</html>

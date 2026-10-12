@@ -1,0 +1,207 @@
+{
+  "facts": [
+    {
+      "id": "canonical_entry",
+      "text": "Lil Blunt: The Smoke Realm is a free 2D side-scrolling platformer and arcade score-chaser playable in a web browser on desktop or mobile. Built in Godot 4 and exported to HTML5, the Wild West video game stars the mascot Lil Blunt, who throws axes and faces Tax Collector enemies across three stages, Smoke Realm, Crystal Caverns and Gold Rush, each ending in a boss. No download, no account and no crypto wallet, with nothing to buy.",
+      "source": "marketing/CANONICAL-ENTRY.md (hand-written, GEO scored 2.91/3.00)",
+      "verified_date": "2026-09-30",
+      "gate_passed": true,
+      "required_on": [
+        "/about/",
+        "/how-to-play/",
+        "/docs/",
+        "/troubleshooting/",
+        "/faq/controls/",
+        "/faq/wallet/",
+        "/faq/not-the-artist/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": [
+        "no free",
+        "not a platformer",
+        "on-chain",
+        "NFT",
+        "tokens",
+        "airdrops"
+      ]
+    },
+    {
+      "id": "genre",
+      "text": "2D side-scrolling platformer and arcade score-chaser",
+      "source": "canonical_entry (verified)",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "all surfaces"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "platform",
+      "text": "web browser on desktop or mobile",
+      "source": "canonical_entry (verified)",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "all surfaces"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "no_wallet",
+      "text": "There is no download and no wallet.",
+      "source": "marketing/CANONICAL-ENTRY.md",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "all surfaces"
+      ],
+      "forbidden_contradictions": [
+        "wallet required",
+        "download required",
+        "must install",
+        "account required",
+        "must have account"
+      ]
+    },
+    {
+      "id": "controls",
+      "text": "Move with A and D or the arrow keys, jump with Spacebar or W, throw axes with J or Enter, sprint with Shift, and dash with K. On phones and tablets the game shows on-screen touch controls.",
+      "source": "GM-GAME project.godot [input] (read 2026-10-01, clone head ef7931a): move_left/right A,D,Left,Right; jump Space,W; attack Enter,J; sprint Shift; dash K; interact E; touch: docs/MOBILE_CONTROLS_SPEC.md per gm-game-sync",
+      "verified_date": "2026-10-01",
+      "required_on": [
+        "/faq/controls/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": [
+        "WASD only",
+        "arrow keys only",
+        "no touch controls",
+        "mouse only"
+      ]
+    },
+    {
+      "id": "stages",
+      "text": "Three stages: Smoke Realm, Crystal Caverns, Gold Rush, each ending in a boss",
+      "source": "\u26a0\ufe0f gm-game-sync required (not yet in repo)",
+      "verified_date": "\u26a0\ufe0f unverified \u2014 need GM-GAME level list",
+      "required_on": [
+        "/about/",
+        "/how-to-play/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": [
+        "Dustrock Mines",
+        "four stages",
+        "no boss"
+      ]
+    },
+    {
+      "id": "enemies",
+      "text": "Tax Collector enemies",
+      "source": "\u26a0\ufe0f gm-game-sync required (not yet in repo)",
+      "verified_date": "\u26a0\ufe0f unverified \u2014 need GM-GAME enemy names",
+      "required_on": [
+        "/about/"
+      ],
+      "forbidden_contradictions": [
+        "Tax Man",
+        "no enemies"
+      ]
+    },
+    {
+      "id": "mascot",
+      "text": "Lil Blunt (mascot character; green leaf)",
+      "source": "\u26a0\ufe0f gm-game-sync required (not yet in repo)",
+      "verified_date": "\u26a0\ufe0f unverified \u2014 need GM-GAME character definition",
+      "required_on": [
+        "/about/",
+        "/how-to-play/"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "free_nothing_to_buy",
+      "text": "Free, and there is nothing to buy.",
+      "source": "marketing/CANONICAL-ENTRY.md",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "all surfaces"
+      ],
+      "forbidden_contradictions": [
+        "costs money",
+        "has IAP",
+        "pay-to-play",
+        "premium content"
+      ]
+    },
+    {
+      "id": "no_onchain_scores",
+      "text": "Scores are not recorded on a blockchain.",
+      "source": "marketing/itch/page-content.md (blocking rule)",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "/about/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": [
+        "on-chain leaderboard",
+        "blockchain recorded"
+      ]
+    },
+    {
+      "id": "no_tokens_nft",
+      "text": "Playing does not award tokens, NFTs, or airdrops.",
+      "source": "marketing/itch/page-content.md (blocking rule)",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "/about/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": [
+        "earn tokens",
+        "NFT rewards",
+        "airdrops",
+        "play-to-earn"
+      ]
+    },
+    {
+      "id": "not_music_artist",
+      "text": "Lil Blunt: The Smoke Realm is a browser game, not the music artist of a similar name.",
+      "source": "marketing/CANONICAL-ENTRY.md (disambiguation)",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "/faq/not-the-artist/"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "internet_computer",
+      "text": "Built in Godot 4 and exported to HTML5, hosted on the Internet Computer.",
+      "source": "marketing/CANONICAL-ENTRY.md + repo context",
+      "verified_date": "2026-09-30",
+      "required_on": [
+        "/about/",
+        "itch.io description"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "package_size",
+      "text": "\u26a0\ufe0f Package size unknown (need build artifacts)",
+      "source": "\u26a0\ufe0f gm-game-sync required",
+      "verified_date": "\u26a0\ufe0f unverified",
+      "required_on": [
+        "optional (if mentioned)"
+      ],
+      "forbidden_contradictions": []
+    },
+    {
+      "id": "episode_status",
+      "text": "\u26a0\ufe0f Episode status unknown (Episode 1 live, Episode 2 gated)",
+      "source": "\u26a0\ufe0f gm-game-sync required",
+      "verified_date": "\u26a0\ufe0f unverified",
+      "required_on": [
+        "optional (if mentioned)"
+      ],
+      "forbidden_contradictions": []
+    }
+  ]
+}

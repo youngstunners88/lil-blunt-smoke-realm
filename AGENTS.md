@@ -33,6 +33,46 @@ When editing `index.html` (e.g. changing the title or favicon):
 - Keep `og:title` identical to `<title>`, and `og:description` identical to the `description` meta tag.
 - `og:image` and `twitter:image` must always point to an absolute `https://` URL. Keep the pre-configured default image unless the user explicitly provides or requests a custom share image; a custom image should be 1200×630 pixels.
 
+## Public Claims Accuracy (blocking)
+
+`src/frontend/src/components/sections/OnChainPoints.tsx` carries a `doNotBuild`
+note: **no live on-chain ICP leaderboard with real scores**, and **no NFT
+minting claims — achievement layer only**. The leaderboard, supply, and staking
+figures rendered on the site are demo data and carry `DemoBadge` /
+`DEMO LEADERBOARD` labels.
+
+Anything written for public consumption — marketing copy, the static
+`/about/` and `/how-to-play/` pages, `llms.txt`, structured data, outreach —
+must respect that.
+
+- Safe: the site is served from an ICP canister; Internet Identity sign-in
+  works; Proof of Play is an achievement layer; free, no wallet, no fee.
+- Not true: scores are recorded on-chain today; the leaderboard is publicly
+  verifiable; players earn tokens, airdrops, or NFTs; play-to-earn.
+- Never write tokenomics from the on-site figures — they are placeholders.
+
+This bit once already: AEO pages were published claiming scores were written
+on-chain. Check the `doNotBuild` note before writing on-chain claims, and if a
+feature has since shipped, update the pages and this section together.
+
+## Standing rules from the founder
+
+- **llms.txt is never visible on the website. Ever.** No link, nav item, footer
+  entry, sitemap entry or rendered copy of its text on any page, in the app or
+  in the static HTML. The file exists only at `/llms.txt` for crawlers, and
+  `marketing/aeo/verify_publish.py` fails if a served page links to it. Do not
+  add a "for AI" link to it even when an AEO guide suggests one.
+- **The itch page is `https://youngstunners88.itch.io/smokerealm`** (founder
+  set the slug 2026-10-01; the old `lil-blunt-adventure` URL 302-redirects). Do
+  not change the slug again. Every link in the site must use the new one.
+  Canonical links live in `marketing/aeo/canonical_links.json`; `link_sweep.py` checks
+  every location and `verify_publish.py` fails while the old form is LIVE. Never say a
+  link is "updated" until the LIVE rows are clean (skill `link-change`).
+- **On-chain features are on the founder's roadmap, not shipped.** Roadmap
+  wording ("planned", "coming") is allowed. Present-tense claims (own your
+  progress, on-chain saves, NFT collectibles, connect your wallet) stay blocked
+  until the feature ships; update this file and the pages in the same commit.
+
 ## Learnings
 
 [No learnings yet]

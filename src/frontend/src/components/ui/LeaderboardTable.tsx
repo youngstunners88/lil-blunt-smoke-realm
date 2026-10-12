@@ -70,7 +70,7 @@ export function LeaderboardTable({
             </span>
             <div className="text-center sm:text-left">
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold">
-                The Smoke Frontier · On-chain
+                The Smoke Frontier{isDemo ? "" : " · On-chain"}
               </p>
               <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-foreground sm:text-3xl">
                 WANTED
